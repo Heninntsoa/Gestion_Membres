@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+
+<html class="light" lang="fr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>IDEM Planète - Activités</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Manrope:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-container-lowest": "#ffffff",
+                    "on-primary-fixed-variant": "#005312",
+                    "on-primary-fixed": "#002204",
+                    "primary-container": "#2e7d32",
+                    "secondary-fixed": "#ffe088",
+                    "outline-variant": "#E5E7EB",
+                    "text-secondary": "#6B7280",
+                    "on-tertiary-container": "#caffc6",
+                    "surface-container-highest": "#e1e3e0",
+                    "surface-container-high": "#e7e9e6",
+                    "tertiary-fixed-dim": "#9dd49b",
+                    "on-secondary-fixed-variant": "#574500",
+                    "surface-variant": "#F3F4F6",
+                    "surface": "#FFFFFF",
+                    "primary": "#1B4D22",
+                    "secondary-container": "#fef3c7",
+                    "tertiary-fixed": "#b8f1b6",
+                    "error-container": "#ffdad6",
+                    "outline": "#9CA3AF",
+                    "on-primary": "#ffffff",
+                    "on-background": "#111827",
+                    "on-surface-variant": "#4B5563",
+                    "secondary-fixed-dim": "#e9c349",
+                    "secondary": "#D4AF37",
+                    "status-refused": "#DC2626",
+                    "text-primary": "#111827",
+                    "inverse-surface": "#1F2937",
+                    "on-error": "#ffffff",
+                    "on-secondary-container": "#92400e",
+                    "on-error-container": "#93000a",
+                    "on-tertiary": "#ffffff",
+                    "primary-fixed": "#a3f69c",
+                    "primary-fixed-dim": "#88d982",
+                    "inverse-on-surface": "#F9FAFB",
+                    "tertiary": "#2e6033",
+                    "status-pending": "#F59E0B",
+                    "background": "#FAFAFA",
+                    "on-secondary-fixed": "#241a00",
+                    "surface-dim": "#d8dbd8",
+                    "surface-container": "#F3F4F6",
+                    "on-surface": "#111827",
+                    "surface-container-low": "#F9FAFB",
+                    "surface-bright": "#FFFFFF",
+                    "error": "#EF4444",
+                    "on-secondary": "#ffffff",
+                    "status-validated": "#1B4D22",
+                    "tertiary-container": "#477949",
+                    "on-tertiary-fixed": "#002106",
+                    "inverse-primary": "#88d982",
+                    "on-primary-container": "#cbffc2",
+                    "on-tertiary-fixed-variant": "#1f5125",
+                    "surface-tint": "#1b6d24"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "max-width-desktop": "1200px",
+                    "unit": "4px",
+                    "margin-desktop": "auto",
+                    "margin-mobile": "24px",
+                    "gutter-desktop": "32px",
+                    "gutter-mobile": "24px"
+            },
+            "fontFamily": {
+                    "body-lg": ["inter"],
+                    "display-lg": ["manrope"],
+                    "headline-md": ["manrope"],
+                    "body-sm": ["inter"],
+                    "label-sm": ["inter"],
+                    "label-md": ["inter"],
+                    "headline-lg": ["manrope"],
+                    "headline-sm": ["manrope"],
+                    "body-md": ["inter"],
+                    "headline-lg-mobile": ["manrope"]
+            },
+            "fontSize": {
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "500"}],
+                    "label-md": ["14px", {"lineHeight": "16px", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                    "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "700"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3 { font-family: 'Manrope', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(4px);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="bg-background min-h-screen pb-24 text-on-surface">
+<!-- TopAppBar -->
+<header class="w-full top-0 sticky bg-background/80 backdrop-blur-md z-40 flex justify-between items-center px-margin-mobile h-20">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary text-3xl">eco</span>
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface tracking-tight">IDEM Planète</h1>
+</div>
+<div class="flex items-center gap-5">
+<button class="hover:opacity-80 transition-opacity active:scale-95 duration-150">
+<span class="material-symbols-outlined text-on-surface-variant">notifications</span>
+</button>
+<div class="w-9 h-9 rounded-full overflow-hidden bg-surface-container ring-2 ring-surface-variant">
+<img class="w-full h-full object-cover" data-alt="A professional headshot of a friendly community manager with a bright, welcoming smile. The lighting is soft and natural, suggesting an outdoor environment. The person wears a simple earth-toned linen shirt, fitting the sustainable and eco-friendly theme of IDEM Planète. High resolution and modern corporate aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB3w1tPgPk82J3VVI_hJGaJ9Gdq7b_V-HHvN4IanngYnxNXiGkmOWChggQ6xOTcquCtB2eJSb9RqrlxL0fpHnHriLZ6zthpLKMp0yMPD8lOhBwu1WHkk_oDG5S2P8S4fn0cPyXvKhT52BkscG_r0uA_E4-iVTzgA05OILJWHGA9UfVVjdVHCWzKvKxQWIdrkadN6V_RwLKLnl4SGPl5XUWJYOVKVfXOpLdlDzgmhU74yCadPsv_k3SHxQUHqMobRLk5IoNeuyvTcVg"/>
+</div>
+</div>
+</header>
+<main class="max-w-max-width-desktop mx-auto px-margin-mobile md:px-margin-desktop py-6">
+<!-- Search and Filters Section -->
+<section class="mb-10">
+<div class="flex flex-col gap-6 md:flex-row md:items-center justify-between">
+<div class="relative flex-grow max-w-lg">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline">search</span>
+<input class="w-full pl-12 pr-4 py-3 bg-surface border border-outline-variant/50 rounded-2xl focus:ring-1 focus:ring-primary focus:border-primary text-body-md transition-all outline-none" placeholder="Rechercher une activité..." type="text"/>
+</div>
+<div class="flex gap-3 overflow-x-auto pb-2 md:pb-0 scrollbar-hide">
+<button class="px-5 py-2 bg-primary text-on-primary rounded-full font-label-md flex items-center gap-2 whitespace-nowrap">
+<span class="material-symbols-outlined text-[18px]">filter_list</span>
+                        Tous
+                    </button>
+<button class="px-5 py-2 bg-transparent text-on-surface-variant border border-outline-variant/50 rounded-full font-label-md hover:bg-surface-variant transition-colors whitespace-nowrap">Forêt</button>
+<button class="px-5 py-2 bg-transparent text-on-surface-variant border border-outline-variant/50 rounded-full font-label-md hover:bg-surface-variant transition-colors whitespace-nowrap">Océan</button>
+<button class="px-5 py-2 bg-transparent text-on-surface-variant border border-outline-variant/50 rounded-full font-label-md hover:bg-surface-variant transition-colors whitespace-nowrap">Ateliers</button>
+</div>
+</div>
+</section>
+<!-- Activities Grid -->
+<section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-y-12 gap-x-8">
+<!-- Activity Card 1 -->
+<article class="flex flex-col group cursor-pointer">
+<div class="h-64 relative rounded-[2rem] overflow-hidden mb-5">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A lush green forest floor with sunlight filtering through ancient oak trees. The scene is vibrant and revitalizing, emphasizing the natural beauty of a forest ecosystem. Soft morning light creates a peaceful atmosphere. High-end professional nature photography with a clean, airy aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDEvXX0zjyH6uuTHwUw6y3w6iRtx5dwYf7gj_T2iWKVZ8mydRdKAdlZ_MB8rS070bmweqKo5fwu51Q7QZ_Ln8EZgxtebo2W2GRydcADnxJfv1yH9kG8ZzVcrEc94MBIaxnm2TQPwZnfgVtZX9Ef5toTN3ii0cF9WecpiSDc0RIsW4ACH3UBp7gLRNtND-4QRYfil47v0qPRIkHb8sAUtzNF-GstZROhABQWrVUznMbQ_PFKj0IvHM2sE_JBzMzYSGUf0JmCSV9dEvE"/>
+<div class="absolute top-4 right-4 bg-surface/95 px-4 py-1.5 rounded-full">
+<span class="text-primary font-label-md">Forêt</span>
+</div>
+</div>
+<div class="flex flex-col flex-grow">
+<h2 class="font-headline-sm text-headline-sm text-on-surface mb-2">Reforestation du Domaine Vert</h2>
+<div class="space-y-1.5 mb-5">
+<div class="flex items-center gap-2 text-text-secondary">
+<span class="material-symbols-outlined text-[18px]">calendar_today</span>
+<span class="font-body-sm text-body-sm">Samedi 12 Octobre, 09:00</span>
+</div>
+<div class="flex items-center gap-2 text-text-secondary">
+<span class="material-symbols-outlined text-[18px]">location_on</span>
+<span class="font-body-sm text-body-sm">Forêt de Sénart, France</span>
+</div>
+</div>
+<div class="mt-auto">
+<div class="flex justify-between items-center mb-2">
+<span class="text-label-sm font-label-sm text-text-secondary">45/60 inscrits</span>
+<span class="text-label-sm font-label-sm text-secondary">Presque complet</span>
+</div>
+<div class="w-full bg-surface-container rounded-full h-1 mb-4">
+<div class="bg-primary h-1 rounded-full w-3/4"></div>
+</div>
+<button class="w-full bg-primary text-white py-3.5 rounded-2xl font-label-md active:scale-95 transition-transform hover:opacity-90">Participer</button>
+</div>
+</div>
+</article>
+<!-- Activity Card 2 -->
+<article class="flex flex-col group cursor-pointer">
+<div class="h-64 relative rounded-[2rem] overflow-hidden mb-5">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A close-up shot of a pristine beach coastline with clear blue water. The sand is white and clean, with a small focus on a group of biodegradable bags prepared for a cleanup. The mood is hopeful and active. Bright lighting with high-contrast coastal colors. Professional documentary-style photography." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCm2bzKFZqChUKhYEHKxRUwoNzhI8sOnYKz35gb62X-PHb-eC2OAoTS-ZvqgIcl675h1l8R-P2zG5iiQQJ5RGtfT53EMzXMCZpVail9klnZdpQbWA66hNdblYsNVGjjWnTAY7s3eabK21aNmS70Kv6yvX4bh1LjEYBe7IIXOQ1eE5ZrYFrlgbzmnDq7AFtxqTQu0CpwCkgNT6ptY9RqNpVBZc2csdjD-QEgXbHr_8_7q0B3iMiL6XHUyWm94t07jO4n0-M8ftUSZnM"/>
+<div class="absolute top-4 right-4 bg-surface/95 px-4 py-1.5 rounded-full">
+<span class="text-primary font-label-md">Océan</span>
+</div>
+</div>
+<div class="flex flex-col flex-grow">
+<h2 class="font-headline-sm text-headline-sm text-on-surface mb-2">Nettoyage Plage de la Côte d'Azur</h2>
+<div class="space-y-1.5 mb-5">
+<div class="flex items-center gap-2 text-text-secondary">
+<span class="material-symbols-outlined text-[18px]">calendar_today</span>
+<span class="font-body-sm text-body-sm">Dimanche 20 Octobre, 14:30</span>
+</div>
+<div class="flex items-center gap-2 text-text-secondary">
+<span class="material-symbols-outlined text-[18px]">location_on</span>
+<span class="font-body-sm text-body-sm">Nice, Promenade des Anglais</span>
+</div>
+</div>
+<div class="mt-auto">
+<div class="flex justify-between items-center mb-2">
+<span class="text-label-sm font-label-sm text-text-secondary">12/100 inscrits</span>
+</div>
+<div class="w-full bg-surface-container rounded-full h-1 mb-4">
+<div class="bg-primary h-1 rounded-full w-1/4"></div>
+</div>
+<button class="w-full bg-primary text-white py-3.5 rounded-2xl font-label-md active:scale-95 transition-transform hover:opacity-90">Participer</button>
+</div>
+</div>
+</article>
+<!-- Activity Card 3 -->
+<article class="flex flex-col group cursor-pointer">
+<div class="h-64 relative rounded-[2rem] overflow-hidden mb-5">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A modern, minimalist community garden workshop setting. Wooden tables are arranged with small succulent plants and gardening tools. The environment is light-filled and organic, using natural materials. The atmosphere is collaborative and educational. Clean lines and professional architectural interior photography." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCVw9Zyyge6U0JZ5-0gU0AtLHk678zdcbs5JVdqLqGyKd9N-c4nDG11qDNjg6rGTPFKaj6_18qT0rIR3IzJjk6U91swzG-M7mERvWQdKQ8R82y7RtgNGmGFgzIpfw4rn32gjJtARsfzHQzayhsJPDrVCrSj2QEOno1m3QufTkG47hFIBo2Sf7dzFkOfzQFqH9bycTTkHNU9sDNWOf4g4rX3M4F2EiYGESQ8nIOIWZReSnCd2tQb42ksMW8mnVvtBRgG4pq4za3-CPw"/>
+<div class="absolute top-4 right-4 bg-surface/95 px-4 py-1.5 rounded-full">
+<span class="text-primary font-label-md">Atelier</span>
+</div>
+</div>
+<div class="flex flex-col flex-grow">
+<h2 class="font-headline-sm text-headline-sm text-on-surface mb-2">Atelier Potager Urbain</h2>
+<div class="space-y-1.5 mb-5">
+<div class="flex items-center gap-2 text-text-secondary">
+<span class="material-symbols-outlined text-[18px]">calendar_today</span>
+<span class="font-body-sm text-body-sm">Mercredi 16 Octobre, 18:00</span>
+</div>
+<div class="flex items-center gap-2 text-text-secondary">
+<span class="material-symbols-outlined text-[18px]">location_on</span>
+<span class="font-body-sm text-body-sm">Centre Communautaire, Lyon</span>
+</div>
+</div>
+<div class="mt-auto">
+<div class="flex justify-between items-center mb-2">
+<span class="text-label-sm font-label-sm text-text-secondary">10/20 inscrits</span>
+</div>
+<div class="w-full bg-surface-container rounded-full h-1 mb-4">
+<div class="bg-primary h-1 rounded-full w-1/2"></div>
+</div>
+<button class="w-full bg-primary text-white py-3.5 rounded-2xl font-label-md active:scale-95 transition-transform hover:opacity-90">Participer</button>
+</div>
+</div>
+</article>
+<!-- Activity Card 4 -->
+<article class="flex flex-col group cursor-pointer">
+<div class="h-64 relative rounded-[2rem] overflow-hidden mb-5 opacity-80">
+<img class="w-full h-full object-cover" data-alt="A group of people hiking through a misty mountain range during sunrise. The colors are soft pinks and oranges with deep greens. The composition is wide, showing the scale of the environment. The mood is adventurous and majestic. High-end outdoor photography with atmospheric depth." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAAPoPF72ymZxjxu6Fs26YoG38e-sF60INR1OLNMfqASrrwshhs_p0KV6mxvk5sgnsVAEnOU02F_sQE5k40s6XW678vO4QjtembEyvj2_6z6PnaVjfQuIlZqipCjgXWtpqWGvCNUgyis4QQPs1gBqDrLJVGxXDxrZRZ1L32dYArsc_6JB0dBog50RC5GtTUiZtbLHenscyJzwfpVKbnJ9paEHzKHIs4H_7SDn3ViW73GdDJFwVJJAlh1NGMwuxygPV3QBCfXUztuzI"/>
+<div class="absolute top-4 right-4 bg-surface/95 px-4 py-1.5 rounded-full">
+<span class="text-primary font-label-md">Forêt</span>
+</div>
+</div>
+<div class="flex flex-col flex-grow">
+<h2 class="font-headline-sm text-headline-sm text-on-surface mb-2">Marche pour le Climat &amp; Sensibilisation</h2>
+<div class="space-y-1.5 mb-5">
+<div class="flex items-center gap-2 text-text-secondary">
+<span class="material-symbols-outlined text-[18px]">calendar_today</span>
+<span class="font-body-sm text-body-sm">Samedi 26 Octobre, 10:00</span>
+</div>
+<div class="flex items-center gap-2 text-text-secondary">
+<span class="material-symbols-outlined text-[18px]">location_on</span>
+<span class="font-body-sm text-body-sm">Parc de la Villette, Paris</span>
+</div>
+</div>
+<div class="mt-auto">
+<div class="flex justify-between items-center mb-2">
+<span class="text-label-sm font-label-sm text-text-secondary">250/250 inscrits</span>
+<span class="text-label-sm font-label-sm text-error">Complet</span>
+</div>
+<div class="w-full bg-surface-container rounded-full h-1 mb-4">
+<div class="bg-outline h-1 rounded-full w-full"></div>
+</div>
+<button class="w-full bg-surface-variant text-on-surface-variant py-3.5 rounded-2xl font-label-md cursor-not-allowed" disabled="">Complet</button>
+</div>
+</div>
+</article>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 py-4 bg-surface/90 backdrop-blur-lg border-t border-outline-variant/30 md:hidden">
+<a class="flex flex-col items-center justify-center text-text-secondary hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined mb-1">home</span>
+<span class="font-label-sm text-[10px]">Accueil</span>
+</a>
+<a class="flex flex-col items-center justify-center text-secondary transition-transform duration-200" href="#">
+<span class="material-symbols-outlined mb-1 text-[28px]">event</span>
+<span class="font-label-sm text-[10px] font-semibold">Activités</span>
+</a>
+<a class="flex flex-col items-center justify-center text-text-secondary hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined mb-1">article</span>
+<span class="font-label-sm text-[10px]">Publications</span>
+</a>
+<a class="flex flex-col items-center justify-center text-text-secondary hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined mb-1">payments</span>
+<span class="font-label-sm text-[10px]">Cotisations</span>
+</a>
+<a class="flex flex-col items-center justify-center text-text-secondary hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined mb-1">person</span>
+<span class="font-label-sm text-[10px]">Profil</span>
+</a>
+</nav>
+<!-- Desktop Navigation Side Anchors -->
+<aside class="hidden md:flex fixed left-0 top-20 bottom-0 w-24 flex-col items-center py-10 gap-10 bg-transparent">
+<div class="p-3 text-text-secondary hover:text-primary transition-colors cursor-pointer"><span class="material-symbols-outlined text-2xl">home</span></div>
+<div class="p-3 text-secondary cursor-pointer"><span class="material-symbols-outlined text-3xl">event</span></div>
+<div class="p-3 text-text-secondary hover:text-primary transition-colors cursor-pointer"><span class="material-symbols-outlined text-2xl">article</span></div>
+<div class="p-3 text-text-secondary hover:text-primary transition-colors cursor-pointer"><span class="material-symbols-outlined text-2xl">payments</span></div>
+<div class="p-3 text-text-secondary hover:text-primary transition-colors cursor-pointer mt-auto"><span class="material-symbols-outlined text-2xl">person</span></div>
+</aside>
+<script>
+        // Simple interactivity for filters
+        const filterButtons = document.querySelectorAll('button.rounded-full');
+        filterButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                filterButtons.forEach(b => {
+                    b.classList.remove('bg-primary', 'text-on-primary');
+                    b.classList.add('bg-transparent', 'text-on-surface-variant', 'border-outline-variant/50');
+                });
+                btn.classList.add('bg-primary', 'text-on-primary');
+                btn.classList.remove('bg-transparent', 'text-on-surface-variant', 'border-outline-variant/50');
+            });
+        });
+    </script>
+</body></html>

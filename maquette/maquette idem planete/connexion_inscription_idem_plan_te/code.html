@@ -1,0 +1,292 @@
+<!DOCTYPE html><html class="light" lang="fr"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Connexion &amp; Inscription - IDEM Planète</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Manrope:wght@600;700;800&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-container-lowest": "#ffffff",
+                    "on-primary-fixed-variant": "#005312",
+                    "on-primary-fixed": "#002204",
+                    "primary-container": "#2e7d32",
+                    "secondary-fixed": "#ffe088",
+                    "outline-variant": "#bfcaba",
+                    "text-secondary": "#6B7280",
+                    "on-tertiary-container": "#caffc6",
+                    "surface-container-highest": "#e1e3e0",
+                    "surface-container-high": "#e7e9e6",
+                    "tertiary-fixed-dim": "#9dd49b",
+                    "on-secondary-fixed-variant": "#574500",
+                    "surface-variant": "#e1e3e0",
+                    "surface": "#FFFFFF",
+                    "primary": "#0d631b",
+                    "secondary-container": "#fed65b",
+                    "tertiary-fixed": "#b8f1b6",
+                    "error-container": "#ffdad6",
+                    "outline": "#707a6c",
+                    "on-primary": "#ffffff",
+                    "on-background": "#191c1b",
+                    "on-surface-variant": "#40493d",
+                    "secondary-fixed-dim": "#e9c349",
+                    "secondary": "#735c00",
+                    "status-refused": "#DC2626",
+                    "text-primary": "#1A1A1A",
+                    "inverse-surface": "#2e312f",
+                    "on-error": "#ffffff",
+                    "on-secondary-container": "#745c00",
+                    "on-error-container": "#93000a",
+                    "on-tertiary": "#ffffff",
+                    "primary-fixed": "#a3f69c",
+                    "primary-fixed-dim": "#88d982",
+                    "inverse-on-surface": "#eff1ee",
+                    "tertiary": "#2e6033",
+                    "status-pending": "#F59E0B",
+                    "background": "#f8faf7",
+                    "on-secondary-fixed": "#241a00",
+                    "surface-dim": "#d8dbd8",
+                    "surface-container": "#eceeeb",
+                    "on-surface": "#191c1b",
+                    "surface-container-low": "#f2f4f1",
+                    "surface-bright": "#f8faf7",
+                    "error": "#ba1a1a",
+                    "on-secondary": "#ffffff",
+                    "status-validated": "#2E7D32",
+                    "tertiary-container": "#477949",
+                    "on-tertiary-fixed": "#002106",
+                    "inverse-primary": "#88d982",
+                    "on-primary-container": "#cbffc2",
+                    "on-tertiary-fixed-variant": "#1f5125",
+                    "surface-tint": "#1b6d24"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "max-width-desktop": "1200px",
+                    "unit": "4px",
+                    "margin-desktop": "auto",
+                    "margin-mobile": "16px",
+                    "gutter-desktop": "24px",
+                    "gutter-mobile": "16px"
+            },
+            "fontFamily": {
+                    "body-lg": ["Inter"],
+                    "display-lg": ["Manrope"],
+                    "headline-md": ["Manrope"],
+                    "body-sm": ["Inter"],
+                    "label-sm": ["Inter"],
+                    "label-md": ["Inter"],
+                    "headline-lg": ["Manrope"],
+                    "headline-sm": ["Manrope"],
+                    "body-md": ["Inter"],
+                    "headline-lg-mobile": ["Manrope"]
+            },
+            "fontSize": {
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "500"}],
+                    "label-md": ["14px", {"lineHeight": "16px", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                    "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "700"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #f8faf7;
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .auth-container {
+            min-height: calc(100vh - 64px);
+        }
+        .transition-all-custom {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .hidden-auth {
+            display: none;
+            opacity: 0;
+            transform: translateY(10px);
+        }
+        .visible-auth {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="text-on-background selection:bg-primary-fixed selection:text-on-primary-fixed">
+<!-- Top AppBar (Identity Anchor) -->
+<header class="w-full top-0 sticky bg-surface dark:bg-on-background shadow-sm flex justify-between items-center px-margin-mobile h-16 w-full z-50">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-3xl" data-icon="eco">eco</span>
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile text-primary dark:text-primary-fixed tracking-tight">IDEM Planète</h1>
+</div>
+</header>
+<main class="auth-container flex items-center justify-center px-margin-mobile py-12">
+<div class="w-full max-w-[480px]">
+<!-- Login Form -->
+<div class="visible-auth transition-all-custom bg-surface p-8 md:p-10 rounded-xl shadow-[0_4px_20px_4%_rgba(13,99,27,0.04)] border border-outline-variant/30" id="login-section">
+<div class="text-center mb-10">
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile text-text-primary mb-2">Bon retour parmi nous</h2>
+<p class="font-body-md text-body-md text-text-secondary">Connectez-vous pour accéder à votre espace IDEM.</p>
+</div>
+<form class="space-y-6" onsubmit="event.preventDefault();">
+<div class="space-y-1.5">
+<label class="font-label-md text-label-md text-text-secondary px-1" for="login-email">Email</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline" data-icon="mail">mail</span>
+<input class="w-full pl-10 pr-4 py-3 rounded-lg border border-outline-variant focus:border-status-validated focus:ring-2 focus:ring-status-validated/20 outline-none transition-all font-body-md" id="login-email" placeholder="jean.dupont@exemple.com" type="email">
+</div>
+</div>
+<div class="space-y-1.5">
+<label class="font-label-md text-label-md text-text-secondary px-1" for="login-password">Mot de passe</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline" data-icon="lock">lock</span>
+<input class="w-full pl-10 pr-4 py-3 rounded-lg border border-outline-variant focus:border-status-validated focus:ring-2 focus:ring-status-validated/20 outline-none transition-all font-body-md" id="login-password" placeholder="••••••••" type="password">
+</div>
+<div class="flex justify-end">
+<button class="font-label-sm text-label-sm text-primary hover:underline" type="button">Mot de passe oublié ?</button>
+</div>
+</div>
+<button class="w-full bg-status-validated hover:bg-on-primary-fixed-variant text-white font-label-md py-4 rounded-lg shadow-sm active:scale-[0.98] transition-all-custom" type="submit">
+                        Se connecter
+                    </button>
+</form>
+<div class="mt-8 pt-8 border-t border-outline-variant/30 text-center">
+<p class="font-body-sm text-body-sm text-text-secondary">
+                        Vous n'avez pas encore de compte ? 
+                        <button class="text-primary font-label-md hover:underline ml-1" onclick="toggleAuth('signup')">S'inscrire gratuitement</button>
+</p>
+</div>
+</div>
+<!-- Signup Form -->
+<div class="hidden-auth transition-all-custom bg-surface p-8 md:p-10 rounded-xl shadow-[0_4px_20px_4%_rgba(13,99,27,0.04)] border border-outline-variant/30" id="signup-section">
+<div class="text-center mb-8">
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile text-text-primary mb-2">Rejoindre l'association</h2>
+<p class="font-body-md text-body-md text-text-secondary">Engagez-vous pour la planète en quelques clics.</p>
+</div>
+<form class="space-y-4" onsubmit="event.preventDefault();">
+<div class="grid grid-cols-2 gap-4">
+<div class="space-y-1.5">
+<label class="font-label-md text-label-md text-text-secondary px-1" for="nom">Nom</label>
+<input class="w-full px-4 py-2.5 rounded-lg border border-outline-variant focus:border-status-validated focus:ring-2 focus:ring-status-validated/20 outline-none transition-all font-body-md" id="nom" placeholder="Dupont" type="text">
+</div>
+<div class="space-y-1.5">
+<label class="font-label-md text-label-md text-text-secondary px-1" for="prenom">Prénom</label>
+<input class="w-full px-4 py-2.5 rounded-lg border border-outline-variant focus:border-status-validated focus:ring-2 focus:ring-status-validated/20 outline-none transition-all font-body-md" id="prenom" placeholder="Jean" type="text">
+</div>
+</div>
+<div class="space-y-1.5">
+<label class="font-label-md text-label-md text-text-secondary px-1" for="signup-email">Email</label>
+<input class="w-full px-4 py-2.5 rounded-lg border border-outline-variant focus:border-status-validated focus:ring-2 focus:ring-status-validated/20 outline-none transition-all font-body-md" id="signup-email" placeholder="jean.dupont@exemple.com" type="email">
+</div>
+<div class="space-y-1.5">
+<label class="font-label-md text-label-md text-text-secondary px-1" for="telephone">Téléphone</label>
+<input class="w-full px-4 py-2.5 rounded-lg border border-outline-variant focus:border-status-validated focus:ring-2 focus:ring-status-validated/20 outline-none transition-all font-body-md" id="telephone" placeholder="06 12 34 56 78" type="tel">
+</div>
+<div class="space-y-1.5">
+<label class="font-label-md text-label-md text-text-secondary px-1" for="adresse">Adresse</label>
+<input class="w-full px-4 py-2.5 rounded-lg border border-outline-variant focus:border-status-validated focus:ring-2 focus:ring-status-validated/20 outline-none transition-all font-body-md" id="adresse" placeholder="123 rue de la Nature, 75000 Paris" type="text">
+</div>
+<div class="space-y-1.5">
+<label class="font-label-md text-label-md text-text-secondary px-1" for="signup-password">Mot de passe</label>
+<input class="w-full px-4 py-2.5 rounded-lg border border-outline-variant focus:border-status-validated focus:ring-2 focus:ring-status-validated/20 outline-none transition-all font-body-md" id="signup-password" placeholder="••••••••" type="password">
+<p class="font-label-sm text-label-sm text-text-secondary px-1">8 caractères minimum, un chiffre et un symbole.</p>
+</div>
+<div class="pt-4">
+<button class="w-full bg-status-validated hover:bg-on-primary-fixed-variant text-white font-label-md py-4 rounded-lg shadow-sm active:scale-[0.98] transition-all-custom" type="submit">
+                            Créer mon compte
+                        </button>
+</div>
+</form>
+<div class="mt-6 pt-6 border-t border-outline-variant/30 text-center">
+<p class="font-body-sm text-body-sm text-text-secondary">
+                        Vous avez déjà un compte ? 
+                        <button class="text-primary font-label-md hover:underline ml-1" onclick="toggleAuth('login')">Se connecter</button>
+</p>
+</div>
+</div>
+<!-- Footer micro-copy -->
+<div class="mt-8 text-center space-x-6">
+<a class="font-label-sm text-label-sm text-text-secondary hover:text-primary transition-colors" href="#">Conditions Générales</a>
+<a class="font-label-sm text-label-sm text-text-secondary hover:text-primary transition-colors" href="#">Confidentialité</a>
+</div>
+</div>
+</main>
+<!-- Decorative Nature Element (SVG Pattern for airy feel) -->
+<div class="fixed bottom-0 right-0 -z-10 opacity-10 pointer-events-none">
+<svg fill="none" height="400" viewBox="0 0 400 400" width="400" xmlns="http://www.w3.org/2000/svg">
+<path d="M400 400C400 179.086 220.914 0 0 0V400H400Z" fill="url(#paint0_linear)"></path>
+<defs>
+<linearGradient gradientUnits="userSpaceOnUse" id="paint0_linear" x1="0" x2="400" y1="0" y2="400">
+<stop stop-color="#2E7D32"></stop>
+<stop offset="1" stop-color="#2E7D32" stop-opacity="0"></stop>
+</linearGradient>
+</defs>
+</svg>
+</div>
+<script>
+        function toggleAuth(mode) {
+            const loginSection = document.getElementById('login-section');
+            const signupSection = document.getElementById('signup-section');
+
+            if (mode === 'signup') {
+                loginSection.classList.remove('visible-auth');
+                loginSection.classList.add('hidden-auth');
+                setTimeout(() => {
+                    signupSection.classList.remove('hidden-auth');
+                    signupSection.classList.add('visible-auth');
+                }, 400);
+            } else {
+                signupSection.classList.remove('visible-auth');
+                signupSection.classList.add('hidden-auth');
+                setTimeout(() => {
+                    loginSection.classList.remove('hidden-auth');
+                    loginSection.classList.add('visible-auth');
+                }, 400);
+            }
+        }
+
+        // Simple floating label effect logic or visual enhancements can go here
+        document.querySelectorAll('input').forEach(input => {
+            input.addEventListener('focus', function() {
+                this.parentElement.previousElementSibling?.classList.add('text-primary');
+            });
+            input.addEventListener('blur', function() {
+                this.parentElement.previousElementSibling?.classList.remove('text-primary');
+            });
+        });
+    </script>
+</body></html>

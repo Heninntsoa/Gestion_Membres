@@ -1,0 +1,318 @@
+<!DOCTYPE html><html class="light" lang="fr"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Centre de Notifications - IDEM Planète</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Manrope:wght@600;700;800&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-container-lowest": "#ffffff",
+                    "on-primary-fixed-variant": "#005312",
+                    "on-primary-fixed": "#002204",
+                    "primary-container": "#2e7d32",
+                    "secondary-fixed": "#ffe088",
+                    "outline-variant": "#bfcaba",
+                    "text-secondary": "#6B7280",
+                    "on-tertiary-container": "#caffc6",
+                    "surface-container-highest": "#e1e3e0",
+                    "surface-container-high": "#e7e9e6",
+                    "tertiary-fixed-dim": "#9dd49b",
+                    "on-secondary-fixed-variant": "#574500",
+                    "surface-variant": "#e1e3e0",
+                    "surface": "#FFFFFF",
+                    "primary": "#0d631b",
+                    "secondary-container": "#fed65b",
+                    "tertiary-fixed": "#b8f1b6",
+                    "error-container": "#ffdad6",
+                    "outline": "#707a6c",
+                    "on-primary": "#ffffff",
+                    "on-background": "#191c1b",
+                    "on-surface-variant": "#40493d",
+                    "secondary-fixed-dim": "#e9c349",
+                    "secondary": "#735c00",
+                    "status-refused": "#DC2626",
+                    "text-primary": "#1A1A1A",
+                    "inverse-surface": "#2e312f",
+                    "on-error": "#ffffff",
+                    "on-secondary-container": "#745c00",
+                    "on-error-container": "#93000a",
+                    "on-tertiary": "#ffffff",
+                    "primary-fixed": "#a3f69c",
+                    "primary-fixed-dim": "#88d982",
+                    "inverse-on-surface": "#eff1ee",
+                    "tertiary": "#2e6033",
+                    "status-pending": "#F59E0B",
+                    "background": "#f8faf7",
+                    "on-secondary-fixed": "#241a00",
+                    "surface-dim": "#d8dbd8",
+                    "surface-container": "#eceeeb",
+                    "on-surface": "#191c1b",
+                    "surface-container-low": "#f2f4f1",
+                    "surface-bright": "#f8faf7",
+                    "error": "#ba1a1a",
+                    "on-secondary": "#ffffff",
+                    "status-validated": "#2E7D32",
+                    "tertiary-container": "#477949",
+                    "on-tertiary-fixed": "#002106",
+                    "inverse-primary": "#88d982",
+                    "on-primary-container": "#cbffc2",
+                    "on-tertiary-fixed-variant": "#1f5125",
+                    "surface-tint": "#1b6d24"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "max-width-desktop": "1200px",
+                    "unit": "4px",
+                    "margin-desktop": "auto",
+                    "margin-mobile": "16px",
+                    "gutter-desktop": "24px",
+                    "gutter-mobile": "16px"
+            },
+            "fontFamily": {
+                    "body-lg": ["Inter"],
+                    "display-lg": ["Manrope"],
+                    "headline-md": ["Manrope"],
+                    "body-sm": ["Inter"],
+                    "label-sm": ["Inter"],
+                    "label-md": ["Inter"],
+                    "headline-lg": ["Manrope"],
+                    "headline-sm": ["Manrope"],
+                    "body-md": ["Inter"],
+                    "headline-lg-mobile": ["Manrope"]
+            },
+            "fontSize": {
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "500"}],
+                    "label-md": ["14px", {"lineHeight": "16px", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                    "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "700"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #f8faf7;
+            font-family: 'Inter', sans-serif;
+            color: #1A1A1A;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .notification-unread::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background-color: #0d631b;
+            border-radius: 0 4px 4px 0;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="min-h-screen pb-24">
+<!-- TopAppBar -->
+<header class="bg-surface dark:bg-on-background shadow-sm w-full top-0 sticky z-50">
+<div class="flex justify-between items-center px-margin-mobile h-16 w-full max-w-screen-xl mx-auto">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary dark:text-primary-fixed text-2xl">eco</span>
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile text-primary dark:text-primary-fixed tracking-tight">IDEM Planète</h1>
+</div>
+<div class="flex items-center gap-4">
+<button class="material-symbols-outlined text-on-surface-variant dark:text-outline-variant hover:opacity-80 transition-opacity active:scale-95 duration-150">search</button>
+<div class="relative">
+<span class="material-symbols-outlined text-primary dark:text-primary-fixed text-2xl active:scale-95 duration-150">notifications</span>
+<span class="absolute top-0 right-0 w-2 h-2 bg-error rounded-full border-2 border-surface"></span>
+</div>
+</div>
+</div>
+</header>
+<main class="max-w-max-width-desktop mx-auto px-margin-mobile py-8">
+<!-- Header Actions -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
+<div>
+<h2 class="font-headline-lg text-headline-lg text-text-primary mb-1">Centre de notifications</h2>
+<p class="font-body-md text-body-md text-text-secondary">Restez informé des dernières activités et de l'état de vos cotisations.</p>
+</div>
+<button class="flex items-center gap-2 text-primary font-label-md text-label-md hover:bg-primary/5 px-4 py-2 rounded-lg transition-colors border border-primary/20" onclick="markAllAsRead()">
+<span class="material-symbols-outlined text-[20px]">done_all</span>
+                Tout marquer comme lu
+            </button>
+</div>
+<!-- Filter Chips -->
+<div class="flex gap-2 mb-6 overflow-x-auto pb-2 scrollbar-hide">
+<button class="bg-primary text-on-primary px-4 py-1.5 rounded-full font-label-sm text-label-sm shadow-sm">Toutes</button>
+<button class="bg-surface-container-low text-on-surface-variant px-4 py-1.5 rounded-full font-label-sm text-label-sm hover:bg-surface-container-high transition-colors">Activités</button>
+<button class="bg-surface-container-low text-on-surface-variant px-4 py-1.5 rounded-full font-label-sm text-label-sm hover:bg-surface-container-high transition-colors">Paiements</button>
+<button class="bg-surface-container-low text-on-surface-variant px-4 py-1.5 rounded-full font-label-sm text-label-sm hover:bg-surface-container-high transition-colors">Publications</button>
+</div>
+<!-- Notifications List -->
+<div class="space-y-4" id="notifications-container">
+<!-- Notification Card: Unread Payment -->
+<div class="notification-item relative bg-surface border border-outline-variant/30 rounded-xl p-4 md:p-6 shadow-[0_4px_20px_0px_rgba(0,0,0,0.04)] notification-unread flex gap-4 items-start group">
+<div class="flex-shrink-0 w-12 h-12 rounded-full bg-secondary-container flex items-center justify-center text-on-secondary-container">
+<span class="material-symbols-outlined">payments</span>
+</div>
+<div class="flex-grow">
+<div class="flex justify-between items-start mb-1">
+<h3 class="font-headline-sm text-headline-sm text-text-primary">Paiement validé</h3>
+<span class="font-label-sm text-label-sm text-text-secondary">Il y a 10 min</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mb-3">Votre cotisation annuelle pour l'exercice 2024 a été confirmée avec succès. Merci pour votre engagement.</p>
+<div class="flex gap-3">
+<span class="bg-status-validated/10 text-status-validated px-2.5 py-0.5 rounded-full text-[12px] font-bold">REÇU DISPONIBLE</span>
+<button class="text-primary font-label-sm text-label-sm hover:underline">Voir le reçu</button>
+</div>
+</div>
+<button class="opacity-0 group-hover:opacity-100 p-2 text-outline hover:text-primary transition-all">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</div>
+<!-- Notification Card: Activity Invite -->
+<div class="notification-item relative bg-surface border border-outline-variant/30 rounded-xl p-4 md:p-6 shadow-[0_4px_20px_0px_rgba(0,0,0,0.04)] notification-unread flex gap-4 items-start group">
+<div class="flex-shrink-0 w-12 h-12 rounded-full bg-tertiary-fixed flex items-center justify-center text-on-tertiary-fixed">
+<span class="material-symbols-outlined">event</span>
+</div>
+<div class="flex-grow">
+<div class="flex justify-between items-start mb-1">
+<h3 class="font-headline-sm text-headline-sm text-text-primary">Nouvelle Activité</h3>
+<span class="font-label-sm text-label-sm text-text-secondary">Il y a 2h</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mb-4">L'atelier "Restauration des Berges" a été ajouté au calendrier pour samedi prochain.</p>
+<div class="flex flex-wrap gap-2">
+<button class="bg-primary text-on-primary px-4 py-2 rounded-lg font-label-md text-label-md hover:opacity-90 transition-opacity">M'inscrire</button>
+<button class="border border-outline-variant text-on-surface-variant px-4 py-2 rounded-lg font-label-md text-label-md hover:bg-surface-container-low transition-colors">Détails</button>
+</div>
+</div>
+<button class="opacity-0 group-hover:opacity-100 p-2 text-outline hover:text-primary transition-all">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</div>
+<!-- Notification Card: Publication (Read) -->
+<div class="notification-item bg-surface/60 border border-outline-variant/20 rounded-xl p-4 md:p-6 flex gap-4 items-start group">
+<div class="flex-shrink-0 w-12 h-12 rounded-full bg-surface-container-high flex items-center justify-center text-outline">
+<span class="material-symbols-outlined">article</span>
+</div>
+<div class="flex-grow opacity-80">
+<div class="flex justify-between items-start mb-1">
+<h3 class="font-headline-sm text-headline-sm text-text-primary">Nouvel Article</h3>
+<span class="font-label-sm text-label-sm text-text-secondary">Hier</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant">Découvrez le rapport annuel d'impact écologique d'IDEM Planète sur le secteur Ouest.</p>
+</div>
+<button class="opacity-0 group-hover:opacity-100 p-2 text-outline hover:text-primary transition-all">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</div>
+<!-- Notification Card: System Alert -->
+<div class="notification-item bg-surface border border-outline-variant/30 rounded-xl p-4 md:p-6 shadow-[0_4px_20px_0px_rgba(0,0,0,0.04)] flex gap-4 items-start group">
+<div class="flex-shrink-0 w-12 h-12 rounded-full bg-error-container flex items-center justify-center text-on-error-container">
+<span class="material-symbols-outlined">report</span>
+</div>
+<div class="flex-grow">
+<div class="flex justify-between items-start mb-1">
+<h3 class="font-headline-sm text-headline-sm text-text-primary">Profil Incomplet</h3>
+<span class="font-label-sm text-label-sm text-text-secondary">2 jours</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant">Il manque votre certificat de résidence pour finaliser votre dossier d'adhésion.</p>
+</div>
+<button class="opacity-0 group-hover:opacity-100 p-2 text-outline hover:text-primary transition-all">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</div>
+</div>
+<!-- Empty State (Hidden by default) -->
+<div class="hidden flex-col items-center justify-center py-20 text-center" id="empty-state">
+<div class="w-24 h-24 bg-surface-container rounded-full flex items-center justify-center mb-6">
+<span class="material-symbols-outlined text-4xl text-outline">notifications_off</span>
+</div>
+<h3 class="font-headline-md text-headline-md mb-2">Tout est à jour !</h3>
+<p class="font-body-md text-body-md text-text-secondary">Vous n'avez pas de nouvelles notifications pour le moment.</p>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-2 py-3 bg-surface dark:bg-on-background shadow-[0_-4px_20px_0px_rgba(0,0,0,0.04)] rounded-t-xl">
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant py-1 hover:bg-surface-container-low dark:hover:bg-surface-variant active:scale-90 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="font-label-sm text-label-sm">Accueil</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant py-1 hover:bg-surface-container-low dark:hover:bg-surface-variant active:scale-90 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined">event</span>
+<span class="font-label-sm text-label-sm">Activités</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant py-1 hover:bg-surface-container-low dark:hover:bg-surface-variant active:scale-90 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined">article</span>
+<span class="font-label-sm text-label-sm">Publications</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant py-1 hover:bg-surface-container-low dark:hover:bg-surface-variant active:scale-90 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined">payments</span>
+<span class="font-label-sm text-label-sm">Cotisations</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-secondary-container dark:bg-secondary text-on-secondary-container dark:text-on-secondary rounded-full px-4 py-1 active:scale-90 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="font-label-sm text-label-sm">Profil</span>
+</a>
+</nav>
+<script>
+        function markAllAsRead() {
+            const unreadItems = document.querySelectorAll('.notification-unread');
+            unreadItems.forEach(item => {
+                item.classList.remove('notification-unread');
+                item.classList.add('bg-surface/60');
+                item.querySelector('.flex-grow').classList.add('opacity-80');
+            });
+            
+            // Animation feedback
+            const btn = event.currentTarget;
+            const originalHtml = btn.innerHTML;
+            btn.innerHTML = '<span class="material-symbols-outlined text-[20px]">check</span> Lu';
+            btn.classList.add('bg-status-validated/10', 'text-status-validated', 'border-status-validated/30');
+            
+            setTimeout(() => {
+                btn.innerHTML = originalHtml;
+                btn.classList.remove('bg-status-validated/10', 'text-status-validated', 'border-status-validated/30');
+            }, 2000);
+        }
+
+        // Simple filter logic simulation
+        document.querySelectorAll('.flex.gap-2 button').forEach(button => {
+            button.addEventListener('click', (e) => {
+                // Reset buttons
+                document.querySelectorAll('.flex.gap-2 button').forEach(btn => {
+                    btn.classList.remove('bg-primary', 'text-on-primary');
+                    btn.classList.add('bg-surface-container-low', 'text-on-surface-variant');
+                });
+                // Activate clicked
+                button.classList.add('bg-primary', 'text-on-primary');
+                button.classList.remove('bg-surface-container-low', 'text-on-surface-variant');
+                
+                // Add some subtle bounce
+                button.classList.add('scale-95');
+                setTimeout(() => button.classList.remove('scale-95'), 100);
+            });
+        });
+    </script>
+</body></html>

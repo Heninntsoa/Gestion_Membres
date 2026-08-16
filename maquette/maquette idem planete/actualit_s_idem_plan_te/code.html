@@ -1,0 +1,374 @@
+<!DOCTYPE html><html class="light" lang="fr"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Manrope:wght@600;700;800&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-container-lowest": "#ffffff",
+                    "on-primary-fixed-variant": "#005312",
+                    "on-primary-fixed": "#002204",
+                    "primary-container": "#2e7d32",
+                    "secondary-fixed": "#ffe088",
+                    "outline-variant": "#bfcaba",
+                    "text-secondary": "#6B7280",
+                    "on-tertiary-container": "#caffc6",
+                    "surface-container-highest": "#e1e3e0",
+                    "surface-container-high": "#e7e9e6",
+                    "tertiary-fixed-dim": "#9dd49b",
+                    "on-secondary-fixed-variant": "#574500",
+                    "surface-variant": "#e1e3e0",
+                    "surface": "#FFFFFF",
+                    "primary": "#0d631b",
+                    "secondary-container": "#fed65b",
+                    "tertiary-fixed": "#b8f1b6",
+                    "error-container": "#ffdad6",
+                    "outline": "#707a6c",
+                    "on-primary": "#ffffff",
+                    "on-background": "#191c1b",
+                    "on-surface-variant": "#40493d",
+                    "secondary-fixed-dim": "#e9c349",
+                    "secondary": "#735c00",
+                    "status-refused": "#DC2626",
+                    "text-primary": "#1A1A1A",
+                    "inverse-surface": "#2e312f",
+                    "on-error": "#ffffff",
+                    "on-secondary-container": "#745c00",
+                    "on-error-container": "#93000a",
+                    "on-tertiary": "#ffffff",
+                    "primary-fixed": "#a3f69c",
+                    "primary-fixed-dim": "#88d982",
+                    "inverse-on-surface": "#eff1ee",
+                    "tertiary": "#2e6033",
+                    "status-pending": "#F59E0B",
+                    "background": "#f8faf7",
+                    "on-secondary-fixed": "#241a00",
+                    "surface-dim": "#d8dbd8",
+                    "surface-container": "#eceeeb",
+                    "on-surface": "#191c1b",
+                    "surface-container-low": "#f2f4f1",
+                    "surface-bright": "#f8faf7",
+                    "error": "#ba1a1a",
+                    "on-secondary": "#ffffff",
+                    "status-validated": "#2E7D32",
+                    "tertiary-container": "#477949",
+                    "on-tertiary-fixed": "#002106",
+                    "inverse-primary": "#88d982",
+                    "on-primary-container": "#cbffc2",
+                    "on-tertiary-fixed-variant": "#1f5125",
+                    "surface-tint": "#1b6d24"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "max-width-desktop": "1200px",
+                    "unit": "4px",
+                    "margin-desktop": "auto",
+                    "margin-mobile": "16px",
+                    "gutter-desktop": "24px",
+                    "gutter-mobile": "16px"
+            },
+            "fontFamily": {
+                    "body-lg": ["Inter"],
+                    "display-lg": ["Manrope"],
+                    "headline-md": ["Manrope"],
+                    "body-sm": ["Inter"],
+                    "label-sm": ["Inter"],
+                    "label-md": ["Inter"],
+                    "headline-lg": ["Manrope"],
+                    "headline-sm": ["Manrope"],
+                    "body-md": ["Inter"],
+                    "headline-lg-mobile": ["Manrope"]
+            },
+            "fontSize": {
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "500"}],
+                    "label-md": ["14px", {"lineHeight": "16px", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                    "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "700"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #f8faf7;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+        }
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="font-body-md text-on-surface bg-background mb-24 md:mb-0">
+<!-- TopAppBar -->
+<header class="w-full top-0 sticky z-40 bg-surface dark:bg-on-background shadow-sm flex justify-between items-center px-margin-mobile h-16">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary" data-icon="eco">eco</span>
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile text-primary tracking-tight">IDEM Planète</h1>
+</div>
+<div class="flex items-center gap-4">
+<button class="material-symbols-outlined text-on-surface-variant hover:opacity-80 transition-opacity active:scale-95 duration-150" data-icon="notifications">notifications</button>
+<button class="material-symbols-outlined text-on-surface-variant hover:opacity-80 transition-opacity active:scale-95 duration-150 md:hidden" data-icon="menu">menu</button>
+</div>
+</header>
+<main class="max-w-[1200px] mx-auto px-margin-mobile py-8 md:py-12">
+<!-- Header Section with asymmetric layout -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-gutter-desktop mb-12">
+<div class="md:col-span-7 flex flex-col justify-center">
+<span class="text-primary font-label-md text-label-md uppercase tracking-wider mb-2">Notre Actualité</span>
+<h2 class="font-headline-lg text-headline-lg-mobile md:text-headline-lg text-text-primary leading-tight mb-4">Cultivons ensemble un avenir durable.</h2>
+<p class="text-on-surface-variant font-body-lg text-body-lg max-w-xl">
+                    Découvrez les dernières initiatives, reportages et projets menés par IDEM Planète pour la préservation de notre écosystème.
+                </p>
+</div>
+<div class="hidden md:block md:col-span-5 relative h-64">
+<div class="absolute top-0 right-0 w-4/5 h-full rounded-2xl overflow-hidden shadow-lg transform rotate-3">
+<img class="w-full h-full object-cover" data-alt="A macro photograph of vibrant green leaves with crystalline morning dew drops, captured in soft natural sunlight. The image should feel fresh, organic, and professional, using a deep nature green and bright white color palette to evoke a sense of revitalization and environmental stewardship." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAWl03xuV4XigYaWx8wAMk8aSGOH0Ndhy3fEppRwNFdbn_95Uay11B3WDsJasUtUuZal6qnXRWJoiIHsGt0AmoqIPFYOM-Z-tNg-AQ-X_qk7hMR97fDDGLQukgt1nMB7eMBolDXjH173qMWlu2iS-c7b7LnZ7O4C56ntxxestitVqMqpkGMZK_xVnxtXvmYtsLltibCuJTtpObpWLJrJ0Q2_PDwk4EiH71urIvsGD9i6iZVBoGp2IQoQFobDe88A0bPtfXHBCRGLdI">
+</div>
+<div class="absolute -bottom-4 -left-4 w-32 h-32 rounded-full bg-secondary-container flex items-center justify-center animate-pulse">
+<span class="material-symbols-outlined text-on-secondary-container scale-150" data-icon="park">park</span>
+</div>
+</div>
+</div>
+<!-- Featured Bento Grid -->
+<section class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+<!-- Featured Card -->
+<article class="md:col-span-2 relative group overflow-hidden rounded-2xl bg-white shadow-sm border border-outline-variant hover:shadow-md transition-all duration-300">
+<div class="relative h-96 overflow-hidden">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="A wide panoramic shot of a community-led reforestation project in a lush valley during the golden hour. Diverse groups of people are planting saplings under a warm, glowing sunset. The style is cinematic and hopeful, highlighting the collective effort and the vibrant greens of the young trees against the orange sky." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBNxpDnZEa7jQTKyLNu0eXbDWFV4mBNeKXNoiMyaemUyFY2d_XSm0u5oFfyC9oDUXph3VDGoOGffBB3P_oM8o5rH3WFa8bWg7QvjNypyakDIB1dyP8U305DnXyQVzZS47PuhurtX9nOuH7xZAqOUXrq-xhaHJaPTyi24lImWZEPQCjsg08c9mTCrx8pMTzwkMrT2lZZ28F_u_2A4Y9DtkjsCRnYm2V6UxT_v6kKWtILM_Q5OPBgnlGOy7sRwY3kIBclaetukXVGKzc">
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+<div class="absolute bottom-0 left-0 p-8">
+<div class="flex items-center gap-3 mb-3">
+<span class="bg-primary text-white text-label-sm font-label-sm px-3 py-1 rounded-full uppercase">À la une</span>
+<span class="text-white/80 font-label-sm text-label-sm">12 Octobre 2023</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-white mb-3">Lancement du projet "Forêts Urbaines" : 5000 arbres plantés en région IDF</h3>
+<p class="text-white/90 font-body-md text-body-md line-clamp-2 max-w-2xl">
+                            Une initiative citoyenne d'envergure pour ramener la biodiversité au cœur de nos villes et lutter contre les îlots de chaleur urbains.
+                        </p>
+</div>
+</div>
+</article>
+<!-- Secondary Featured Card -->
+<div class="flex flex-col gap-6">
+<article class="flex-1 p-6 rounded-2xl bg-secondary-container/20 border border-secondary-container/40 flex flex-col justify-between">
+<div>
+<span class="text-secondary font-label-md text-label-md uppercase mb-2 block">Partenariats</span>
+<h3 class="font-headline-sm text-headline-sm text-on-surface mb-3">L'adhésion d'entreprises locales renforce notre action</h3>
+<p class="text-on-surface-variant font-body-sm text-body-sm line-clamp-3">
+                            Plus de 15 PME nous rejoignent cette année pour financer des micro-projets de dépollution fluviale.
+                        </p>
+</div>
+<div class="flex items-center justify-between mt-4">
+<span class="text-on-surface-variant text-label-sm font-label-sm">08 Oct. 2023</span>
+<button class="text-primary font-label-md text-label-md flex items-center gap-1 group">
+                            Lire plus <span class="material-symbols-outlined text-sm transition-transform group-hover:translate-x-1" data-icon="arrow_forward">arrow_forward</span>
+</button>
+</div>
+</article>
+<article class="flex-1 p-6 rounded-2xl bg-tertiary-container/10 border border-tertiary-container/20 flex flex-col justify-between">
+<div>
+<span class="text-tertiary font-label-md text-label-md uppercase mb-2 block">Rapport Annuel</span>
+<h3 class="font-headline-sm text-headline-sm text-on-surface mb-3">Bilan carbone 2022 : Nos objectifs sont atteints</h3>
+<p class="text-on-surface-variant font-body-sm text-body-sm line-clamp-3">
+                            Grâce à votre mobilisation, nous avons réduit l'empreinte de nos événements de 40% par rapport à l'année précédente.
+                        </p>
+</div>
+<div class="flex items-center justify-between mt-4">
+<span class="text-on-surface-variant text-label-sm font-label-sm">01 Oct. 2023</span>
+<button class="text-primary font-label-md text-label-md flex items-center gap-1 group">
+                            Lire plus <span class="material-symbols-outlined text-sm transition-transform group-hover:translate-x-1" data-icon="arrow_forward">arrow_forward</span>
+</button>
+</div>
+</article>
+</div>
+</section>
+<!-- Standard List with High-End Card Design -->
+<section class="space-y-8">
+<div class="flex items-center justify-between border-b border-outline-variant pb-4">
+<h2 class="font-headline-sm text-headline-sm text-text-primary">Articles récents</h2>
+<div class="flex gap-2">
+<button class="p-2 rounded-full bg-white border border-outline-variant hover:bg-surface-container-low transition-colors">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="filter_list">filter_list</span>
+</button>
+<button class="p-2 rounded-full bg-white border border-outline-variant hover:bg-surface-container-low transition-colors">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="search">search</span>
+</button>
+</div>
+</div>
+<div class="grid grid-cols-1 gap-8">
+<!-- Article 1 -->
+<article class="group grid grid-cols-1 md:grid-cols-12 gap-6 items-start bg-white p-4 rounded-3xl border border-transparent hover:border-outline-variant hover:shadow-lg transition-all duration-300">
+<div class="md:col-span-4 h-56 rounded-2xl overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A clean, high-performance close-up of solar panels installed on a modern wooden architectural structure in a forest. The lighting is crisp and clear, emphasizing the technological aspect of sustainable energy within a natural environment. The color palette features cool blues and warm wood tones." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBP8qGSCvlJEL4hwTxlSgBRTNNzKECbxq0jN7RHioRMM_BACiGrGFi0Ren3Oeq8ZrOBR4i3XlHlgrbx8Qi2bNsJt86UjCJ-D09Z_Cs-LdqxKw0_n9dfU493DUaScrNWxnFmMkkKdVyZc-H-5mzRQHZtacVkIaq1NTF9VIv6qjdXKFFnkcm3qh5agqpevhxRpbVjuLvcWwB0-p_v83DGQQV0CfUiIH8cH7JIxZYHebI8jg13DPz93U9MK1BXIq8dwx0XiMecAzV67MI">
+</div>
+<div class="md:col-span-8 py-2">
+<div class="flex items-center gap-2 mb-3">
+<span class="bg-primary/10 text-primary px-3 py-1 rounded-full text-label-sm font-label-sm">Énergie</span>
+<span class="text-text-secondary text-label-sm font-label-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-xs" data-icon="schedule">schedule</span> 28 Septembre 2023
+                            </span>
+</div>
+<h3 class="font-headline-md text-headline-md text-text-primary mb-3 group-hover:text-primary transition-colors">Transition énergétique : Pourquoi le solaire solidaire décolle ?</h3>
+<p class="text-on-surface-variant font-body-md text-body-md line-clamp-3 mb-6">
+                            Le modèle du solaire partagé permet aux communautés de produire leur propre électricité propre. IDEM Planète accompagne désormais trois nouveaux collectifs dans cette démarche d'autonomie énergétique durable...
+                        </p>
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 rounded-full bg-surface-container-high overflow-hidden border border-outline-variant">
+<img class="w-full h-full object-cover" data-alt="Portrait of a smiling professional woman with glasses, representing an environmental expert. The background is a blurred office with plants. The style is clean, dependable, and high-quality photography." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCSkMVlk98jiOPtaEQGQWdYyvWuuzM-5JVWcPpesuS8TPYnp3_rGBHSE0-vTjR-YJXXs6L4tl8YT3XBIgHU6-p7Q4pUuPm7eLddE0X_lzhmZjGRymEzZ6Y_ETa9sN6TQPz3puOB3pvzsdvlskVsUKUM1-Gqr0RnAsYYrw2fPSa439hhQq6uof_GpNWI_A8Kv8NbvXs-OCCd02XCfITfFpNzlruFqN69N2LSeKiZxsN7Fp0La2b-O_BC6Z2ilIlmBdbq_ZI_OYWEVRk">
+</div>
+<span class="text-label-md font-label-md text-on-surface">Marie Vallet</span>
+</div>
+<span class="text-outline text-sm">•</span>
+<span class="text-label-sm font-label-sm text-on-surface-variant">5 min de lecture</span>
+</div>
+</div>
+</article>
+<!-- Article 2 -->
+<article class="group grid grid-cols-1 md:grid-cols-12 gap-6 items-start bg-white p-4 rounded-3xl border border-transparent hover:border-outline-variant hover:shadow-lg transition-all duration-300">
+<div class="md:col-span-4 h-56 rounded-2xl overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A tranquil aerial view of a clean river winding through a dense, healthy forest. The water reflects the vibrant sky, and the overall mood is peaceful and pristine. The image highlights the success of conservation efforts with clear, professional photography and natural lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA2SGNWVF1b0QZtuYwk2m2M0oyXWuRFZijvo-eSN5vwcq0fdvB5YFoOrfvRjKhy5t9h9x44MJFnZLA3hOAbLg5nfZs0dDAvSZ8zl7-AXOpDoq6gK3YzUs4Y9CdHzNEQSAxthuDJ6R0oVcXnN1OmzSlZmaveNsdoBGVywg4c2SUfSuYrtG5FOrJ0ZXzF_n1F-8exkSN_O-O4HIcIZDtTkJQbiyXyGtJnBi7Y3hrsrwWxtG9IKvswY5owI6Qj6Ho34J8gDFcFCIMdZWU">
+</div>
+<div class="md:col-span-8 py-2">
+<div class="flex items-center gap-2 mb-3">
+<span class="bg-primary/10 text-primary px-3 py-1 rounded-full text-label-sm font-label-sm">Conservation</span>
+<span class="text-text-secondary text-label-sm font-label-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-xs" data-icon="schedule">schedule</span> 22 Septembre 2023
+                            </span>
+</div>
+<h3 class="font-headline-md text-headline-md text-text-primary mb-3 group-hover:text-primary transition-colors">Protéger les zones humides : Un rempart contre les inondations</h3>
+<p class="text-on-surface-variant font-body-md text-body-md line-clamp-3 mb-6">
+                            Souvent oubliées, les zones humides jouent un rôle crucial dans le cycle de l'eau. Nos experts reviennent sur l'importance de préserver ces écosystèmes fragiles face au dérèglement climatique actuel...
+                        </p>
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 rounded-full bg-surface-container-high overflow-hidden border border-outline-variant">
+<img class="w-full h-full object-cover" data-alt="Portrait of a middle-aged man with a friendly expression, wearing a casual outdoor jacket. He looks like a dedicated naturalist or scientist. High-quality lighting and a neutral background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB7dQWsIUyxTJn5WJjGXp7TIl7nPE8d_AFAqYmlDG4frI0HS6Y3jrxrSzoet4ydlboo44W2JMJcgQYxrBFTZdaUb8yWsrpNrF2sJU9j6CvmESPMN3L4-9Bm2HSm26Les0pVoA39NUvIOC3r4IAQIsLPTTOBfvpnKdFQsx4i2SrlfyiUxpA8St3W0ua-Oc0Z_r_UwYegRtx1VIiZQr5A0ifSuyfmC42qAjZFe6-Miw_W-yBVvD9Q4NNDmPuhmkQc1WdBnNYZqyZtOn4">
+</div>
+<span class="text-label-md font-label-md text-on-surface">Jean-Luc Moreau</span>
+</div>
+<span class="text-outline text-sm">•</span>
+<span class="text-label-sm font-label-sm text-on-surface-variant">8 min de lecture</span>
+</div>
+</div>
+</article>
+<!-- Article 3 -->
+<article class="group grid grid-cols-1 md:grid-cols-12 gap-6 items-start bg-white p-4 rounded-3xl border border-transparent hover:border-outline-variant hover:shadow-lg transition-all duration-300">
+<div class="md:col-span-4 h-56 rounded-2xl overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A lifestyle photo of a modern community garden where neighbors of different ages are happily harvesting fresh organic vegetables. The setting is a sun-drenched urban garden with beautiful wooden planters. The lighting is soft and golden, emphasizing community and transparency." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDxdGrWGUewOMxbhyZrZw-hQBwNdRNa_w4WMxDPYq9V46HzGT9YJpGbaA24x-J0ZON5P3yZ_PNNL-KrhiE7PSR2c5A8EptuIkeTzVZtUKyBb3bUO-Rjg7N1_bkjDrTZOsB12VQ2KUbAaBU4NTQvYTxdaPo74sQDuanyxntWxjl30_x5o-jnCTd7ZgTvmzuzpOF0PXntl2dDt5EOSoNXzrRcqG9YbD9sKzd6X1mL9EjWQ24x98zt7wceD6Z5hvOd3BebH6VS3yASdSI">
+</div>
+<div class="md:col-span-8 py-2">
+<div class="flex items-center gap-2 mb-3">
+<span class="bg-primary/10 text-primary px-3 py-1 rounded-full text-label-sm font-label-sm">Communauté</span>
+<span class="text-text-secondary text-label-sm font-label-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-xs" data-icon="schedule">schedule</span> 15 Septembre 2023
+                            </span>
+</div>
+<h3 class="font-headline-md text-headline-md text-text-primary mb-3 group-hover:text-primary transition-colors">Le potager partagé : Bien plus que des légumes</h3>
+<p class="text-on-surface-variant font-body-md text-body-md line-clamp-3 mb-6">
+                            Retour sur l'inauguration du nouveau jardin solidaire de Belleville. Un lieu de partage intergénérationnel qui prouve que la nature est un puissant vecteur de lien social dans nos quartiers...
+                        </p>
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 rounded-full bg-surface-container-high overflow-hidden border border-outline-variant">
+<img class="w-full h-full object-cover" data-alt="Portrait of a young man with a warm smile, dressed in a sustainable cotton shirt. He represents a community organizer. The style is bright and airy with an organic feel." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAx3-kxXupmG_Ed-ztWtbJx6nCLU6RNmW9nAIDSmbgeb7PwLaF0NVvAlVsTS03NgosezLPCHcN-GMoTq6GzEOUuXBV7v8nRjFUimJvyp7FUxYELvJAEtGE9dQ5gS37LD-zlw-4Ga8HbRxEv6XS0J1mEVWDJGPQAODnUt7C4zTuKO3vHFQsxx165d06i-MKDb8VnYZQKBXg2u3owZO2q7OKdfZWm8jVuSOBMsIZTamLcXcXU_8AQBG3nFStQGNrb4zrJohLFF8eTj7A">
+</div>
+<span class="text-label-md font-label-md text-on-surface">Lucas Durand</span>
+</div>
+<span class="text-outline text-sm">•</span>
+<span class="text-label-sm font-label-sm text-on-surface-variant">4 min de lecture</span>
+</div>
+</div>
+</article>
+</div>
+<!-- Pagination / Load more -->
+<div class="flex justify-center pt-8">
+<button class="bg-white border border-primary text-primary px-8 py-3 rounded-full font-label-md text-label-md hover:bg-primary/5 transition-colors active:scale-95 duration-150">
+                    Charger plus d'articles
+                </button>
+</div>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-2 py-3 bg-surface dark:bg-on-background shadow-[0_-4px_20px_0px_rgba(0,0,0,0.04)] rounded-t-xl md:hidden">
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant py-1 active:scale-90 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+<span class="font-label-sm text-label-sm">Accueil</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant py-1 active:scale-90 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="event">event</span>
+<span class="font-label-sm text-label-sm">Activités</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-secondary-container dark:bg-secondary text-on-secondary-container dark:text-on-secondary rounded-full px-4 py-1 active:scale-90 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="article" style="font-variation-settings: 'FILL' 1;">article</span>
+<span class="font-label-sm text-label-sm">Publications</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant py-1 active:scale-90 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="payments">payments</span>
+<span class="font-label-sm text-label-sm">Cotisations</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant py-1 active:scale-90 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="font-label-sm text-label-sm">Profil</span>
+</a>
+</nav>
+<!-- Contextual FAB (Only on Home/Dashboard, not here based on rules, but keeping a subtle interaction anchor if needed) -->
+<script>
+        // Micro-interactions and subtle effects
+        document.querySelectorAll('article').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                // Potential for more complex JS animations here
+            });
+        });
+
+        // Intersection Observer for scroll animations
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('opacity-100', 'translate-y-0');
+                    entry.target.classList.remove('opacity-0', 'translate-y-4');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('article').forEach(el => {
+            el.classList.add('transition-all', 'duration-700', 'opacity-0', 'translate-y-4');
+            observer.observe(el);
+        });
+    </script>
+</body></html>
