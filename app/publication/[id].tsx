@@ -166,7 +166,7 @@ export default function PublicationDetailScreen() {
           )}
         />
 
-        <View style={[styles.inputBar, { paddingBottom: Math.max(insets.bottom, spacing.sm) }]}>
+        <View style={[styles.inputBar, { paddingBottom: Math.max(insets.bottom, spacing.sm) + spacing.sm }]}>
           <TextInput
             style={styles.input}
             placeholder="Écrire un commentaire..."
@@ -186,4 +186,3 @@ export default function PublicationDetailScreen() {
     </SafeAreaView>
   );
 }
-
