@@ -1,15 +1,16 @@
 /* eslint-disable import/no-duplicates */
 import { router } from 'expo-router';
 import React, { useCallback, useEffect, useState } from 'react';
-import { FlatList, RefreshControl, StyleSheet, Text, View } from 'react-native';
+import { FlatList, RefreshControl, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { ActivityCard } from '@/components/activity-card';
-import { colors, spacing, typography } from '@/constants/design';
 import { getApiErrorMessage } from '@/lib/api';
 import { activitesService, participationsService } from '@/lib/services/activites';
 import type { Activite } from '@/types/activite';
 import { TouchableOpacity } from 'react-native';
+
+import { styles } from '@/styles/app/(tabs)/activites.styles';
 
 export default function ActivitesScreen() {
   const [activites, setActivites] = useState<Activite[]>([]);
@@ -93,40 +94,3 @@ export default function ActivitesScreen() {
   );
 }
 
-const styles = StyleSheet.create({
-  screen: {
-    flex: 1,
-    backgroundColor: colors.background,
-  },
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingHorizontal: spacing.md,
-    paddingVertical: spacing.sm,
-  },
-  participationsLink: {
-    ...typography.labelMd,
-    color: colors.statusValidated,
-  },
-  title: {
-    ...typography.headlineLg,
-    color: colors.textPrimary,
-  },
-  listContent: {
-    paddingHorizontal: spacing.md,
-    paddingBottom: spacing.xxl,
-  },
-  emptyText: {
-    ...typography.bodyMd,
-    color: colors.textSecondary,
-    textAlign: 'center',
-    marginTop: spacing.xl,
-  },
-  errorText: {
-    ...typography.bodySm,
-    color: colors.error,
-    textAlign: 'center',
-    marginBottom: spacing.sm,
-  },
-});

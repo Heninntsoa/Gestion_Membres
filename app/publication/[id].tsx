@@ -1,27 +1,18 @@
 import { MaterialIcons } from '@expo/vector-icons';
 import { router, useLocalSearchParams } from 'expo-router';
 import React, { useCallback, useEffect, useState } from 'react';
-import {
-  ActivityIndicator,
-  FlatList,
-  KeyboardAvoidingView,
-  Platform,
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import { ActivityIndicator, FlatList, KeyboardAvoidingView, Platform, Text, TextInput, TouchableOpacity, View,  } from 'react-native';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { PublicationCard } from '@/components/publication-card';
-import { colors, radius, spacing, typography } from '@/constants/design';
+import { colors, spacing } from '@/constants/design';
 import { getApiErrorMessage } from '@/lib/api';
 import { publicationsService } from '@/lib/services/publications';
 import { useAuthStore } from '@/store/auth-store';
 import type { Commentaire } from '@/types/commentaire';
 import type { Publication } from '@/types/publication';
 
+import { styles } from '@/styles/app/publication/[id].styles';
 function timeAgo(dateStr: string) {
   const diffMs = Date.now() - new Date(dateStr).getTime();
   const minutes = Math.floor(diffMs / 60000);
@@ -196,115 +187,3 @@ export default function PublicationDetailScreen() {
   );
 }
 
-const styles = StyleSheet.create({
-  screen: {
-    flex: 1,
-    backgroundColor: colors.background,
-  },
-  center: {
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingHorizontal: spacing.md,
-    paddingVertical: spacing.sm,
-  },
-  headerTitle: {
-    ...typography.headlineSm,
-    fontSize: 17,
-    color: colors.textPrimary,
-  },
-  listContent: {
-    padding: spacing.md,
-    paddingBottom: spacing.xl,
-  },
-  commentsTitle: {
-    ...typography.labelMd,
-    color: colors.textSecondary,
-  },
-  commentItem: {
-    flexDirection: 'row',
-    gap: 8,
-    marginBottom: spacing.sm,
-  },
-  commentAvatar: {
-    width: 28,
-    height: 28,
-    borderRadius: radius.full,
-    backgroundColor: colors.surfaceContainer,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  commentBubble: {
-    backgroundColor: colors.surfaceContainerLow,
-    borderRadius: radius.md,
-    padding: spacing.sm,
-  },
-  commentAuthor: {
-    ...typography.labelMd,
-    color: colors.textPrimary,
-  },
-  commentText: {
-    ...typography.bodySm,
-    color: colors.textPrimary,
-    marginTop: 2,
-  },
-  commentMetaRow: {
-    flexDirection: 'row',
-    gap: spacing.sm,
-    marginTop: 4,
-    paddingHorizontal: 4,
-  },
-  commentDate: {
-    ...typography.labelSm,
-    color: colors.outline,
-  },
-  deleteLink: {
-    ...typography.labelSm,
-    color: colors.error,
-  },
-  emptyText: {
-    ...typography.bodyMd,
-    color: colors.textSecondary,
-    textAlign: 'center',
-    marginTop: spacing.lg,
-  },
-  errorText: {
-    ...typography.bodySm,
-    color: colors.error,
-    textAlign: 'center',
-  },
-  inputBar: {
-    flexDirection: 'row',
-    alignItems: 'flex-end',
-    gap: 8,
-    padding: spacing.sm,
-    borderTopWidth: 1,
-    borderTopColor: colors.outlineVariant,
-    backgroundColor: colors.surface,
-  },
-  input: {
-    flex: 1,
-    ...typography.bodyMd,
-    color: colors.textPrimary,
-    backgroundColor: colors.surfaceContainerLow,
-    borderRadius: radius.lg,
-    paddingHorizontal: spacing.sm + 4,
-    paddingVertical: 10,
-    maxHeight: 100,
-  },
-  sendBtn: {
-    width: 40,
-    height: 40,
-    borderRadius: radius.full,
-    backgroundColor: colors.statusValidated,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  sendBtnDisabled: {
-    opacity: 0.5,
-  },
-});

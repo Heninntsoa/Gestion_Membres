@@ -1,20 +1,12 @@
 import { MaterialIcons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import React, { useCallback, useEffect, useState } from 'react';
-import {
-  FlatList,
-  RefreshControl,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import { FlatList, Image, RefreshControl, ScrollView, Text, TouchableOpacity, View,  } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { ActivityCard } from '@/components/activity-card';
 import { PublicationCard } from '@/components/publication-card';
-import { colors, radius, spacing, typography } from '@/constants/design';
+import { colors, spacing } from '@/constants/design';
 import { activitesService, participationsService } from '@/lib/services/activites';
 import { publicationsService } from '@/lib/services/publications';
 import { notificationsService } from '@/lib/services/notifications';
@@ -22,6 +14,8 @@ import { getApiErrorMessage } from '@/lib/api';
 import { useAuthStore } from '@/store/auth-store';
 import type { Activite } from '@/types/activite';
 import type { Publication } from '@/types/publication';
+
+import { styles } from '@/styles/app/(tabs)/index.styles';
 
 export default function HomeScreen() {
   const { user, refreshMe } = useAuthStore();
@@ -92,7 +86,7 @@ export default function HomeScreen() {
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
         <View style={styles.header}>
           <View style={styles.headerBrand}>
-            <MaterialIcons name="eco" size={24} color={colors.primary} />
+            <Image source={require('@/assets/images/logo.jpeg')} style={styles.logo} />
             <Text style={styles.headerTitle}>IDEM Planète</Text>
           </View>
           <TouchableOpacity onPress={() => router.push('/notifications')} hitSlop={8}>
@@ -154,7 +148,6 @@ export default function HomeScreen() {
           />
         )}
 
-
         {/* Activités à venir */}
         <View style={[styles.sectionHeader, { marginTop: spacing.lg }]}>
           <Text style={styles.sectionTitle}>Activités à venir</Text>
@@ -184,119 +177,3 @@ export default function HomeScreen() {
   );
 }
 
-const styles = StyleSheet.create({
-  screen: {
-    flex: 1,
-    backgroundColor: colors.background,
-  },
-  content: {
-    padding: spacing.md,
-    paddingBottom: spacing.xxl,
-  },
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    marginBottom: spacing.md,
-  },
-  headerBrand: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-  },
-  headerTitle: {
-    ...typography.headlineSm,
-    color: colors.primary,
-  },
-  notifBadge: {
-    position: 'absolute',
-    top: -4,
-    right: -6,
-    minWidth: 16,
-    height: 16,
-    borderRadius: radius.full,
-    backgroundColor: colors.error,
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingHorizontal: 3,
-  },
-  notifBadgeText: {
-    color: colors.white,
-    fontSize: 9,
-    fontWeight: '700',
-  },
-  greeting: {
-    ...typography.headlineLg,
-    color: colors.textPrimary,
-  },
-  subGreeting: {
-    ...typography.bodyMd,
-    color: colors.textSecondary,
-    marginBottom: spacing.md,
-  },
-  statCard: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: spacing.sm,
-    backgroundColor: colors.surface,
-    borderRadius: radius.lg,
-    borderWidth: 1,
-    borderColor: colors.outlineVariant,
-    padding: spacing.sm + 4,
-    marginBottom: spacing.lg,
-  },
-  statIcon: {
-    width: 36,
-    height: 36,
-    borderRadius: radius.full,
-    backgroundColor: '#DFF5E1',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  statLabel: {
-    ...typography.labelSm,
-    color: colors.textSecondary,
-    letterSpacing: 0.5,
-  },
-  statValue: {
-    ...typography.headlineSm,
-    fontSize: 16,
-    color: colors.textPrimary,
-    marginBottom: 6,
-  },
-  progressTrack: {
-    height: 6,
-    borderRadius: radius.full,
-    backgroundColor: colors.surfaceContainer,
-    overflow: 'hidden',
-  },
-  progressFill: {
-    height: '100%',
-    backgroundColor: colors.statusValidated,
-  },
-  sectionHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: spacing.sm,
-  },
-  sectionTitle: {
-    ...typography.headlineSm,
-    fontSize: 17,
-    color: colors.textPrimary,
-  },
-  sectionLink: {
-    ...typography.labelMd,
-    color: colors.statusValidated,
-  },
-  emptyText: {
-    ...typography.bodySm,
-    color: colors.textSecondary,
-    marginBottom: spacing.md,
-  },
-  errorText: {
-    ...typography.bodySm,
-    color: colors.error,
-    marginBottom: spacing.sm,
-  },
-});

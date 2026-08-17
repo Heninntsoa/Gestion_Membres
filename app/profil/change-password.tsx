@@ -1,15 +1,17 @@
 import { MaterialIcons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import React, { useState } from 'react';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { AppButton } from '@/components/ui/app-button';
 import { TextField } from '@/components/ui/text-field';
-import { colors, spacing, typography } from '@/constants/design';
+import { colors, spacing } from '@/constants/design';
 import { getApiErrorMessage } from '@/lib/api';
 import { membreService } from '@/lib/services/membre';
 import { useAuthStore } from '@/store/auth-store';
+
+import { styles } from '@/styles/app/profil/change-password.styles';
 
 export default function ChangePasswordScreen() {
   const { user } = useAuthStore();
@@ -105,51 +107,3 @@ export default function ChangePasswordScreen() {
   );
 }
 
-const styles = StyleSheet.create({
-  screen: {
-    flex: 1,
-    backgroundColor: colors.background,
-  },
-  center: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: spacing.sm,
-    padding: spacing.lg,
-  },
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingHorizontal: spacing.md,
-    paddingVertical: spacing.sm,
-  },
-  headerTitle: {
-    ...typography.headlineSm,
-    fontSize: 16,
-    color: colors.textPrimary,
-  },
-  content: {
-    padding: spacing.md,
-  },
-  hint: {
-    ...typography.bodySm,
-    color: colors.textSecondary,
-  },
-  errorText: {
-    ...typography.bodySm,
-    color: colors.error,
-    textAlign: 'center',
-    marginTop: spacing.sm,
-  },
-  successTitle: {
-    ...typography.headlineLg,
-    color: colors.textPrimary,
-    textAlign: 'center',
-  },
-  successText: {
-    ...typography.bodyMd,
-    color: colors.textSecondary,
-    textAlign: 'center',
-    marginBottom: spacing.md,
-  },
-});

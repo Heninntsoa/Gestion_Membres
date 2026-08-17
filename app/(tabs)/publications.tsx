@@ -1,14 +1,16 @@
 import { router } from 'expo-router';
 import React, { useCallback, useEffect, useState } from 'react';
-import { FlatList, RefreshControl, StyleSheet, Text, View } from 'react-native';
+import { FlatList, RefreshControl, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { PublicationCard } from '@/components/publication-card';
-import { colors, spacing, typography } from '@/constants/design';
+import { spacing } from '@/constants/design';
 import { getApiErrorMessage } from '@/lib/api';
 import { publicationsService } from '@/lib/services/publications';
 import { useAuthStore } from '@/store/auth-store';
 import type { Publication } from '@/types/publication';
+
+import { styles } from '@/styles/app/(tabs)/publications.styles';
 
 export default function PublicationsScreen() {
   const { user } = useAuthStore();
@@ -95,33 +97,3 @@ export default function PublicationsScreen() {
   );
 }
 
-const styles = StyleSheet.create({
-  screen: {
-    flex: 1,
-    backgroundColor: colors.background,
-  },
-  header: {
-    paddingHorizontal: spacing.md,
-    paddingVertical: spacing.sm,
-  },
-  title: {
-    ...typography.headlineLg,
-    color: colors.textPrimary,
-  },
-  listContent: {
-    paddingHorizontal: spacing.md,
-    paddingBottom: spacing.xxl,
-  },
-  emptyText: {
-    ...typography.bodyMd,
-    color: colors.textSecondary,
-    textAlign: 'center',
-    marginTop: spacing.xl,
-  },
-  errorText: {
-    ...typography.bodySm,
-    color: colors.error,
-    textAlign: 'center',
-    marginBottom: spacing.sm,
-  },
-});

@@ -2,23 +2,16 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import React, { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import {
-  KeyboardAvoidingView,
-  Platform,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import { Image, KeyboardAvoidingView, Platform, ScrollView, Text, TouchableOpacity, View,  } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { AppButton } from '@/components/ui/app-button';
 import { TextField } from '@/components/ui/text-field';
-import { colors, radius, spacing, typography } from '@/constants/design';
+import { spacing } from '@/constants/design';
 import { useAuthStore } from '@/store/auth-store';
 import type { RegisterPayload, Sexe, TypeMembre } from '@/types/membre';
 
+import { styles } from '@/styles/app/(auth)/login.styles';
 type LoginForm = {
   email: string;
   password: string;
@@ -90,7 +83,7 @@ export default function LoginScreen() {
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
         {/* Top bar identité */}
         <View style={styles.header}>
-          <MaterialIcons name="eco" size={26} color={colors.primary} />
+          <Image source={require('@/assets/images/logo.jpeg')} style={styles.logo} />
           <Text style={styles.headerTitle}>IDEM Planète</Text>
         </View>
 
@@ -321,89 +314,3 @@ export default function LoginScreen() {
   );
 }
 
-const styles = StyleSheet.create({
-  screen: {
-    flex: 1,
-    backgroundColor: colors.background,
-  },
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-    paddingHorizontal: spacing.md,
-    paddingVertical: spacing.sm + 4,
-    backgroundColor: colors.surface,
-  },
-  headerTitle: {
-    ...typography.headlineSm,
-    color: colors.primary,
-  },
-  scrollContent: {
-    flexGrow: 1,
-    justifyContent: 'center',
-    padding: spacing.md,
-  },
-  card: {
-    backgroundColor: colors.surface,
-    borderRadius: radius.xl,
-    borderWidth: 1,
-    borderColor: colors.outlineVariant,
-    padding: spacing.lg,
-  },
-  title: {
-    ...typography.headlineLg,
-    color: colors.textPrimary,
-    textAlign: 'center',
-    marginBottom: 6,
-  },
-  subtitle: {
-    ...typography.bodyMd,
-    color: colors.textSecondary,
-    textAlign: 'center',
-  },
-  formError: {
-    ...typography.bodySm,
-    color: colors.error,
-    textAlign: 'center',
-  },
-  switchRow: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    flexWrap: 'wrap',
-    marginTop: spacing.lg,
-    paddingTop: spacing.md,
-    borderTopWidth: 1,
-    borderTopColor: colors.outlineVariant,
-  },
-  switchText: {
-    ...typography.bodySm,
-    color: colors.textSecondary,
-  },
-  switchLink: {
-    ...typography.labelMd,
-    color: colors.primary,
-  },
-  chipRow: {
-    flexDirection: 'row',
-    gap: spacing.sm,
-  },
-  chip: {
-    flex: 1,
-    paddingVertical: 10,
-    borderRadius: radius.md,
-    borderWidth: 1,
-    borderColor: colors.outlineVariant,
-    alignItems: 'center',
-  },
-  chipActive: {
-    backgroundColor: colors.primaryContainer,
-    borderColor: colors.primaryContainer,
-  },
-  chipText: {
-    ...typography.labelMd,
-    color: colors.textSecondary,
-  },
-  chipTextActive: {
-    color: colors.white,
-  },
-});
