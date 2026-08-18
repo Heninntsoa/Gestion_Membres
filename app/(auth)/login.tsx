@@ -6,8 +6,10 @@ import { Image, KeyboardAvoidingView, Platform, ScrollView, Text, TouchableOpaci
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { AppButton } from '@/components/ui/app-button';
+import { DateField } from '@/components/ui/date-field';
 import { TextField } from '@/components/ui/text-field';
-import { spacing } from '@/constants/design';
+import { colors, spacing } from '@/constants/design';
+import { filterDigitsOnly, filterLettersOnly, filterPhone, validators } from '@/lib/validators';
 import { useAuthStore } from '@/store/auth-store';
 import type { RegisterPayload, Sexe, TypeMembre } from '@/types/membre';
 
@@ -81,10 +83,11 @@ export default function LoginScreen() {
       <KeyboardAvoidingView
         style={{ flex: 1 }}
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
-        {/* Top bar identité */}
+        {/* Identité de marque, centrée au-dessus du formulaire */}
         <View style={styles.header}>
           <Image source={require('@/assets/images/logo.jpeg')} style={styles.logo} />
           <Text style={styles.headerTitle}>IDEM Planète</Text>
+          <Text style={styles.headerTagline}>Ensemble pour la planète</Text>
         </View>
 
         <ScrollView
@@ -133,7 +136,12 @@ export default function LoginScreen() {
                     )}
                   />
 
-                  {!!error && <Text style={styles.formError}>{error}</Text>}
+                  {!!error && (
+                    <View style={styles.formError}>
+                      <MaterialIcons name="error-outline" size={18} color={colors.error} />
+                      <Text style={styles.formErrorText}>{error}</Text>
+                    </View>
+                  )}
 
                   <AppButton
                     title="Se connecter"
@@ -164,14 +172,17 @@ export default function LoginScreen() {
                   <Controller
                     control={signupForm.control}
                     name="nom_complet"
-                    rules={{ required: 'Nom complet requis' }}
+                    rules={{
+                      required: 'Nom complet requis',
+                      ...validators.lettersOnly('Le nom ne peut contenir que des lettres.'),
+                    }}
                     render={({ field, fieldState }) => (
                       <TextField
                         label="Nom complet"
                         icon="person-outline"
                         placeholder="Jean Dupont"
                         value={field.value}
-                        onChangeText={field.onChange}
+                        onChangeText={(text) => field.onChange(filterLettersOnly(text))}
                         error={fieldState.error?.message}
                       />
                     )}
@@ -196,7 +207,10 @@ export default function LoginScreen() {
                   <Controller
                     control={signupForm.control}
                     name="telephone"
-                    rules={{ required: 'Téléphone requis' }}
+                    rules={{
+                      required: 'Téléphone requis',
+                      ...validators.phone(),
+                    }}
                     render={({ field, fieldState }) => (
                       <TextField
                         label="Téléphone"
@@ -204,7 +218,7 @@ export default function LoginScreen() {
                         placeholder="034 12 345 67"
                         keyboardType="phone-pad"
                         value={field.value}
-                        onChangeText={field.onChange}
+                        onChangeText={(text) => field.onChange(filterPhone(text))}
                         error={fieldState.error?.message}
                       />
                     )}
@@ -212,14 +226,21 @@ export default function LoginScreen() {
                   <Controller
                     control={signupForm.control}
                     name="cin"
-                    rules={{ required: 'CIN requis' }}
+                    rules={{
+                      required: 'CIN requis',
+                      ...validators.digitsOnly('Le CIN ne contient que des chiffres.'),
+                      minLength: { value: 10, message: 'Le CIN doit contenir au moins 10 chiffres.' },
+                      maxLength: { value: 15, message: 'Le CIN ne doit pas dépasser 15 chiffres.' },
+                    }}
                     render={({ field, fieldState }) => (
                       <TextField
                         label="CIN"
                         icon="badge"
                         placeholder="102025023001"
+                        keyboardType="number-pad"
+                        maxLength={15}
                         value={field.value}
-                        onChangeText={field.onChange}
+                        onChangeText={(text) => field.onChange(filterDigitsOnly(text))}
                         error={fieldState.error?.message}
                       />
                     )}
@@ -229,13 +250,12 @@ export default function LoginScreen() {
                     name="date_naissance"
                     rules={{ required: 'Date de naissance requise' }}
                     render={({ field, fieldState }) => (
-                      <TextField
+                      <DateField
                         label="Date de naissance"
-                        icon="cake"
-                        placeholder="AAAA-MM-JJ"
                         value={field.value}
-                        onChangeText={field.onChange}
+                        onChange={field.onChange}
                         error={fieldState.error?.message}
+                        maximumDate={new Date()}
                       />
                     )}
                   />
@@ -286,7 +306,12 @@ export default function LoginScreen() {
                     )}
                   />
 
-                  {!!error && <Text style={styles.formError}>{error}</Text>}
+                  {!!error && (
+                    <View style={styles.formError}>
+                      <MaterialIcons name="error-outline" size={18} color={colors.error} />
+                      <Text style={styles.formErrorText}>{error}</Text>
+                    </View>
+                  )}
 
                   <AppButton
                     title="Créer mon compte"

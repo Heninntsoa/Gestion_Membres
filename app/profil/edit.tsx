@@ -10,6 +10,7 @@ import { TextField } from '@/components/ui/text-field';
 import { colors, spacing } from '@/constants/design';
 import { getApiErrorMessage } from '@/lib/api';
 import { membreService } from '@/lib/services/membre';
+import { filterLettersOnly, filterPhone } from '@/lib/validators';
 import { useAuthStore } from '@/store/auth-store';
 import type { Sexe } from '@/types/membre';
 
@@ -71,8 +72,16 @@ export default function EditProfilScreen() {
       setErrorMsg('Le nom complet est requis.');
       return;
     }
+    if (!/^[\p{L}\s'-]+$/u.test(nomComplet.trim())) {
+      setErrorMsg('Le nom complet ne peut contenir que des lettres.');
+      return;
+    }
     if (!telephone.trim()) {
       setErrorMsg('Le téléphone est requis.');
+      return;
+    }
+    if (!/^\+?[0-9]{7,15}$/.test(telephone.trim())) {
+      setErrorMsg('Le numéro de téléphone est invalide (chiffres uniquement).');
       return;
     }
 
@@ -145,13 +154,18 @@ export default function EditProfilScreen() {
         </View>
 
         <View style={{ gap: spacing.md }}>
-          <TextField label="Nom complet" icon="person-outline" value={nomComplet} onChangeText={setNomComplet} />
+          <TextField
+            label="Nom complet"
+            icon="person-outline"
+            value={nomComplet}
+            onChangeText={(text) => setNomComplet(filterLettersOnly(text))}
+          />
           <TextField
             label="Téléphone"
             icon="phone"
             keyboardType="phone-pad"
             value={telephone}
-            onChangeText={setTelephone}
+            onChangeText={(text) => setTelephone(filterPhone(text))}
           />
 
           <View>

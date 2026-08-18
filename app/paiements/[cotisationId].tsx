@@ -9,6 +9,7 @@ import { AppButton } from '@/components/ui/app-button';
 import { TextField } from '@/components/ui/text-field';
 import { colors, spacing } from '@/constants/design';
 import { getApiErrorMessage } from '@/lib/api';
+import { filterDigitsOnly } from '@/lib/validators';
 import { cotisationsService } from '@/lib/services/cotisations';
 import { modesPaiementsService, paiementsService } from '@/lib/services/paiements';
 import type { Cotisation } from '@/types/cotisation';
@@ -187,7 +188,7 @@ export default function DeclarerPaiementScreen() {
             icon="payments"
             keyboardType="numeric"
             value={montantPaye}
-            onChangeText={setMontantPaye}
+            onChangeText={(text) => setMontantPaye(filterDigitsOnly(text))}
           />
           <TextField
             label="Référence du transfert"
