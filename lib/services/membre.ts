@@ -14,11 +14,12 @@ export interface UpdateInfoPayload {
   cin: string | null;
   type_membre: string;
   role: string;
-  is_active: 0 | 1;
+  is_active: number;
   date_adhesion: string | null;
   categorie: string | null;
   profession: string | null;
   photo_identite: string | null;
+  adresse?: string | null;
   /**
    * Le backend recalcule un hash à chaque appel même si le mot de passe
    * n'est pas réellement mis à jour côté membre — champ requis pour éviter

@@ -5,7 +5,7 @@ import { Image, ScrollView, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { AppButton } from '@/components/ui/app-button';
-import { colors } from '@/constants/design';
+import { colors, spacing, typography } from '@/constants/design';
 import { useAuthStore } from '@/store/auth-store';
 
 import { styles } from '@/styles/app/(tabs)/profil.styles';
@@ -94,6 +94,23 @@ export default function ProfilScreen() {
           variant="outline"
           onPress={() => router.push('/paiements/historique')}
         />
+
+        {(user?.role === 'admin' || user?.role === 'communication' || user?.role === 'tresor') && (
+          <View style={{ marginTop: spacing.sm }}>
+            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6, marginBottom: spacing.sm }}>
+              <MaterialIcons name="admin-panel-settings" size={18} color={colors.primary} />
+              <Text style={{ ...typography.labelMd, color: colors.primary }}>
+                Espace Administrateur
+              </Text>
+            </View>
+            <AppButton
+              title="Tableau de bord admin"
+              variant="outline"
+              onPress={() => router.push('/admin/dashboard')}
+            />
+          </View>
+        )}
+
         <AppButton title="Se déconnecter" variant="outline" onPress={handleLogout} />
       </ScrollView>
     </SafeAreaView>

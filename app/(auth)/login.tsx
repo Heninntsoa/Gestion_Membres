@@ -20,11 +20,13 @@ type LoginForm = {
 };
 
 type SignupForm = {
-  nom_complet: string;
+  nom: string;
+  prenom: string;
   email: string;
   telephone: string;
   cin: string;
   date_naissance: string;
+  adresse: string;
   password: string;
 };
 
@@ -38,11 +40,13 @@ export default function LoginScreen() {
   const loginForm = useForm<LoginForm>({ defaultValues: { email: '', password: '' } });
   const signupForm = useForm<SignupForm>({
     defaultValues: {
-      nom_complet: '',
+      nom: '',
+      prenom: '',
       email: '',
       telephone: '',
       cin: '',
       date_naissance: '',
+      adresse: '',
       password: '',
     },
   });
@@ -59,8 +63,9 @@ export default function LoginScreen() {
 
   const onSignup = async (values: SignupForm) => {
     clearError();
+    const nomComplet = `${values.nom.trim()} ${values.prenom.trim()}`.trim();
     const payload: RegisterPayload = {
-      nom_complet: values.nom_complet.trim(),
+      nom_complet: nomComplet,
       email: values.email.trim(),
       telephone: values.telephone.trim(),
       cin: values.cin.trim(),
@@ -68,6 +73,7 @@ export default function LoginScreen() {
       sexe,
       type_membre: typeMembre,
       password: values.password,
+      adresse: values.adresse.trim() || undefined,
     };
     try {
       await registerMembre(payload);
@@ -143,6 +149,10 @@ export default function LoginScreen() {
                     </View>
                   )}
 
+                  <TouchableOpacity onPress={() => router.push('/(auth)/forgot-password')} style={{ alignSelf: 'flex-end', marginTop: -spacing.sm }}>
+                    <Text style={{ color: colors.primary, fontSize: 13, fontWeight: '500' }}>Mot de passe oublié ?</Text>
+                  </TouchableOpacity>
+
                   <AppButton
                     title="Se connecter"
                     loading={isLoading}
@@ -169,24 +179,48 @@ export default function LoginScreen() {
                 </Text>
 
                 <View style={{ gap: spacing.md, marginTop: spacing.lg }}>
-                  <Controller
-                    control={signupForm.control}
-                    name="nom_complet"
-                    rules={{
-                      required: 'Nom complet requis',
-                      ...validators.lettersOnly('Le nom ne peut contenir que des lettres.'),
-                    }}
-                    render={({ field, fieldState }) => (
-                      <TextField
-                        label="Nom complet"
-                        icon="person-outline"
-                        placeholder="Jean Dupont"
-                        value={field.value}
-                        onChangeText={(text) => field.onChange(filterLettersOnly(text))}
-                        error={fieldState.error?.message}
+                  <View style={{ flexDirection: 'row', gap: spacing.sm }}>
+                    <View style={{ flex: 1 }}>
+                      <Controller
+                        control={signupForm.control}
+                        name="nom"
+                        rules={{
+                          required: 'Nom requis',
+                          ...validators.lettersOnly('Le nom ne peut contenir que des lettres.'),
+                        }}
+                        render={({ field, fieldState }) => (
+                          <TextField
+                            label="Nom"
+                            icon="person-outline"
+                            placeholder="Dupont"
+                            value={field.value}
+                            onChangeText={(text) => field.onChange(filterLettersOnly(text))}
+                            error={fieldState.error?.message}
+                          />
+                        )}
                       />
-                    )}
-                  />
+                    </View>
+                    <View style={{ flex: 1 }}>
+                      <Controller
+                        control={signupForm.control}
+                        name="prenom"
+                        rules={{
+                          required: 'Prénom requis',
+                          ...validators.lettersOnly('Le prénom ne peut contenir que des lettres.'),
+                        }}
+                        render={({ field, fieldState }) => (
+                          <TextField
+                            label="Prénom"
+                            icon="person-outline"
+                            placeholder="Jean"
+                            value={field.value}
+                            onChangeText={(text) => field.onChange(filterLettersOnly(text))}
+                            error={fieldState.error?.message}
+                          />
+                        )}
+                      />
+                    </View>
+                  </View>
                   <Controller
                     control={signupForm.control}
                     name="email"
@@ -242,6 +276,19 @@ export default function LoginScreen() {
                         value={field.value}
                         onChangeText={(text) => field.onChange(filterDigitsOnly(text))}
                         error={fieldState.error?.message}
+                      />
+                    )}
+                  />
+                  <Controller
+                    control={signupForm.control}
+                    name="adresse"
+                    render={({ field }) => (
+                      <TextField
+                        label="Adresse"
+                        icon="location-on-outline"
+                        placeholder="Analakely, Antananarivo"
+                        value={field.value}
+                        onChangeText={field.onChange}
                       />
                     )}
                   />

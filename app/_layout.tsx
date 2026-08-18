@@ -1,12 +1,13 @@
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { Stack, useRouter, useSegments } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { ActivityIndicator, View } from 'react-native';
 import 'react-native-reanimated';
 
 import { colors } from '@/constants/design';
 import { useColorScheme } from '@/hooks/use-color-scheme';
+import { registerForPushNotifications, setupNotificationHandlers } from '@/lib/services/push-notifications';
 import { useAuthStore } from '@/store/auth-store';
 
 export const unstable_settings = {
@@ -16,15 +17,50 @@ export const unstable_settings = {
 /**
  * Redirige vers /(auth)/login si l'utilisateur n'est pas connecté,
  * et vers /(tabs) s'il est connecté mais encore sur l'écran de login.
+ * Enregistre aussi le push token et configure les handlers de notifications.
  */
 function useAuthGate() {
   const { token, isHydrating, hydrate } = useAuthStore();
   const segments = useSegments();
   const router = useRouter();
+  const notificationSetupDone = useRef(false);
 
   useEffect(() => {
     hydrate();
   }, [hydrate]);
+
+  // Enregistrer le push token et configurer les notifications une fois connecté
+  useEffect(() => {
+    if (!token || notificationSetupDone.current) return;
+    notificationSetupDone.current = true;
+
+    // Enregistrer le token push auprès du backend
+    registerForPushNotifications().catch(() => {});
+
+    // Configurer les handlers de notifications
+    const handlers = setupNotificationHandlers(
+      // Notification reçue en premier plan
+      (_notification) => {
+        // Optionnel : mettre à jour le badge, rafraîchir les données, etc.
+      },
+      // Utilisateur tape sur une notification
+      (response) => {
+        const data = response.notification.request.content.data;
+        if (data?.lien) {
+          // Naviguer vers l'écran correspondant
+          if (data.lien.includes('activites')) {
+            router.push('/(tabs)/activites');
+          } else if (data.lien.includes('publication')) {
+            router.push('/(tabs)/publications');
+          } else if (data.lien.includes('paiements')) {
+            router.push('/(tabs)/cotisations');
+          }
+        }
+      }
+    );
+
+    return () => handlers.remove();
+  }, [token, router]);
 
   useEffect(() => {
     if (isHydrating) return;
@@ -58,6 +94,7 @@ export default function RootLayout() {
       <Stack screenOptions={{ headerShown: false }}>
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen name="(auth)" options={{ headerShown: false }} />
+        <Stack.Screen name="admin" options={{ headerShown: false }} />
         <Stack.Screen name="modal" options={{ headerShown: true, presentation: 'modal', title: 'Modal' }} />
       </Stack>
       <StatusBar style="auto" />

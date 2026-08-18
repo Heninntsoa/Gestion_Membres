@@ -4,6 +4,14 @@ export type Role = 'membre' | 'admin' | 'communication' | 'tresor';
 export type Sexe = 'Masculin' | 'Féminin';
 export type TypeMembre = 'nouveau' | 'ancien';
 export type StatutMembre = 'actif' | 'inactif' | 'suspendu' | '';
+/**
+ * is_active values:
+ *  0 = en attente de validation
+ *  1 = activé
+ *  2 = désactivé
+ *  3 = refusé
+ */
+export type IsActive = 0 | 1 | 2 | 3;
 
 export interface Membre {
   id: number;
@@ -21,10 +29,11 @@ export interface Membre {
   statut: StatutMembre;
   type_membre: TypeMembre;
   role: Role;
-  is_active: 0 | 1;
+  is_active: IsActive;
   date_adhesion: string | null;
   categorie: string | null;
   profession: string | null;
+  adresse: string | null;
 }
 
 export interface LoginResponse {
@@ -44,4 +53,5 @@ export interface RegisterPayload {
   cin: string;
   password: string;
   type_membre: TypeMembre;
+  adresse?: string;
 }
