@@ -4,9 +4,11 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { ActivityIndicator, FlatList, Image, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
+import { RoleBadge } from '@/components/ui/role-badge';
 import { colors, spacing, typography } from '@/constants/design';
 import { getApiErrorMessage } from '@/lib/api';
 import { adminService, type AdminMembreListItem, type FilterStatus } from '@/lib/services/admin';
+import type { Role } from '@/types/membre';
 
 import { styles } from '@/styles/app/admin/index.styles';
 
@@ -16,6 +18,15 @@ const STATUS_OPTIONS: { label: string; value: FilterStatus }[] = [
   { label: 'Actifs', value: '1' },
   { label: 'Désactivés', value: '2' },
   { label: 'Refusés', value: '3' },
+];
+
+const ROLE_OPTIONS: { label: string; value: string }[] = [
+  { label: 'Tous les rôles', value: '' },
+  { label: 'Membre', value: 'membre' },
+  { label: 'Admin', value: 'admin' },
+  { label: 'Communication', value: 'communication' },
+  { label: 'Trésor', value: 'tresor' },
+  { label: 'Président', value: 'president' },
 ];
 
 function getStatusInfo(isActive: number) {
@@ -40,6 +51,7 @@ export default function AdminMembersScreen() {
   const [loadingAction, setLoadingAction] = useState<number | null>(null);
   const [search, setSearch] = useState('');
   const [filterStatus, setFilterStatus] = useState<FilterStatus>('');
+  const [filterRole, setFilterRole] = useState('');
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
   const load = useCallback(async (page = 1) => {
@@ -51,6 +63,7 @@ export default function AdminMembersScreen() {
         limit: 10,
         recherche: search,
         is_active: filterStatus,
+        role: filterRole,
       });
       setMembers(result.data);
       setPagination(result.pagination);
@@ -59,7 +72,7 @@ export default function AdminMembersScreen() {
     } finally {
       setLoading(false);
     }
-  }, [search, filterStatus]);
+  }, [search, filterStatus, filterRole]);
 
   useEffect(() => {
     load(1);
@@ -125,9 +138,10 @@ export default function AdminMembersScreen() {
         <View style={styles.memberInfo}>
           <Text style={styles.memberName} numberOfLines={1}>{item.nom_complet}</Text>
           <Text style={styles.memberEmail} numberOfLines={1}>{item.email}</Text>
-          <Text style={styles.memberMeta}>
-            {item.matricule} · {item.role}
-          </Text>
+          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6, marginTop: 4 }}>
+            <Text style={styles.memberMeta}>{item.matricule}</Text>
+            <RoleBadge role={item.role as Role} size="sm" />
+          </View>
         </View>
 
         <View style={styles.memberActions}>
@@ -216,6 +230,20 @@ export default function AdminMembersScreen() {
             style={[styles.filterChip, filterStatus === opt.value && styles.filterChipActive]}
             onPress={() => setFilterStatus(opt.value)}>
             <Text style={[styles.filterChipText, filterStatus === opt.value && styles.filterChipTextActive]}>
+              {opt.label}
+            </Text>
+          </TouchableOpacity>
+        ))}
+      </View>
+
+      {/* Role filter chips */}
+      <View style={styles.filterRow}>
+        {ROLE_OPTIONS.map((opt) => (
+          <TouchableOpacity
+            key={opt.value}
+            style={[styles.filterChip, filterRole === opt.value && styles.filterChipActive]}
+            onPress={() => setFilterRole(opt.value)}>
+            <Text style={[styles.filterChipText, filterRole === opt.value && styles.filterChipTextActive]}>
               {opt.label}
             </Text>
           </TouchableOpacity>

@@ -165,8 +165,14 @@ export const adminService = {
     limit?: number;
     recherche?: string;
     is_active?: FilterStatus;
+    role?: string;
   }): Promise<AdminMembresResponse> => {
     const { data } = await api.get<AdminMembresResponse>('/auth/admin', { params });
+    return data;
+  },
+
+  changeRole: async (membreId: number, role: string) => {
+    const { data } = await api.put(`/auth/${membreId}/role`, { role });
     return data;
   },
 

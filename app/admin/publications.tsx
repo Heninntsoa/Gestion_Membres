@@ -125,10 +125,20 @@ export default function AdminPublicationsScreen() {
           />
           <Text style={styles.footerText}>{item.likes}</Text>
         </View>
-        <View style={styles.footerItem}>
+        <TouchableOpacity
+          style={styles.footerItem}
+          onPress={() =>
+            router.push({
+              pathname: '/admin/commentaires',
+              params: {
+                publicationId: String(item.id),
+                publicationTitle: item.content.slice(0, 60),
+              },
+            })
+          }>
           <MaterialIcons name="chat-bubble-outline" size={14} color={colors.textSecondary} />
-          <Text style={styles.footerText}>{item.commentsCount} commentaires</Text>
-        </View>
+          <Text style={styles.footerText}>{item.commentsCount} commentaire{item.commentsCount !== 1 ? 's' : ''}</Text>
+        </TouchableOpacity>
       </View>
     </View>
   );

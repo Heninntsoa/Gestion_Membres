@@ -4,9 +4,11 @@ import React, { useEffect, useState } from 'react';
 import { ActivityIndicator, Image, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
+import { RoleBadge } from '@/components/ui/role-badge';
 import { colors, spacing, typography } from '@/constants/design';
 import { getApiErrorMessage } from '@/lib/api';
 import { adminService, type AdminMembreListItem } from '@/lib/services/admin';
+import type { Role } from '@/types/membre';
 
 import { styles } from '@/styles/app/admin/detail.styles';
 
@@ -192,7 +194,11 @@ export default function AdminMemberDetailScreen() {
         <View style={styles.infoSection}>
           <Text style={styles.sectionTitle}>Informations adhésion</Text>
 
-          <InfoRow icon="verified-user" label="Rôle" value={member.role} />
+          <View style={styles.infoRow}>
+            <MaterialIcons name="verified-user" size={18} color={colors.textSecondary} style={styles.infoIcon} />
+            <Text style={styles.infoLabel}>Rôle</Text>
+            <RoleBadge role={member.role as Role} size="sm" />
+          </View>
           <InfoRow icon="group" label="Type" value={member.type_membre} />
           <InfoRow icon="calendar-today" label="Adhésion" value={formatDate(member.date_adhesion)} />
           <InfoRow icon="schedule" label="Inscrit le" value={formatDate(member.created_at)} />

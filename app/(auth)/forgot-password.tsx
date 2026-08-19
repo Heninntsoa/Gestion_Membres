@@ -1,10 +1,11 @@
 import { MaterialIcons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import React, { useState } from 'react';
-import { Image, KeyboardAvoidingView, Platform, ScrollView, Text, TouchableOpacity, View } from 'react-native';
+import { KeyboardAvoidingView, Platform, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { AppButton } from '@/components/ui/app-button';
+import { AppLogo } from '@/components/ui/app-logo';
 import { TextField } from '@/components/ui/text-field';
 import { colors, spacing } from '@/constants/design';
 import { api, getApiErrorMessage } from '@/lib/api';
@@ -60,9 +61,7 @@ export default function ForgotPasswordScreen() {
         style={{ flex: 1 }}
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
         <View style={styles.header}>
-          <Image source={require('@/assets/images/logo.jpeg')} style={styles.logo} />
-          <Text style={styles.headerTitle}>IDEM Planète</Text>
-          <Text style={styles.headerTagline}>Ensemble pour la planète</Text>
+          <AppLogo size="lg" showSubtitle />
         </View>
 
         <ScrollView

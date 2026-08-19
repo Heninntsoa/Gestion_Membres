@@ -14,6 +14,7 @@ export default function AdminLayout() {
       <Stack.Screen name="cotisation-form" />
       <Stack.Screen name="paiements" />
       <Stack.Screen name="notifications" />
+      <Stack.Screen name="commentaires" />
     </Stack>
   );
 }

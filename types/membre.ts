@@ -1,6 +1,6 @@
 // Types basés sur la table `membres` du backend yalim-api
 
-export type Role = 'membre' | 'admin' | 'communication' | 'tresor';
+export type Role = 'membre' | 'admin' | 'communication' | 'tresor' | 'president';
 export type Sexe = 'Masculin' | 'Féminin';
 export type TypeMembre = 'nouveau' | 'ancien';
 export type StatutMembre = 'actif' | 'inactif' | 'suspendu' | '';

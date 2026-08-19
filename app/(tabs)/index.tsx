@@ -1,10 +1,11 @@
 import { MaterialIcons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import React, { useCallback, useEffect, useState } from 'react';
-import { FlatList, Image, RefreshControl, ScrollView, Text, TouchableOpacity, View,  } from 'react-native';
+import { FlatList, RefreshControl, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { ActivityCard } from '@/components/activity-card';
+import { AppLogoCompact } from '@/components/ui/app-logo';
 import { PublicationCard } from '@/components/publication-card';
 import { colors, spacing } from '@/constants/design';
 import { activitesService, participationsService } from '@/lib/services/activites';
@@ -86,8 +87,7 @@ export default function HomeScreen() {
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
         <View style={styles.header}>
           <View style={styles.headerBrand}>
-            <Image source={require('@/assets/images/logo.jpeg')} style={styles.logo} />
-            <Text style={styles.headerTitle}>IDEM Planète</Text>
+            <AppLogoCompact />
           </View>
           <TouchableOpacity onPress={() => router.push('/notifications')} hitSlop={8}>
             <View>

@@ -2,10 +2,11 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import React, { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { Image, KeyboardAvoidingView, Platform, ScrollView, Text, TouchableOpacity, View,  } from 'react-native';
+import { KeyboardAvoidingView, Platform, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { AppButton } from '@/components/ui/app-button';
+import { AppLogo } from '@/components/ui/app-logo';
 import { DateField } from '@/components/ui/date-field';
 import { TextField } from '@/components/ui/text-field';
 import { colors, spacing } from '@/constants/design';
@@ -91,9 +92,7 @@ export default function LoginScreen() {
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
         {/* Identité de marque, centrée au-dessus du formulaire */}
         <View style={styles.header}>
-          <Image source={require('@/assets/images/logo.jpeg')} style={styles.logo} />
-          <Text style={styles.headerTitle}>IDEM Planète</Text>
-          <Text style={styles.headerTagline}>Ensemble pour la planète</Text>
+          <AppLogo size="lg" showSubtitle />
         </View>
 
         <ScrollView
@@ -285,7 +284,7 @@ export default function LoginScreen() {
                     render={({ field }) => (
                       <TextField
                         label="Adresse"
-                        icon="location-on-outline"
+                        icon="location-on"
                         placeholder="Analakely, Antananarivo"
                         value={field.value}
                         onChangeText={field.onChange}
