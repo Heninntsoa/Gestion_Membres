@@ -33,33 +33,45 @@ function useAuthGate() {
   useEffect(() => {
     if (!token || notificationSetupDone.current) return;
     notificationSetupDone.current = true;
+    let mounted = true;
+    let cleanup: (() => void) | null = null;
 
-    // Enregistrer le token push auprès du backend
-    registerForPushNotifications().catch(() => {});
+    (async () => {
+      // Enregistrer le token push auprès du backend
+      registerForPushNotifications().catch(() => {});
 
-    // Configurer les handlers de notifications
-    const handlers = setupNotificationHandlers(
-      // Notification reçue en premier plan
-      (_notification) => {
-        // Optionnel : mettre à jour le badge, rafraîchir les données, etc.
-      },
-      // Utilisateur tape sur une notification
-      (response) => {
-        const data = response.notification.request.content.data;
-        if (data?.lien) {
-          // Naviguer vers l'écran correspondant
-          if (data.lien.includes('activites')) {
-            router.push('/(tabs)/activites');
-          } else if (data.lien.includes('publication')) {
-            router.push('/(tabs)/publications');
-          } else if (data.lien.includes('paiements')) {
-            router.push('/(tabs)/cotisations');
+      // Configurer les handlers de notifications
+      const handlers = await setupNotificationHandlers(
+        // Notification reçue en premier plan
+        (_notification) => {
+          // Optionnel : mettre à jour le badge, rafraîchir les données, etc.
+        },
+        // Utilisateur tape sur une notification
+        (response: any) => {
+          const data = response.notification.request.content.data;
+          if (data?.lien) {
+            if (data.lien.includes('activites')) {
+              router.push('/(tabs)/activites');
+            } else if (data.lien.includes('publication')) {
+              router.push('/(tabs)/publications');
+            } else if (data.lien.includes('paiements')) {
+              router.push('/(tabs)/cotisations');
+            }
           }
         }
-      }
-    );
+      );
 
-    return () => handlers.remove();
+      if (mounted) {
+        cleanup = handlers.remove;
+      } else {
+        handlers.remove();
+      }
+    })();
+
+    return () => {
+      mounted = false;
+      cleanup?.();
+    };
   }, [token, router]);
 
   useEffect(() => {

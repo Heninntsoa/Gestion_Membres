@@ -1,12 +1,21 @@
-import * as Notifications from 'expo-notifications';
+import Constants from 'expo-constants';
 import { Platform } from 'react-native';
 
 import { api } from '@/lib/api';
 
 /**
+ * Détecter si on tourne dans Expo Go (les push notifications ne sont pas supportées depuis SDK 53)
+ */
+function isExpoGo(): boolean {
+  return Constants.executionEnvironment === 'storeClient';
+}
+
+/**
  * Demander la permission de notifications push
  */
 export async function requestPushPermissions(): Promise<boolean> {
+  const Notifications = await import('expo-notifications');
+
   const { status: existingStatus } = await Notifications.getPermissionsAsync();
   let finalStatus = existingStatus;
 
@@ -34,15 +43,35 @@ export async function requestPushPermissions(): Promise<boolean> {
 
 /**
  * Obtenir le token Expo Push et l'enregistrer auprès du backend
+ * Note : les push notifications ne fonctionnent pas dans Expo Go (SDK 53+)
+ * Il faut utiliser un development build pour les push notifications.
  */
 export async function registerForPushNotifications(): Promise<string | null> {
   try {
+    // Expo Go ne supporte plus les push notifications (remote) depuis SDK 53
+    if (isExpoGo()) {
+      console.warn(
+        'Push notifications désactivées dans Expo Go. Utilisez un development build pour activer les push notifications.'
+      );
+      return null;
+    }
+
+    const Notifications = await import('expo-notifications');
+
     const hasPermission = await requestPushPermissions();
     if (!hasPermission) return null;
 
-    const tokenData = await Notifications.getExpoPushTokenAsync({
-      projectId: process.env.EXPO_PUBLIC_PROJECT_ID,
-    });
+    const projectId =
+      process.env.EXPO_PUBLIC_PROJECT_ID ||
+      Constants.expoConfig?.extra?.eas?.projectId;
+    if (!projectId) {
+      console.warn(
+        "Aucun projectId trouvé. Configurez EXPO_PUBLIC_PROJECT_ID ou extra.eas.projectId dans app.json."
+      );
+      return null;
+    }
+
+    const tokenData = await Notifications.getExpoPushTokenAsync({ projectId });
 
     const expoPushToken = tokenData.data;
 
@@ -58,15 +87,25 @@ export async function registerForPushNotifications(): Promise<string | null> {
 
 /**
  * Configurer le handler de notifications reçues
+ * Retourne une fonction remove() pour nettoyer les listeners.
  */
-export function setupNotificationHandlers(
-  onNotificationReceived?: (notification: Notifications.Notification) => void,
-  onNotificationTapped?: (response: Notifications.NotificationResponse) => void
+export async function setupNotificationHandlers(
+  onNotificationReceived?: (notification: any) => void,
+  onNotificationTapped?: (response: any) => void
 ) {
+  // Expo Go ne supporte plus les push notifications (remote) depuis SDK 53
+  if (isExpoGo()) {
+    return { remove: () => {} };
+  }
+
+  const Notifications = await import('expo-notifications');
+
   // Quand une notification est reçue (app au premier plan)
   Notifications.setNotificationHandler({
     handleNotification: async () => ({
       shouldShowAlert: true,
+      shouldShowBanner: true,
+      shouldShowList: true,
       shouldPlaySound: true,
       shouldSetBadge: true,
     }),

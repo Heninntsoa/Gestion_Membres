@@ -8,7 +8,6 @@ export default function AdminLayout() {
       <Stack.Screen name="[id]" />
       <Stack.Screen name="activites" />
       <Stack.Screen name="activite-form" />
-      <Stack.Screen name="activite-participants" />
       <Stack.Screen name="publications" />
       <Stack.Screen name="publication-form" />
       <Stack.Screen name="cotisations" />
