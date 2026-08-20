@@ -13,17 +13,8 @@ export const styles = StyleSheet.create({
   header: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 8,
+    justifyContent: 'center',
     marginBottom: spacing.sm,
-  },
-  logo: {
-    width: 26,
-    height: 26,
-    borderRadius: radius.sm,
-  },
-  headerTitle: {
-    ...typography.headlineSm,
-    color: colors.primary,
   },
   card: {
     backgroundColor: colors.surface,

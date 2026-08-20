@@ -171,7 +171,12 @@ export default function ActiviteDetailScreen() {
             </View>
           )}
 
-          {!!errorMsg && <Text style={styles.errorText}>{errorMsg}</Text>}
+          {!!errorMsg && (
+            <View style={styles.errorCard}>
+              <MaterialIcons name="error-outline" size={18} color={colors.error} />
+              <Text style={styles.errorCardText}>{errorMsg}</Text>
+            </View>
+          )}
 
           {isAnnulee ? (
             <View style={[styles.statusBanner, { backgroundColor: '#FEE2E2' }]}>

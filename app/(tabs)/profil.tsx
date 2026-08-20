@@ -5,7 +5,7 @@ import { Image, ScrollView, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { AppButton } from '@/components/ui/app-button';
-import { AppLogoCompact } from '@/components/ui/app-logo';
+import { Logo } from '@/components/ui/logo';
 import { RoleBadge, hasAdminAccess } from '@/components/ui/role-badge';
 import { colors, spacing, typography } from '@/constants/design';
 import { useAuthStore } from '@/store/auth-store';
@@ -28,7 +28,7 @@ export default function ProfilScreen() {
     <SafeAreaView style={styles.screen} edges={['top']}>
       <ScrollView contentContainerStyle={styles.content}>
         <View style={styles.header}>
-          <AppLogoCompact />
+          <Logo variant="full" height={60} style={{ borderRadius: 12 }} />
         </View>
 
         <View style={styles.card}>

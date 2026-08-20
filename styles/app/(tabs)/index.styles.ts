@@ -16,19 +16,25 @@ export const styles = StyleSheet.create({
     justifyContent: 'space-between',
     marginBottom: spacing.md,
   },
-  headerBrand: {
-    flexDirection: 'row',
+  greetingCard: {
+    backgroundColor: colors.surface,
+    borderRadius: radius.xl,
+    borderWidth: 1,
+    borderColor: colors.outlineVariant,
+    padding: spacing.lg,
+    marginBottom: spacing.md,
     alignItems: 'center',
-    gap: 8,
   },
-  logo: {
-    width: 24,
-    height: 24,
-    borderRadius: radius.sm,
+  greeting: {
+    ...typography.headlineLg,
+    color: colors.textPrimary,
+    textAlign: 'center',
   },
-  headerTitle: {
-    ...typography.headlineSm,
-    color: colors.primary,
+  subGreeting: {
+    ...typography.bodyMd,
+    color: colors.textSecondary,
+    marginTop: spacing.xs,
+    textAlign: 'center',
   },
   notifBadge: {
     position: 'absolute',
@@ -47,14 +53,20 @@ export const styles = StyleSheet.create({
     fontSize: 9,
     fontWeight: '700',
   },
-  greeting: {
-    ...typography.headlineLg,
-    color: colors.textPrimary,
-  },
-  subGreeting: {
-    ...typography.bodyMd,
-    color: colors.textSecondary,
+  errorCard: {
+    alignItems: 'center',
+    gap: spacing.sm,
+    backgroundColor: colors.errorContainer,
+    borderRadius: radius.lg,
+    borderWidth: 1,
+    borderColor: colors.error,
+    padding: spacing.lg,
     marginBottom: spacing.md,
+  },
+  errorText: {
+    ...typography.bodySm,
+    color: colors.error,
+    textAlign: 'center',
   },
   statCard: {
     flexDirection: 'row',
@@ -115,10 +127,5 @@ export const styles = StyleSheet.create({
     ...typography.bodySm,
     color: colors.textSecondary,
     marginBottom: spacing.md,
-  },
-  errorText: {
-    ...typography.bodySm,
-    color: colors.error,
-    marginBottom: spacing.sm,
   },
 });

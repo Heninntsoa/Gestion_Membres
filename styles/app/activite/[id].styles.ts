@@ -114,6 +114,20 @@ export const styles = StyleSheet.create({
     ...typography.labelMd,
     color: colors.statusValidated,
   },
+  errorCard: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: spacing.sm,
+    backgroundColor: colors.errorContainer,
+    borderRadius: radius.md,
+    padding: spacing.sm + 2,
+    marginTop: spacing.sm,
+  },
+  errorCardText: {
+    ...typography.bodySm,
+    color: colors.error,
+    flex: 1,
+  },
   errorText: {
     ...typography.bodySm,
     color: colors.error,

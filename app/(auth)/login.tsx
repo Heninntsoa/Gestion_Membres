@@ -6,7 +6,7 @@ import { KeyboardAvoidingView, Platform, ScrollView, Text, TouchableOpacity, Vie
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { AppButton } from '@/components/ui/app-button';
-import { AppLogo } from '@/components/ui/app-logo';
+import { Logo } from '@/components/ui/logo';
 import { DateField } from '@/components/ui/date-field';
 import { TextField } from '@/components/ui/text-field';
 import { colors, spacing } from '@/constants/design';
@@ -92,7 +92,7 @@ export default function LoginScreen() {
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
         {/* Identité de marque, centrée au-dessus du formulaire */}
         <View style={styles.header}>
-          <AppLogo size="lg" showSubtitle />
+          <Logo variant="full" height={80} style={{ borderRadius: 16 }} />
         </View>
 
         <ScrollView

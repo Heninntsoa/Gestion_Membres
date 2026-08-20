@@ -5,7 +5,7 @@ import { FlatList, RefreshControl, ScrollView, Text, TouchableOpacity, View } fr
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { ActivityCard } from '@/components/activity-card';
-import { AppLogoCompact } from '@/components/ui/app-logo';
+import { Logo } from '@/components/ui/logo';
 import { PublicationCard } from '@/components/publication-card';
 import { colors, spacing } from '@/constants/design';
 import { activitesService, participationsService } from '@/lib/services/activites';
@@ -86,12 +86,10 @@ export default function HomeScreen() {
         contentContainerStyle={styles.content}
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
         <View style={styles.header}>
-          <View style={styles.headerBrand}>
-            <AppLogoCompact />
-          </View>
+          <Logo variant="full" height={50} style={{ borderRadius: 12 }} />
           <TouchableOpacity onPress={() => router.push('/notifications')} hitSlop={8}>
             <View>
-              <MaterialIcons name="notifications-none" size={24} color={colors.textPrimary} />
+              <MaterialIcons name="notifications-none" size={26} color={colors.textPrimary} />
               {unreadCount > 0 && (
                 <View style={styles.notifBadge}>
                   <Text style={styles.notifBadgeText}>{unreadCount > 9 ? '9+' : unreadCount}</Text>
@@ -101,8 +99,10 @@ export default function HomeScreen() {
           </TouchableOpacity>
         </View>
 
-        <Text style={styles.greeting}>Bonjour, {user?.nom_complet?.split(' ')[0] ?? ''} !</Text>
-        <Text style={styles.subGreeting}>Prêt pour vos prochaines actions pour le climat ?</Text>
+        <View style={styles.greetingCard}>
+          <Text style={styles.greeting}>Bonjour, {user?.nom_complet?.split(' ')[0] ?? ''} !</Text>
+          <Text style={styles.subGreeting}>Prêt pour vos prochaines actions pour le climat ?</Text>
+        </View>
 
         <View style={styles.statCard}>
           <View style={styles.statIcon}>
@@ -117,7 +117,12 @@ export default function HomeScreen() {
           </View>
         </View>
 
-        {!!errorMsg && <Text style={styles.errorText}>{errorMsg}</Text>}
+        {!!errorMsg && (
+          <View style={styles.errorCard}>
+            <MaterialIcons name="error-outline" size={22} color={colors.error} />
+            <Text style={styles.errorText}>{errorMsg}</Text>
+          </View>
+        )}
 
         {/* Dernières actualités */}
         <View style={styles.sectionHeader}>
