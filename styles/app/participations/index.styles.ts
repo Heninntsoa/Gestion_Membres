@@ -169,10 +169,4 @@ export const styles = StyleSheet.create({
     color: colors.textSecondary,
     textAlign: 'center',
   },
-  errorText: {
-    ...typography.bodySm,
-    color: colors.error,
-    textAlign: 'center',
-    marginBottom: spacing.sm,
-  },
 });

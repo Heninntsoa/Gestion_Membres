@@ -5,6 +5,7 @@ import { FlatList, RefreshControl, ScrollView, Text, TouchableOpacity, View } fr
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { ActivityCard } from '@/components/activity-card';
+import { ErrorCard } from '@/components/ui/error-card';
 import { Logo } from '@/components/ui/logo';
 import { PublicationCard } from '@/components/publication-card';
 import { colors, spacing } from '@/constants/design';
@@ -117,12 +118,7 @@ export default function HomeScreen() {
           </View>
         </View>
 
-        {!!errorMsg && (
-          <View style={styles.errorCard}>
-            <MaterialIcons name="error-outline" size={22} color={colors.error} />
-            <Text style={styles.errorText}>{errorMsg}</Text>
-          </View>
-        )}
+        {!!errorMsg && <ErrorCard message={errorMsg} />}
 
         {/* Dernières actualités */}
         <View style={styles.sectionHeader}>

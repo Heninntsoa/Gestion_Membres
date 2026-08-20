@@ -93,10 +93,4 @@ export const styles = StyleSheet.create({
     ...typography.bodyMd,
     color: colors.textSecondary,
   },
-  errorText: {
-    ...typography.bodySm,
-    color: colors.error,
-    textAlign: 'center',
-    marginBottom: spacing.sm,
-  },
 });

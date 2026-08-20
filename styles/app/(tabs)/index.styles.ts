@@ -53,21 +53,6 @@ export const styles = StyleSheet.create({
     fontSize: 9,
     fontWeight: '700',
   },
-  errorCard: {
-    alignItems: 'center',
-    gap: spacing.sm,
-    backgroundColor: colors.errorContainer,
-    borderRadius: radius.lg,
-    borderWidth: 1,
-    borderColor: colors.error,
-    padding: spacing.lg,
-    marginBottom: spacing.md,
-  },
-  errorText: {
-    ...typography.bodySm,
-    color: colors.error,
-    textAlign: 'center',
-  },
   statCard: {
     flexDirection: 'row',
     alignItems: 'center',

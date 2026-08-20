@@ -152,13 +152,6 @@ export const styles = StyleSheet.create({
     color: colors.white,
   },
 
-  // Error
-  errorText: {
-    ...typography.bodySm,
-    color: colors.error,
-    textAlign: 'center',
-  },
-
   // Loading
   loadingContainer: {
     flex: 1,

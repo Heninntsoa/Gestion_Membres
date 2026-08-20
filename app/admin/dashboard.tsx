@@ -5,6 +5,7 @@ import { RefreshControl, ScrollView, Text, TouchableOpacity, View } from 'react-
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { colors, radius, spacing, typography } from '@/constants/design';
+import { ErrorCard } from '@/components/ui/error-card';
 import { getApiErrorMessage } from '@/lib/api';
 import { adminService, type AdminStats } from '@/lib/services/admin';
 
@@ -123,11 +124,7 @@ export default function AdminDashboardScreen() {
           </View>
         )}
 
-        {!!errorMsg && (
-          <View style={styles.errorContainer}>
-            <Text style={styles.errorText}>{errorMsg}</Text>
-          </View>
-        )}
+        {!!errorMsg && <ErrorCard message={errorMsg} />}
 
         {/* Menu grid */}
         <View style={styles.menuGrid}>
@@ -233,16 +230,4 @@ const styles = StyleSheet.create({
     fontSize: 12,
   },
 
-  // Error
-  errorContainer: {
-    padding: spacing.sm,
-    backgroundColor: '#FEE2E2',
-    borderRadius: radius.md,
-    marginBottom: spacing.md,
-  },
-  errorText: {
-    ...typography.bodySm,
-    color: colors.error,
-    textAlign: 'center',
-  },
 });

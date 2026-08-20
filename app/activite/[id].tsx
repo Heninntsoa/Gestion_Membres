@@ -5,6 +5,7 @@ import { ActivityIndicator, Image, ScrollView, Text, TouchableOpacity, View,  } 
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { AppButton } from '@/components/ui/app-button';
+import { ErrorCard } from '@/components/ui/error-card';
 import { colors, spacing } from '@/constants/design';
 import { getApiErrorMessage } from '@/lib/api';
 import { activitesService, participationsService } from '@/lib/services/activites';
@@ -100,7 +101,7 @@ export default function ActiviteDetailScreen() {
   if (!activite) {
     return (
       <SafeAreaView style={[styles.screen, styles.center]}>
-        <Text style={styles.errorText}>{errorMsg ?? 'Activité introuvable.'}</Text>
+        <ErrorCard message={errorMsg ?? 'Activité introuvable.'} />
         <AppButton title="Retour" variant="outline" onPress={() => router.back()} />
       </SafeAreaView>
     );
@@ -171,12 +172,7 @@ export default function ActiviteDetailScreen() {
             </View>
           )}
 
-          {!!errorMsg && (
-            <View style={styles.errorCard}>
-              <MaterialIcons name="error-outline" size={18} color={colors.error} />
-              <Text style={styles.errorCardText}>{errorMsg}</Text>
-            </View>
-          )}
+          {!!errorMsg && <ErrorCard message={errorMsg} />}
 
           {isAnnulee ? (
             <View style={[styles.statusBanner, { backgroundColor: '#FEE2E2' }]}>

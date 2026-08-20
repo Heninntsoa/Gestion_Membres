@@ -90,12 +90,6 @@ export const styles = StyleSheet.create({
   chipTextActive: {
     color: colors.white,
   },
-  errorText: {
-    ...typography.bodySm,
-    color: colors.error,
-    textAlign: 'center',
-    marginTop: spacing.sm,
-  },
   successTitle: {
     ...typography.headlineLg,
     color: colors.textPrimary,

@@ -5,6 +5,7 @@ import { FlatList, RefreshControl, Text, TouchableOpacity, View,  } from 'react-
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { colors } from '@/constants/design';
+import { ErrorCard } from '@/components/ui/error-card';
 import { getApiErrorMessage } from '@/lib/api';
 import { paiementsService } from '@/lib/services/paiements';
 import type { Paiement, StatutPaiement } from '@/types/paiement';
@@ -66,7 +67,7 @@ export default function HistoriquePaiementsScreen() {
         <View style={{ width: 24 }} />
       </View>
 
-      {!!errorMsg && <Text style={styles.errorText}>{errorMsg}</Text>}
+      {!!errorMsg && <ErrorCard message={errorMsg} />}
 
       <FlatList
         data={paiements}

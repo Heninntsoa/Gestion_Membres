@@ -5,6 +5,7 @@ import { FlatList, RefreshControl, Text, TouchableOpacity, View,  } from 'react-
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { colors } from '@/constants/design';
+import { ErrorCard } from '@/components/ui/error-card';
 import { getApiErrorMessage } from '@/lib/api';
 import { notificationsService } from '@/lib/services/notifications';
 import type { AppNotification } from '@/types/notification';
@@ -94,7 +95,7 @@ export default function NotificationsScreen() {
         )}
       </View>
 
-      {!!errorMsg && <Text style={styles.errorText}>{errorMsg}</Text>}
+      {!!errorMsg && <ErrorCard message={errorMsg} />}
 
       <FlatList
         data={notifications}

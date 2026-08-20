@@ -71,18 +71,6 @@ export const styles = StyleSheet.create({
     marginTop: spacing.xs,
   },
 
-  // Error
-  errorContainer: {
-    padding: spacing.sm,
-    backgroundColor: '#FEE2E2',
-    borderRadius: radius.md,
-    marginTop: spacing.md,
-  },
-  errorText: {
-    ...typography.bodySm,
-    color: colors.error,
-  },
-
   // Submit
   submitBtn: {
     backgroundColor: colors.primary,

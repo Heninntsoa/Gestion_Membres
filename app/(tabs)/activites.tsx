@@ -5,6 +5,7 @@ import { FlatList, RefreshControl, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { ActivityCard } from '@/components/activity-card';
+import { ErrorCard } from '@/components/ui/error-card';
 import { getApiErrorMessage } from '@/lib/api';
 import { activitesService, participationsService } from '@/lib/services/activites';
 import type { Activite } from '@/types/activite';
@@ -62,7 +63,7 @@ export default function ActivitesScreen() {
         </TouchableOpacity>
       </View>
 
-      {!!errorMsg && <Text style={styles.errorText}>{errorMsg}</Text>}
+      {!!errorMsg && <ErrorCard message={errorMsg} />}
 
       <FlatList
         data={activites}

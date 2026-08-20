@@ -14,6 +14,7 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { colors, radius, spacing, typography } from '@/constants/design';
+import { ErrorCard } from '@/components/ui/error-card';
 import { getApiErrorMessage } from '@/lib/api';
 import { adminService, type AdminActiviteFormPayload } from '@/lib/services/admin';
 
@@ -292,11 +293,7 @@ export default function AdminActiviteFormScreen() {
         </View>
 
         {/* Error */}
-        {!!errorMsg && (
-          <View style={styles.errorContainer}>
-            <Text style={styles.errorText}>{errorMsg}</Text>
-          </View>
-        )}
+        {!!errorMsg && <ErrorCard message={errorMsg} />}
 
         {/* Submit */}
         <TouchableOpacity

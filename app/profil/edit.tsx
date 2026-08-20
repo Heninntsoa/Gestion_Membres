@@ -6,6 +6,7 @@ import { Image, ScrollView, Text, TouchableOpacity, View,  } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { AppButton } from '@/components/ui/app-button';
+import { ErrorCard } from '@/components/ui/error-card';
 import { TextField } from '@/components/ui/text-field';
 import { colors, spacing } from '@/constants/design';
 import { getApiErrorMessage } from '@/lib/api';
@@ -188,7 +189,7 @@ export default function EditProfilScreen() {
           <TextField label="Profession" icon="work-outline" value={profession} onChangeText={setProfession} />
         </View>
 
-        {!!errorMsg && <Text style={styles.errorText}>{errorMsg}</Text>}
+        {!!errorMsg && <ErrorCard message={errorMsg} />}
 
         <AppButton
           title="Enregistrer"

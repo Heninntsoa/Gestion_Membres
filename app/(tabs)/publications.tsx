@@ -4,6 +4,7 @@ import { FlatList, RefreshControl, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { PublicationCard } from '@/components/publication-card';
+import { ErrorCard } from '@/components/ui/error-card';
 import { spacing } from '@/constants/design';
 import { getApiErrorMessage } from '@/lib/api';
 import { publicationsService } from '@/lib/services/publications';
@@ -66,7 +67,7 @@ export default function PublicationsScreen() {
         <Text style={styles.title}>Publications</Text>
       </View>
 
-      {!!errorMsg && <Text style={styles.errorText}>{errorMsg}</Text>}
+      {!!errorMsg && <ErrorCard message={errorMsg} />}
 
       <FlatList
         data={publications}

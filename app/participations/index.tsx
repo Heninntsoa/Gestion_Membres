@@ -5,6 +5,7 @@ import { FlatList, Image, RefreshControl, Text, TouchableOpacity, View,  } from 
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { colors, spacing } from '@/constants/design';
+import { ErrorCard } from '@/components/ui/error-card';
 import { getApiErrorMessage } from '@/lib/api';
 import { participationsService } from '@/lib/services/activites';
 import type { MaParticipation, StatutParticipation } from '@/types/participation';
@@ -80,7 +81,7 @@ export default function MesParticipationsScreen() {
         <View style={{ width: 24 }} />
       </View>
 
-      {!!errorMsg && <Text style={styles.errorText}>{errorMsg}</Text>}
+      {!!errorMsg && <ErrorCard message={errorMsg} />}
 
       <FlatList
         data={participations}

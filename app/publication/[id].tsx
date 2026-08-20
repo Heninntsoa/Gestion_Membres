@@ -5,6 +5,7 @@ import { ActivityIndicator, FlatList, KeyboardAvoidingView, Platform, Text, Text
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { PublicationCard } from '@/components/publication-card';
+import { ErrorCard } from '@/components/ui/error-card';
 import { colors, spacing } from '@/constants/design';
 import { getApiErrorMessage } from '@/lib/api';
 import { publicationsService } from '@/lib/services/publications';
@@ -134,7 +135,7 @@ export default function PublicationDetailScreen() {
               {!!publication && (
                 <PublicationCard publication={publication} onToggleLike={handleToggleLike} />
               )}
-              {!!errorMsg && <Text style={styles.errorText}>{errorMsg}</Text>}
+              {!!errorMsg && <ErrorCard message={errorMsg} />}
               <Text style={styles.commentsTitle}>
                 {comments.length} commentaire{comments.length > 1 ? 's' : ''}
               </Text>

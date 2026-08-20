@@ -12,6 +12,7 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { colors, spacing, typography } from '@/constants/design';
+import { ErrorCard } from '@/components/ui/error-card';
 import { getApiErrorMessage } from '@/lib/api';
 import { adminService } from '@/lib/services/admin';
 import type { Cotisation } from '@/types/cotisation';
@@ -263,11 +264,7 @@ export default function AdminCotisationFormScreen() {
         />
 
         {/* Error */}
-        {!!errorMsg && (
-          <View style={styles.errorContainer}>
-            <Text style={styles.errorText}>{errorMsg}</Text>
-          </View>
-        )}
+        {!!errorMsg && <ErrorCard message={errorMsg} />}
 
         {/* Submit */}
         <TouchableOpacity

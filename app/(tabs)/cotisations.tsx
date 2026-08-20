@@ -5,6 +5,7 @@ import { FlatList, RefreshControl, Text, TouchableOpacity, View } from 'react-na
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { colors, spacing } from '@/constants/design';
+import { ErrorCard } from '@/components/ui/error-card';
 import { getApiErrorMessage } from '@/lib/api';
 import { cotisationsService } from '@/lib/services/cotisations';
 import type { Cotisation } from '@/types/cotisation';
@@ -53,7 +54,7 @@ export default function CotisationsScreen() {
         </TouchableOpacity>
       </View>
 
-      {!!errorMsg && <Text style={styles.errorText}>{errorMsg}</Text>}
+      {!!errorMsg && <ErrorCard message={errorMsg} />}
 
       <FlatList
         data={cotisations}

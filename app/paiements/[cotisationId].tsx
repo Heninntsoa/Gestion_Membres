@@ -6,6 +6,7 @@ import { ActivityIndicator, Image, ScrollView, Text, TouchableOpacity, View,  } 
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { AppButton } from '@/components/ui/app-button';
+import { ErrorCard } from '@/components/ui/error-card';
 import { TextField } from '@/components/ui/text-field';
 import { colors, spacing } from '@/constants/design';
 import { getApiErrorMessage } from '@/lib/api';
@@ -213,7 +214,7 @@ export default function DeclarerPaiementScreen() {
           </View>
         </View>
 
-        {!!errorMsg && <Text style={styles.errorText}>{errorMsg}</Text>}
+        {!!errorMsg && <ErrorCard message={errorMsg} />}
 
         <AppButton
           title="Envoyer la déclaration"

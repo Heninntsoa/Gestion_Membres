@@ -77,11 +77,6 @@ export const styles = StyleSheet.create({
     textAlign: 'center',
     marginTop: spacing.lg,
   },
-  errorText: {
-    ...typography.bodySm,
-    color: colors.error,
-    textAlign: 'center',
-  },
   inputBar: {
     flexDirection: 'row',
     alignItems: 'flex-end',

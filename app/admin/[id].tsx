@@ -5,6 +5,7 @@ import { ActivityIndicator, Image, ScrollView, Text, TouchableOpacity, View } fr
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { RoleBadge } from '@/components/ui/role-badge';
+import { ErrorCard } from '@/components/ui/error-card';
 import { colors, spacing, typography } from '@/constants/design';
 import { getApiErrorMessage } from '@/lib/api';
 import { adminService, type AdminMembreListItem } from '@/lib/services/admin';
@@ -128,7 +129,7 @@ export default function AdminMemberDetailScreen() {
         </View>
         <View style={styles.center}>
           <MaterialIcons name="error-outline" size={48} color={colors.error} />
-          <Text style={styles.errorText}>{errorMsg ?? 'Membre introuvable.'}</Text>
+          <ErrorCard message={errorMsg ?? 'Membre introuvable.'} />
           <TouchableOpacity onPress={() => router.back()} style={{ marginTop: spacing.md }}>
             <Text style={{ color: colors.primary }}>← Retour à la liste</Text>
           </TouchableOpacity>
@@ -208,11 +209,7 @@ export default function AdminMemberDetailScreen() {
         </View>
 
         {/* Messages */}
-        {!!errorMsg && (
-          <View style={{ padding: spacing.sm, backgroundColor: '#FEE2E2', borderRadius: 8 }}>
-            <Text style={styles.errorText}>{errorMsg}</Text>
-          </View>
-        )}
+        {!!errorMsg && <ErrorCard message={errorMsg} />}
         {!!successMsg && (
           <View style={{ padding: spacing.sm, backgroundColor: '#DFF5E1', borderRadius: 8 }}>
             <Text style={{ color: '#065F46', ...typography.bodySm }}>{successMsg}</Text>
