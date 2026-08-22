@@ -1,10 +1,11 @@
 import { MaterialIcons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import React, { useCallback, useEffect, useState } from 'react';
-import { ActivityIndicator, FlatList, Image, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { ActivityIndicator, FlatList, Image, Modal, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { RoleBadge } from '@/components/ui/role-badge';
+import { AppButton } from '@/components/ui/app-button';
 import { colors, spacing, typography } from '@/constants/design';
 import { getApiErrorMessage } from '@/lib/api';
 import { adminService, type AdminMembreListItem, type FilterStatus } from '@/lib/services/admin';
@@ -52,7 +53,11 @@ export default function AdminMembersScreen() {
   const [search, setSearch] = useState('');
   const [filterStatus, setFilterStatus] = useState<FilterStatus>('');
   const [filterRole, setFilterRole] = useState('');
+  const [filterModalVisible, setFilterModalVisible] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
+
+  const activeFilterCount =
+    (filterStatus !== '' ? 1 : 0) + (filterRole !== '' ? 1 : 0);
 
   const load = useCallback(async (page = 1) => {
     setErrorMsg(null);
@@ -222,32 +227,31 @@ export default function AdminMembersScreen() {
         </View>
       </View>
 
-      {/* Status filter chips */}
-      <View style={styles.filterRow}>
-        {STATUS_OPTIONS.map((opt) => (
-          <TouchableOpacity
-            key={opt.value}
-            style={[styles.filterChip, filterStatus === opt.value && styles.filterChipActive]}
-            onPress={() => setFilterStatus(opt.value)}>
-            <Text style={[styles.filterChipText, filterStatus === opt.value && styles.filterChipTextActive]}>
-              {opt.label}
-            </Text>
+      {/* Filter button */}
+      <View style={styles.filterBar}>
+        <TouchableOpacity
+          style={[styles.filterButton, activeFilterCount > 0 && styles.filterButtonActive]}
+          onPress={() => setFilterModalVisible(true)}
+          activeOpacity={0.7}>
+          <MaterialIcons
+            name="filter-list"
+            size={18}
+            color={activeFilterCount > 0 ? colors.white : colors.primary}
+          />
+          <Text style={[styles.filterButtonText, activeFilterCount > 0 && styles.filterButtonTextActive]}>
+            Filtrer
+          </Text>
+          {activeFilterCount > 0 && (
+            <View style={styles.filterBadge}>
+              <Text style={styles.filterBadgeText}>{activeFilterCount}</Text>
+            </View>
+          )}
+        </TouchableOpacity>
+        {activeFilterCount > 0 && (
+          <TouchableOpacity onPress={() => { setFilterStatus(''); setFilterRole(''); }} hitSlop={8}>
+            <Text style={styles.filterReset}>Réinitialiser</Text>
           </TouchableOpacity>
-        ))}
-      </View>
-
-      {/* Role filter chips */}
-      <View style={styles.filterRow}>
-        {ROLE_OPTIONS.map((opt) => (
-          <TouchableOpacity
-            key={opt.value}
-            style={[styles.filterChip, filterRole === opt.value && styles.filterChipActive]}
-            onPress={() => setFilterRole(opt.value)}>
-            <Text style={[styles.filterChipText, filterRole === opt.value && styles.filterChipTextActive]}>
-              {opt.label}
-            </Text>
-          </TouchableOpacity>
-        ))}
+        )}
       </View>
 
       {/* Error */}
@@ -297,6 +301,67 @@ export default function AdminMembersScreen() {
           }
         />
       )}
+
+      {/* Filter modal */}
+      <Modal
+        visible={filterModalVisible}
+        transparent
+        animationType="slide"
+        onRequestClose={() => setFilterModalVisible(false)}>
+        <View style={styles.modalBackdrop}>
+          <TouchableOpacity style={{ flex: 1 }} activeOpacity={1} onPress={() => setFilterModalVisible(false)} />
+          <View style={styles.modalSheet}>
+            <View style={styles.modalHandle} />
+            <View style={styles.modalHeader}>
+              <Text style={styles.modalTitle}>Filtrer les membres</Text>
+              <TouchableOpacity onPress={() => setFilterModalVisible(false)} hitSlop={8}>
+                <MaterialIcons name="close" size={22} color={colors.textSecondary} />
+              </TouchableOpacity>
+            </View>
+
+            <ScrollView
+              style={{ flexGrow: 0, flexShrink: 1 }}
+              contentContainerStyle={{ paddingBottom: spacing.xs }}
+              showsVerticalScrollIndicator={false}>
+              <Text style={styles.modalSectionTitle}>Statut</Text>
+              {STATUS_OPTIONS.map((opt) => (
+                <TouchableOpacity
+                  key={`status-${opt.value}`}
+                  style={[styles.modalOption, filterStatus === opt.value && styles.modalOptionActive]}
+                  onPress={() => setFilterStatus(opt.value)}>
+                  <Text style={[styles.modalOptionText, filterStatus === opt.value && styles.modalOptionTextActive]}>
+                    {opt.label}
+                  </Text>
+                  {filterStatus === opt.value && (
+                    <MaterialIcons name="check" size={18} color={colors.primary} />
+                  )}
+                </TouchableOpacity>
+              ))}
+
+              <Text style={styles.modalSectionTitle}>Rôle</Text>
+              {ROLE_OPTIONS.map((opt) => (
+                <TouchableOpacity
+                  key={`role-${opt.value}`}
+                  style={[styles.modalOption, filterRole === opt.value && styles.modalOptionActive]}
+                  onPress={() => setFilterRole(opt.value)}>
+                  <Text style={[styles.modalOptionText, filterRole === opt.value && styles.modalOptionTextActive]}>
+                    {opt.label}
+                  </Text>
+                  {filterRole === opt.value && (
+                    <MaterialIcons name="check" size={18} color={colors.primary} />
+                  )}
+                </TouchableOpacity>
+              ))}
+            </ScrollView>
+
+            <AppButton
+              title="Voir les résultats"
+              onPress={() => setFilterModalVisible(false)}
+              style={{ marginTop: spacing.md }}
+            />
+          </View>
+        </View>
+      </Modal>
     </SafeAreaView>
   );
 }

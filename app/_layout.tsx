@@ -7,6 +7,7 @@ import 'react-native-reanimated';
 
 import { colors } from '@/constants/design';
 import { useColorScheme } from '@/hooks/use-color-scheme';
+import { resolveNotificationRoute } from '@/lib/notification-routes';
 import { registerForPushNotifications, setupNotificationHandlers } from '@/lib/services/push-notifications';
 import { useAuthStore } from '@/store/auth-store';
 
@@ -49,14 +50,9 @@ function useAuthGate() {
         // Utilisateur tape sur une notification
         (response: any) => {
           const data = response.notification.request.content.data;
-          if (data?.lien) {
-            if (data.lien.includes('activites')) {
-              router.push('/(tabs)/activites');
-            } else if (data.lien.includes('publication')) {
-              router.push('/(tabs)/publications');
-            } else if (data.lien.includes('paiements')) {
-              router.push('/(tabs)/cotisations');
-            }
+          const route = resolveNotificationRoute(data?.lien, data?.reference_id);
+          if (route) {
+            router.push(route);
           }
         }
       );

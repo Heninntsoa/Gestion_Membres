@@ -246,7 +246,7 @@ export default function AdminActiviteFormScreen() {
         />
 
         {/* Type d'activité */}
-        <Text style={styles.label}>Type d'activité</Text>
+        <Text style={styles.label}>Type d&apos;activité</Text>
         <View style={styles.chipRow}>
           {TYPE_OPTIONS.map((opt) => (
             <TouchableOpacity

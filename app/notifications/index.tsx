@@ -7,6 +7,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { colors } from '@/constants/design';
 import { ErrorCard } from '@/components/ui/error-card';
 import { getApiErrorMessage } from '@/lib/api';
+import { resolveNotificationRoute } from '@/lib/notification-routes';
 import { notificationsService } from '@/lib/services/notifications';
 import type { AppNotification } from '@/types/notification';
 
@@ -60,12 +61,8 @@ export default function NotificationsScreen() {
       );
       notificationsService.markAsRead(notif.id).catch(() => {});
     }
-    if (notif.lien?.startsWith('/espace-membre/activites')) {
-      if (notif.reference_id) router.push(`/activite/${notif.reference_id}`);
-      else router.push('/(tabs)/activites');
-    } else if (notif.type === 'publication') {
-      router.push('/(tabs)/publications');
-    }
+    const route = resolveNotificationRoute(notif.lien, notif.reference_id);
+    if (route) router.push(route);
   };
 
   const handleMarkAllRead = async () => {
