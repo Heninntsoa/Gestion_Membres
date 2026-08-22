@@ -83,23 +83,8 @@ export default function ProfilScreen() {
         </View>
 
         <AppButton
-          title="Modifier le profil"
-          onPress={() => router.push('/profil/edit')}
-        />
-        <AppButton
-          title="Changer le mot de passe"
-          variant="outline"
-          onPress={() => router.push('/profil/change-password')}
-        />
-        <AppButton
-          title="Mes participations"
-          variant="outline"
-          onPress={() => router.push('/participations')}
-        />
-        <AppButton
-          title="Historique des paiements"
-          variant="outline"
-          onPress={() => router.push('/paiements/historique')}
+          title="Paramètres"
+          onPress={() => router.push('/profil/parametres')}
         />
 
         {user?.role && hasAdminAccess(user.role) && (

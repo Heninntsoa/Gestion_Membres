@@ -1,7 +1,45 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import Constants from 'expo-constants';
 import { Platform } from 'react-native';
 
 import { api } from '@/lib/api';
+
+/** Clé locale (AsyncStorage) : préférence notifications push de l'appareil */
+export const NOTIF_PREF_KEY = 'idem_notif_active';
+/** Clé locale : dernier token Expo Push enregistré sur cet appareil */
+const PUSH_TOKEN_KEY = 'idem_expo_push_token';
+
+/**
+ * Préférence locale de notifications push (true par défaut).
+ * Stockée uniquement dans l'app — aucune donnée en base.
+ */
+export async function getNotificationsEnabled(): Promise<boolean> {
+  const value = await AsyncStorage.getItem(NOTIF_PREF_KEY);
+  return value !== '0';
+}
+
+/**
+ * Active / désactive les notifications push côté appareil :
+ * - OFF  → désinscrit le token push auprès du backend (plus aucun envoi)
+ * - ON   → réenregistre le token
+ */
+export async function setPushNotificationsEnabled(enabled: boolean): Promise<void> {
+  await AsyncStorage.setItem(NOTIF_PREF_KEY, enabled ? '1' : '0');
+
+  if (!enabled) {
+    const token = await AsyncStorage.getItem(PUSH_TOKEN_KEY);
+    if (token) {
+      try {
+        await api.post('/notifications/unregister-push-token', { expoPushToken: token });
+      } catch {
+        // token déjà absent côté backend : ignorer
+      }
+      await AsyncStorage.removeItem(PUSH_TOKEN_KEY);
+    }
+  } else {
+    await registerForPushNotifications();
+  }
+}
 
 /**
  * Détecter si on tourne dans Expo Go (les push notifications ne sont pas supportées depuis SDK 53)
@@ -48,6 +86,11 @@ export async function requestPushPermissions(): Promise<boolean> {
  */
 export async function registerForPushNotifications(): Promise<string | null> {
   try {
+    // Préférence locale : notifications désactivées → ne pas (ré)enregistrer
+    if (!(await getNotificationsEnabled())) {
+      return null;
+    }
+
     // Expo Go ne supporte plus les push notifications (remote) depuis SDK 53
     if (isExpoGo()) {
       console.warn(
@@ -77,6 +120,9 @@ export async function registerForPushNotifications(): Promise<string | null> {
 
     // Enregistrer le token auprès du backend
     await api.post('/notifications/register-push-token', { expoPushToken });
+
+    // Conserver le token localement pour pouvoir le désinscrire plus tard
+    await AsyncStorage.setItem(PUSH_TOKEN_KEY, expoPushToken);
 
     return expoPushToken;
   } catch (error) {
