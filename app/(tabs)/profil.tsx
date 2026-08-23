@@ -7,13 +7,16 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { AppButton } from '@/components/ui/app-button';
 import { Logo } from '@/components/ui/logo';
 import { RoleBadge, hasAdminAccess } from '@/components/ui/role-badge';
-import { colors, spacing, typography } from '@/constants/design';
+import { spacing, typography } from '@/constants/design';
+import { useAppTheme } from '@/hooks/use-app-theme';
 import { useAuthStore } from '@/store/auth-store';
 
-import { styles } from '@/styles/app/(tabs)/profil.styles';
+import { makeStyles } from '@/styles/app/(tabs)/profil.styles';
 
 export default function ProfilScreen() {
   const { user, refreshMe, logout } = useAuthStore();
+  const { colors } = useAppTheme();
+  const styles = makeStyles(colors);
 
   useEffect(() => {
     refreshMe();
@@ -49,7 +52,11 @@ export default function ProfilScreen() {
               styles.badge,
               user?.is_active ? styles.badgeActive : styles.badgePending,
             ]}>
-            <Text style={styles.badgeText}>
+            <Text
+              style={[
+                styles.badgeText,
+                { color: user?.is_active ? colors.badgeSuccessText : colors.badgeWarningText },
+              ]}>
               {user?.is_active ? 'Membre actif' : "En attente d'activation"}
             </Text>
           </View>

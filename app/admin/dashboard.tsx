@@ -1,11 +1,13 @@
 import { MaterialIcons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import React, { useCallback, useEffect, useState } from 'react';
-import { RefreshControl, ScrollView, Text, TouchableOpacity, View } from 'react-native';
+import { RefreshControl, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import { colors, radius, spacing, typography } from '@/constants/design';
+import type { Palette } from '@/constants/design';
+import { radius, spacing, typography } from '@/constants/design';
 import { ErrorCard } from '@/components/ui/error-card';
+import { useAppTheme } from '@/hooks/use-app-theme';
 import { getApiErrorMessage } from '@/lib/api';
 import { adminService, type AdminStats } from '@/lib/services/admin';
 
@@ -61,6 +63,8 @@ const MENU_ITEMS = [
 ];
 
 export default function AdminDashboardScreen() {
+  const { colors } = useAppTheme();
+  const styles = makeStyles(colors);
   const [stats, setStats] = useState<AdminStats | null>(null);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
@@ -105,20 +109,20 @@ export default function AdminDashboardScreen() {
         {/* Stats summary */}
         {stats && (
           <View style={styles.statsContainer}>
-            <View style={[styles.statCard, { backgroundColor: '#DFF5E1' }]}>
-              <Text style={[styles.statNumber, { color: '#065F46' }]}>{stats.actifs}</Text>
+            <View style={[styles.statCard, { backgroundColor: colors.badgeSuccessBg }]}>
+              <Text style={[styles.statNumber, { color: colors.badgeSuccessText }]}>{stats.actifs}</Text>
               <Text style={styles.statLabel}>Actifs</Text>
             </View>
-            <View style={[styles.statCard, { backgroundColor: '#FEF3C7' }]}>
-              <Text style={[styles.statNumber, { color: '#92400E' }]}>{stats.en_attente}</Text>
+            <View style={[styles.statCard, { backgroundColor: colors.badgeWarningBg }]}>
+              <Text style={[styles.statNumber, { color: colors.badgeWarningText }]}>{stats.en_attente}</Text>
               <Text style={styles.statLabel}>En attente</Text>
             </View>
-            <View style={[styles.statCard, { backgroundColor: '#FEE2E2' }]}>
-              <Text style={[styles.statNumber, { color: '#991B1B' }]}>{stats.desactives}</Text>
+            <View style={[styles.statCard, { backgroundColor: colors.badgeErrorBg }]}>
+              <Text style={[styles.statNumber, { color: colors.badgeErrorText }]}>{stats.desactives}</Text>
               <Text style={styles.statLabel}>Désactivés</Text>
             </View>
-            <View style={[styles.statCard, { backgroundColor: '#F3E8FF' }]}>
-              <Text style={[styles.statNumber, { color: '#6B21A8' }]}>{stats.refuses}</Text>
+            <View style={[styles.statCard, { backgroundColor: colors.badgePurpleBg }]}>
+              <Text style={[styles.statNumber, { color: colors.badgePurpleText }]}>{stats.refuses}</Text>
               <Text style={styles.statLabel}>Refusés</Text>
             </View>
           </View>
@@ -149,9 +153,8 @@ export default function AdminDashboardScreen() {
   );
 }
 
-import { StyleSheet } from 'react-native';
-
-const styles = StyleSheet.create({
+const makeStyles = (colors: Palette) =>
+  StyleSheet.create({
   screen: {
     flex: 1,
     backgroundColor: colors.background,

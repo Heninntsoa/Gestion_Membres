@@ -2,9 +2,9 @@ import { MaterialIcons } from '@expo/vector-icons';
 import React, { useState } from 'react';
 import { Text, TextInput, TextInputProps, TouchableOpacity, View,  } from 'react-native';
 
-import { colors } from '@/constants/design';
+import { useAppTheme } from '@/hooks/use-app-theme';
 
-import { styles } from '@/styles/components/ui/text-field.styles';
+import { makeStyles } from '@/styles/components/ui/text-field.styles';
 interface TextFieldProps extends TextInputProps {
   label: string;
   icon?: keyof typeof MaterialIcons.glyphMap;
@@ -20,6 +20,8 @@ export function TextField({
   style,
   ...rest
 }: TextFieldProps) {
+  const { colors } = useAppTheme();
+  const styles = makeStyles(colors);
   const [focused, setFocused] = useState(false);
   const [secure, setSecure] = useState(isPassword);
 

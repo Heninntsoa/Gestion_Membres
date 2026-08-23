@@ -6,13 +6,15 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { AppButton } from '@/components/ui/app-button';
 import { ErrorCard } from '@/components/ui/error-card';
-import { colors, spacing } from '@/constants/design';
+import { spacing } from '@/constants/design';
+import { useAppTheme } from '@/hooks/use-app-theme';
 import { getApiErrorMessage } from '@/lib/api';
 import { activitesService, participationsService } from '@/lib/services/activites';
 import type { Activite } from '@/types/activite';
 import type { MaParticipation } from '@/types/participation';
 
-import { styles } from '@/styles/app/activite/[id].styles';
+import { makeStyles } from '@/styles/app/activite/[id].styles';
+
 function formatDate(dateStr: string) {
   return new Date(dateStr).toLocaleDateString('fr-FR', {
     weekday: 'long',
@@ -33,6 +35,8 @@ const typeLabel: Record<Activite['type_activite'], string> = {
 };
 
 export default function ActiviteDetailScreen() {
+  const { colors } = useAppTheme();
+  const styles = makeStyles(colors);
   const { id } = useLocalSearchParams<{ id: string }>();
   const activiteId = Number(id);
 
@@ -175,8 +179,8 @@ export default function ActiviteDetailScreen() {
           {!!errorMsg && <ErrorCard message={errorMsg} />}
 
           {isAnnulee ? (
-            <View style={[styles.statusBanner, { backgroundColor: '#FEE2E2' }]}>
-              <Text style={[styles.statusBannerText, { color: colors.error }]}>
+            <View style={[styles.statusBanner, { backgroundColor: colors.badgeErrorBg }]}>
+              <Text style={[styles.statusBannerText, { color: colors.badgeErrorText }]}>
                 Cette activité a été annulée.
               </Text>
             </View>
@@ -186,9 +190,9 @@ export default function ActiviteDetailScreen() {
             </View>
           ) : isRegistered ? (
             <View style={styles.section}>
-              <View style={[styles.statusBanner, { backgroundColor: '#DFF5E1' }]}>
-                <MaterialIcons name="check-circle" size={18} color={colors.statusValidated} />
-                <Text style={[styles.statusBannerText, { color: colors.statusValidated }]}>
+              <View style={[styles.statusBanner, { backgroundColor: colors.badgeSuccessBg }]}>
+                <MaterialIcons name="check-circle" size={18} color={colors.badgeSuccessText} />
+                <Text style={[styles.statusBannerText, { color: colors.badgeSuccessText }]}>
                   {'  '}Vous êtes inscrit à cette activité
                 </Text>
               </View>

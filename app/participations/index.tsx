@@ -4,21 +4,26 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { FlatList, Image, RefreshControl, Text, TouchableOpacity, View,  } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import { colors, spacing } from '@/constants/design';
+import { spacing } from '@/constants/design';
+import type { Palette } from '@/constants/design';
+import { useAppTheme } from '@/hooks/use-app-theme';
 import { ErrorCard } from '@/components/ui/error-card';
 import { getApiErrorMessage } from '@/lib/api';
 import { participationsService } from '@/lib/services/activites';
 import type { MaParticipation, StatutParticipation } from '@/types/participation';
 
-import { styles } from '@/styles/app/participations/index.styles';
-const statutConfig: Record<StatutParticipation, { bg: string; color: string; label: string }> = {
-  valide: { bg: '#DFF5E1', color: colors.statusValidated, label: 'Validé' },
-  present: { bg: '#DFF5E1', color: colors.statusValidated, label: 'Présent' },
-  inscrit: { bg: '#FEF3C7', color: '#B45309', label: 'Inscrit' },
-  en_attente: { bg: '#FEF3C7', color: '#B45309', label: 'En attente' },
-  absent: { bg: '#FEE2E2', color: colors.error, label: 'Absent' },
-  annule: { bg: '#F3F4F6', color: colors.textSecondary, label: 'Annulé' },
-};
+import { makeStyles } from '@/styles/app/participations/index.styles';
+
+const makeStatutConfig = (
+  colors: Palette
+): Record<StatutParticipation, { bg: string; color: string; label: string }> => ({
+  valide: { bg: colors.badgeSuccessBg, color: colors.badgeSuccessText, label: 'Validé' },
+  present: { bg: colors.badgeSuccessBg, color: colors.badgeSuccessText, label: 'Présent' },
+  inscrit: { bg: colors.badgeWarningBg, color: colors.badgeWarningText, label: 'Inscrit' },
+  en_attente: { bg: colors.badgeWarningBg, color: colors.badgeWarningText, label: 'En attente' },
+  absent: { bg: colors.badgeErrorBg, color: colors.badgeErrorText, label: 'Absent' },
+  annule: { bg: colors.badgeNeutralBg, color: colors.badgeNeutralText, label: 'Annulé' },
+});
 
 function formatDate(dateStr: string) {
   return new Date(dateStr).toLocaleDateString('fr-FR', {
@@ -33,6 +38,9 @@ function formatHeure(dateStr: string) {
 }
 
 export default function MesParticipationsScreen() {
+  const { colors } = useAppTheme();
+  const styles = makeStyles(colors);
+  const statutConfig = makeStatutConfig(colors);
   const [participations, setParticipations] = useState<MaParticipation[]>([]);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);

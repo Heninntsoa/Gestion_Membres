@@ -4,14 +4,14 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { FlatList, RefreshControl, Text, TouchableOpacity, View,  } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import { colors } from '@/constants/design';
+import { useAppTheme } from '@/hooks/use-app-theme';
 import { ErrorCard } from '@/components/ui/error-card';
 import { getApiErrorMessage } from '@/lib/api';
 import { resolveNotificationRoute } from '@/lib/notification-routes';
 import { notificationsService } from '@/lib/services/notifications';
 import type { AppNotification } from '@/types/notification';
 
-import { styles } from '@/styles/app/notifications/index.styles';
+import { makeStyles } from '@/styles/app/notifications/index.styles';
 const typeIcon: Record<string, keyof typeof MaterialIcons.glyphMap> = {
   activites: 'event',
   publication: 'article',
@@ -32,6 +32,8 @@ function timeAgo(dateStr: string) {
 }
 
 export default function NotificationsScreen() {
+  const { colors } = useAppTheme();
+  const styles = makeStyles(colors);
   const [notifications, setNotifications] = useState<AppNotification[]>([]);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);

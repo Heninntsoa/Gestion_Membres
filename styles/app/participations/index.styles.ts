@@ -1,7 +1,10 @@
 import { StyleSheet } from 'react-native';
-import { colors, radius, spacing, typography } from '@/constants/design';
 
-export const styles = StyleSheet.create({
+import type { Palette } from '@/constants/design';
+import { radius, spacing, typography } from '@/constants/design';
+
+export const makeStyles = (colors: Palette) =>
+  StyleSheet.create({
   screen: {
     flex: 1,
     backgroundColor: colors.background,
@@ -79,33 +82,33 @@ export const styles = StyleSheet.create({
     width: 32,
     height: 32,
     borderRadius: radius.md,
-    backgroundColor: 'rgba(255,255,255,0.2)',
+    backgroundColor: colors.onPrimarySoftBg,
     alignItems: 'center',
     justifyContent: 'center',
   },
   nextBadge: {
-    backgroundColor: 'rgba(255,255,255,0.2)',
+    backgroundColor: colors.onPrimarySoftBg,
     borderRadius: radius.full,
     paddingHorizontal: 10,
     paddingVertical: 4,
   },
   nextBadgeText: {
     ...typography.labelSm,
-    color: colors.white,
+    color: colors.onPrimary,
   },
   nextTitle: {
     ...typography.headlineSm,
     fontSize: 17,
-    color: colors.white,
+    color: colors.onPrimary,
   },
   nextMeta: {
     ...typography.bodySm,
-    color: 'rgba(255,255,255,0.85)',
+    color: colors.onPrimaryMutedText,
     marginTop: 2,
     marginBottom: spacing.sm,
   },
   nextBtn: {
-    backgroundColor: colors.white,
+    backgroundColor: colors.onPrimary,
     borderRadius: radius.md,
     paddingVertical: 10,
     alignItems: 'center',

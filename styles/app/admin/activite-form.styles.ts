@@ -1,7 +1,9 @@
 import { StyleSheet } from 'react-native';
-import { colors, radius, spacing, typography } from '@/constants/design';
+import type { Palette } from '@/constants/design';
+import { radius, spacing, typography } from '@/constants/design';
 
-export const styles = StyleSheet.create({
+export const makeStyles = (colors: Palette) =>
+  StyleSheet.create({
   screen: {
     flex: 1,
     backgroundColor: colors.background,
@@ -95,7 +97,7 @@ export const styles = StyleSheet.create({
     color: colors.textSecondary,
   },
   chipTextActive: {
-    color: colors.white,
+    color: colors.onPrimary,
   },
 
   // Submit
@@ -112,7 +114,7 @@ export const styles = StyleSheet.create({
   submitBtnText: {
     ...typography.labelMd,
     fontSize: 15,
-    color: colors.white,
+    color: colors.onPrimary,
   },
 
   // Loading

@@ -4,12 +4,13 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { ActivityIndicator, FlatList, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import { colors, radius, spacing, typography } from '@/constants/design';
+import { spacing, typography } from '@/constants/design';
+import { useAppTheme } from '@/hooks/use-app-theme';
 import { getApiErrorMessage } from '@/lib/api';
 import { adminService } from '@/lib/services/admin';
 import type { AppNotification } from '@/types/notification';
 
-import { styles } from '@/styles/app/admin/notifications.styles';
+import { makeStyles } from '@/styles/app/admin/notifications.styles';
 
 function formatDate(dateStr: string) {
   const d = new Date(dateStr);
@@ -44,6 +45,8 @@ function getNotifIcon(type: string) {
 }
 
 export default function AdminNotificationsScreen() {
+  const { colors } = useAppTheme();
+  const styles = makeStyles(colors);
   const [notifications, setNotifications] = useState<AppNotification[]>([]);
   const [loading, setLoading] = useState(true);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);

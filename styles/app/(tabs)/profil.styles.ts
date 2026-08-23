@@ -1,7 +1,8 @@
 import { StyleSheet } from 'react-native';
-import { colors, radius, spacing, typography } from '@/constants/design';
+import type { Palette } from '@/constants/design';
+import { radius, spacing, typography } from '@/constants/design';
 
-export const styles = StyleSheet.create({
+export const makeStyles = (colors: Palette) => StyleSheet.create({
   screen: {
     flex: 1,
     backgroundColor: colors.background,
@@ -59,10 +60,10 @@ export const styles = StyleSheet.create({
     borderRadius: radius.full,
   },
   badgeActive: {
-    backgroundColor: '#DFF5E1',
+    backgroundColor: colors.badgeSuccessBg,
   },
   badgePending: {
-    backgroundColor: '#FEF3C7',
+    backgroundColor: colors.badgeWarningBg,
   },
   badgeText: {
     ...typography.labelSm,

@@ -1,7 +1,10 @@
 import { StyleSheet } from 'react-native';
-import { colors, radius, spacing, typography } from '@/constants/design';
 
-export const styles = StyleSheet.create({
+import type { Palette } from '@/constants/design';
+import { radius, spacing, typography } from '@/constants/design';
+
+export const makeStyles = (colors: Palette) =>
+  StyleSheet.create({
   screen: {
     flex: 1,
     backgroundColor: colors.background,
@@ -38,14 +41,14 @@ export const styles = StyleSheet.create({
     padding: spacing.sm + 4,
   },
   itemUnread: {
-    backgroundColor: '#F3FBF3',
+    backgroundColor: colors.badgeSuccessBg,
     borderColor: colors.primaryContainer,
   },
   itemIcon: {
     width: 32,
     height: 32,
     borderRadius: radius.full,
-    backgroundColor: '#DFF5E1',
+    backgroundColor: colors.badgeSuccessBg,
     alignItems: 'center',
     justifyContent: 'center',
   },

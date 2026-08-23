@@ -8,16 +8,19 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { AppButton } from '@/components/ui/app-button';
 import { ErrorCard } from '@/components/ui/error-card';
 import { TextField } from '@/components/ui/text-field';
-import { colors, spacing } from '@/constants/design';
+import { spacing } from '@/constants/design';
+import { useAppTheme } from '@/hooks/use-app-theme';
 import { getApiErrorMessage } from '@/lib/api';
 import { membreService } from '@/lib/services/membre';
 import { filterLettersOnly, filterPhone } from '@/lib/validators';
 import { useAuthStore } from '@/store/auth-store';
 import type { Sexe } from '@/types/membre';
 
-import { styles } from '@/styles/app/profil/edit.styles';
+import { makeStyles } from '@/styles/app/profil/edit.styles';
 
 export default function EditProfilScreen() {
+  const { colors } = useAppTheme();
+  const styles = makeStyles(colors);
   const { user, refreshMe } = useAuthStore();
 
   const [nomComplet, setNomComplet] = useState(user?.nom_complet ?? '');

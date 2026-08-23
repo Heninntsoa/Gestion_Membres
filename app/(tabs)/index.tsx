@@ -8,7 +8,8 @@ import { ActivityCard } from '@/components/activity-card';
 import { ErrorCard } from '@/components/ui/error-card';
 import { Logo } from '@/components/ui/logo';
 import { PublicationCard } from '@/components/publication-card';
-import { colors, spacing } from '@/constants/design';
+import { spacing } from '@/constants/design';
+import { useAppTheme } from '@/hooks/use-app-theme';
 import { activitesService, participationsService } from '@/lib/services/activites';
 import { publicationsService } from '@/lib/services/publications';
 import { notificationsService } from '@/lib/services/notifications';
@@ -17,10 +18,12 @@ import { useAuthStore } from '@/store/auth-store';
 import type { Activite } from '@/types/activite';
 import type { Publication } from '@/types/publication';
 
-import { styles } from '@/styles/app/(tabs)/index.styles';
+import { makeStyles } from '@/styles/app/(tabs)/index.styles';
 
 export default function HomeScreen() {
   const { user, refreshMe } = useAuthStore();
+  const { colors } = useAppTheme();
+  const styles = makeStyles(colors);
 
   const [activites, setActivites] = useState<Activite[]>([]);
   const [publications, setPublications] = useState<Publication[]>([]);

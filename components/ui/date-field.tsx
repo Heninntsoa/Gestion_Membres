@@ -3,8 +3,8 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import React, { useState } from 'react';
 import { Platform, Text, TouchableOpacity, View } from 'react-native';
 
-import { colors } from '@/constants/design';
-import { styles } from '@/styles/components/ui/date-field.styles';
+import { useAppTheme } from '@/hooks/use-app-theme';
+import { makeStyles } from '@/styles/components/ui/date-field.styles';
 
 interface DateFieldProps {
   label: string;
@@ -47,6 +47,8 @@ export function DateField({
   minimumDate,
   placeholder = 'Sélectionner une date',
 }: DateFieldProps) {
+  const { colors } = useAppTheme();
+  const styles = makeStyles(colors);
   const [showPicker, setShowPicker] = useState(false);
 
   const handleChange = (event: { type: string }, selectedDate?: Date) => {

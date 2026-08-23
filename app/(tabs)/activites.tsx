@@ -6,14 +6,17 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { ActivityCard } from '@/components/activity-card';
 import { ErrorCard } from '@/components/ui/error-card';
+import { useAppTheme } from '@/hooks/use-app-theme';
 import { getApiErrorMessage } from '@/lib/api';
 import { activitesService, participationsService } from '@/lib/services/activites';
 import type { Activite } from '@/types/activite';
 import { TouchableOpacity } from 'react-native';
 
-import { styles } from '@/styles/app/(tabs)/activites.styles';
+import { makeStyles } from '@/styles/app/(tabs)/activites.styles';
 
 export default function ActivitesScreen() {
+  const { colors } = useAppTheme();
+  const styles = makeStyles(colors);
   const [activites, setActivites] = useState<Activite[]>([]);
   const [myIds, setMyIds] = useState<number[]>([]);
   const [loading, setLoading] = useState(true);

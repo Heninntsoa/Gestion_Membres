@@ -6,12 +6,13 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { RoleBadge } from '@/components/ui/role-badge';
 import { AppButton } from '@/components/ui/app-button';
-import { colors, spacing, typography } from '@/constants/design';
+import { spacing, typography } from '@/constants/design';
+import { useAppTheme } from '@/hooks/use-app-theme';
 import { getApiErrorMessage } from '@/lib/api';
 import { adminService, type AdminMembreListItem, type FilterStatus } from '@/lib/services/admin';
 import type { Role } from '@/types/membre';
 
-import { styles } from '@/styles/app/admin/index.styles';
+import { makeStyles } from '@/styles/app/admin/index.styles';
 
 const STATUS_OPTIONS: { label: string; value: FilterStatus }[] = [
   { label: 'Tous', value: '' },
@@ -30,7 +31,7 @@ const ROLE_OPTIONS: { label: string; value: string }[] = [
   { label: 'Président', value: 'president' },
 ];
 
-function getStatusInfo(isActive: number) {
+function getStatusInfo(isActive: number, styles: ReturnType<typeof makeStyles>) {
   switch (isActive) {
     case 0:
       return { label: 'En attente', style: styles.statusPending, textStyle: styles.statusTextPending };
@@ -46,6 +47,8 @@ function getStatusInfo(isActive: number) {
 }
 
 export default function AdminMembersScreen() {
+  const { colors } = useAppTheme();
+  const styles = makeStyles(colors);
   const [members, setMembers] = useState<AdminMembreListItem[]>([]);
   const [pagination, setPagination] = useState({ page: 1, limit: 10, total: 0, pages: 0 });
   const [loading, setLoading] = useState(true);
@@ -124,7 +127,7 @@ export default function AdminMembersScreen() {
   };
 
   const renderMember = ({ item }: { item: AdminMembreListItem }) => {
-    const status = getStatusInfo(item.is_active);
+    const status = getStatusInfo(item.is_active, styles);
     const isLoading = loadingAction === item.id;
 
     return (

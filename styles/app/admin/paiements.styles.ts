@@ -1,7 +1,9 @@
 import { StyleSheet } from 'react-native';
-import { colors, radius, spacing, typography } from '@/constants/design';
+import type { Palette } from '@/constants/design';
+import { radius, spacing, typography } from '@/constants/design';
 
-export const styles = StyleSheet.create({
+export const makeStyles = (colors: Palette) =>
+  StyleSheet.create({
   screen: {
     flex: 1,
     backgroundColor: colors.background,
@@ -71,7 +73,7 @@ export const styles = StyleSheet.create({
     fontSize: 11,
   },
   filterChipTextActive: {
-    color: colors.white,
+    color: colors.onPrimary,
   },
 
   // List
@@ -155,18 +157,18 @@ export const styles = StyleSheet.create({
   commentContainer: {
     marginTop: spacing.sm,
     padding: spacing.sm,
-    backgroundColor: '#FEF2F2',
+    backgroundColor: colors.badgeErrorBg,
     borderRadius: radius.md,
   },
   commentLabel: {
     ...typography.labelSm,
-    color: '#991B1B',
+    color: colors.badgeErrorText,
     fontSize: 11,
     marginBottom: 2,
   },
   commentText: {
     ...typography.bodySm,
-    color: '#991B1B',
+    color: colors.badgeErrorText,
   },
 
   // Actions
@@ -182,10 +184,10 @@ export const styles = StyleSheet.create({
     borderRadius: radius.sm,
   },
   actionBtnValidate: {
-    backgroundColor: '#DFF5E1',
+    backgroundColor: colors.badgeSuccessBg,
   },
   actionBtnRefuse: {
-    backgroundColor: '#F3E8FF',
+    backgroundColor: colors.badgePurpleBg,
   },
   actionBtnText: {
     ...typography.labelSm,

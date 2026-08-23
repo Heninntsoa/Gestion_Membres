@@ -1,7 +1,9 @@
 import { StyleSheet } from 'react-native';
-import { colors, radius, spacing, typography } from '@/constants/design';
+import type { Palette } from '@/constants/design';
+import { radius, spacing, typography } from '@/constants/design';
 
-export const styles = StyleSheet.create({
+export const makeStyles = (colors: Palette) =>
+  StyleSheet.create({
   screen: {
     flex: 1,
     backgroundColor: colors.background,
@@ -73,16 +75,16 @@ export const styles = StyleSheet.create({
     marginTop: spacing.xs,
   },
   statusPending: {
-    backgroundColor: '#FEF3C7',
+    backgroundColor: colors.badgeWarningBg,
   },
   statusActive: {
-    backgroundColor: '#DFF5E1',
+    backgroundColor: colors.badgeSuccessBg,
   },
   statusDisabled: {
-    backgroundColor: '#FEE2E2',
+    backgroundColor: colors.badgeErrorBg,
   },
   statusRefused: {
-    backgroundColor: '#F3E8FF',
+    backgroundColor: colors.badgePurpleBg,
   },
   statusText: {
     ...typography.labelMd,

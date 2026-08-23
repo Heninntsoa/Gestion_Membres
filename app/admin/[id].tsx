@@ -6,25 +6,30 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { RoleBadge } from '@/components/ui/role-badge';
 import { ErrorCard } from '@/components/ui/error-card';
-import { colors, spacing, typography } from '@/constants/design';
+import { spacing, typography } from '@/constants/design';
+import { useAppTheme } from '@/hooks/use-app-theme';
 import { getApiErrorMessage } from '@/lib/api';
 import { adminService, type AdminMembreListItem } from '@/lib/services/admin';
 import type { Role } from '@/types/membre';
 
-import { styles } from '@/styles/app/admin/detail.styles';
+import { makeStyles } from '@/styles/app/admin/detail.styles';
 
-function getStatusInfo(isActive: number) {
+function getStatusInfo(
+  isActive: number,
+  styles: ReturnType<typeof makeStyles>,
+  colors: ReturnType<typeof useAppTheme>['colors']
+) {
   switch (isActive) {
     case 0:
-      return { label: 'En attente de validation', style: styles.statusPending, textStyle: { color: '#92400E' } };
+      return { label: 'En attente de validation', style: styles.statusPending, textStyle: { color: colors.badgeWarningText } };
     case 1:
-      return { label: 'Membre actif', style: styles.statusActive, textStyle: { color: '#065F46' } };
+      return { label: 'Membre actif', style: styles.statusActive, textStyle: { color: colors.badgeSuccessText } };
     case 2:
-      return { label: 'Désactivé', style: styles.statusDisabled, textStyle: { color: '#991B1B' } };
+      return { label: 'Désactivé', style: styles.statusDisabled, textStyle: { color: colors.badgeErrorText } };
     case 3:
-      return { label: 'Refusé', style: styles.statusRefused, textStyle: { color: '#6B21A8' } };
+      return { label: 'Refusé', style: styles.statusRefused, textStyle: { color: colors.badgePurpleText } };
     default:
-      return { label: 'Inconnu', style: styles.statusPending, textStyle: { color: '#92400E' } };
+      return { label: 'Inconnu', style: styles.statusPending, textStyle: { color: colors.badgeWarningText } };
   }
 }
 
@@ -38,6 +43,8 @@ function formatDate(dateStr: string | null) {
 }
 
 export default function AdminMemberDetailScreen() {
+  const { colors } = useAppTheme();
+  const styles = makeStyles(colors);
   const { id, matricule } = useLocalSearchParams<{ id: string; matricule?: string }>();
   const [member, setMember] = useState<AdminMembreListItem | null>(null);
   const [loading, setLoading] = useState(true);
@@ -138,7 +145,7 @@ export default function AdminMemberDetailScreen() {
     );
   }
 
-  const status = getStatusInfo(member.is_active);
+  const status = getStatusInfo(member.is_active, styles, colors);
 
   return (
     <SafeAreaView style={styles.screen} edges={['top']}>
@@ -211,8 +218,8 @@ export default function AdminMemberDetailScreen() {
         {/* Messages */}
         {!!errorMsg && <ErrorCard message={errorMsg} />}
         {!!successMsg && (
-          <View style={{ padding: spacing.sm, backgroundColor: '#DFF5E1', borderRadius: 8 }}>
-            <Text style={{ color: '#065F46', ...typography.bodySm }}>{successMsg}</Text>
+          <View style={{ padding: spacing.sm, backgroundColor: colors.badgeSuccessBg, borderRadius: 8 }}>
+            <Text style={{ color: colors.badgeSuccessText, ...typography.bodySm }}>{successMsg}</Text>
           </View>
         )}
 
@@ -256,6 +263,8 @@ export default function AdminMemberDetailScreen() {
 }
 
 function InfoRow({ icon, label, value }: { icon: keyof typeof MaterialIcons.glyphMap; label: string; value: string | null }) {
+  const { colors } = useAppTheme();
+  const styles = makeStyles(colors);
   return (
     <View style={styles.infoRow}>
       <MaterialIcons name={icon} size={18} color={colors.textSecondary} style={styles.infoIcon} />

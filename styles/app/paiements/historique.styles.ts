@@ -1,7 +1,10 @@
 import { StyleSheet } from 'react-native';
-import { colors, radius, spacing, typography } from '@/constants/design';
 
-export const styles = StyleSheet.create({
+import type { Palette } from '@/constants/design';
+import { radius, spacing, typography } from '@/constants/design';
+
+export const makeStyles = (colors: Palette) =>
+  StyleSheet.create({
   screen: {
     flex: 1,
     backgroundColor: colors.background,
@@ -31,11 +34,11 @@ export const styles = StyleSheet.create({
   },
   totalLabel: {
     ...typography.bodySm,
-    color: '#DFF5E1',
+    color: colors.onPrimary,
   },
   totalValue: {
     ...typography.headlineLg,
-    color: colors.white,
+    color: colors.onPrimary,
     marginTop: 4,
   },
   item: {

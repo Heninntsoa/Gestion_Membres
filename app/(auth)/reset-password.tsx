@@ -6,12 +6,15 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { AppButton } from '@/components/ui/app-button';
 import { TextField } from '@/components/ui/text-field';
-import { colors, spacing } from '@/constants/design';
+import { spacing } from '@/constants/design';
+import { useAppTheme } from '@/hooks/use-app-theme';
 import { api, getApiErrorMessage } from '@/lib/api';
 
-import { styles } from '@/styles/app/(auth)/login.styles';
+import { makeStyles } from '@/styles/app/(auth)/login.styles';
 
 export default function ResetPasswordScreen() {
+  const { colors } = useAppTheme();
+  const styles = makeStyles(colors);
   const { token: urlToken } = useLocalSearchParams<{ token?: string }>();
 
   const [token, setToken] = useState(urlToken ?? '');

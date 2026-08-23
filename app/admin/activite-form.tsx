@@ -13,12 +13,12 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import { colors, radius, spacing, typography } from '@/constants/design';
 import { ErrorCard } from '@/components/ui/error-card';
+import { useAppTheme } from '@/hooks/use-app-theme';
 import { getApiErrorMessage } from '@/lib/api';
 import { adminService, type AdminActiviteFormPayload } from '@/lib/services/admin';
 
-import { styles } from '@/styles/app/admin/activite-form.styles';
+import { makeStyles } from '@/styles/app/admin/activite-form.styles';
 
 const TYPE_OPTIONS = [
   { value: 'gratuit', label: 'Gratuit' },
@@ -42,6 +42,8 @@ function formatDateForInput(dateStr: string | null) {
 }
 
 export default function AdminActiviteFormScreen() {
+  const { colors } = useAppTheme();
+  const styles = makeStyles(colors);
   const { id } = useLocalSearchParams<{ id?: string }>();
   const isEdit = !!id;
 

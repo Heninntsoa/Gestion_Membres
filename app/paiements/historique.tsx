@@ -4,18 +4,25 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { FlatList, RefreshControl, Text, TouchableOpacity, View,  } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import { colors } from '@/constants/design';
+import type { Palette } from '@/constants/design';
+import { useAppTheme } from '@/hooks/use-app-theme';
 import { ErrorCard } from '@/components/ui/error-card';
 import { getApiErrorMessage } from '@/lib/api';
 import { paiementsService } from '@/lib/services/paiements';
 import type { Paiement, StatutPaiement } from '@/types/paiement';
 
-import { styles } from '@/styles/app/paiements/historique.styles';
-const statutConfig: Record<StatutPaiement, { bg: string; color: string; icon: keyof typeof MaterialIcons.glyphMap; label: string }> = {
-  valide: { bg: '#DFF5E1', color: colors.statusValidated, icon: 'check-circle', label: 'Validé' },
-  en_attente: { bg: '#FEF3C7', color: '#B45309', icon: 'schedule', label: 'En attente' },
-  refuse: { bg: '#FEE2E2', color: colors.error, icon: 'cancel', label: 'Refusé' },
-};
+import { makeStyles } from '@/styles/app/paiements/historique.styles';
+
+const makeStatutConfig = (
+  colors: Palette
+): Record<
+  StatutPaiement,
+  { bg: string; color: string; icon: keyof typeof MaterialIcons.glyphMap; label: string }
+> => ({
+  valide: { bg: colors.badgeSuccessBg, color: colors.badgeSuccessText, icon: 'check-circle', label: 'Validé' },
+  en_attente: { bg: colors.badgeWarningBg, color: colors.badgeWarningText, icon: 'schedule', label: 'En attente' },
+  refuse: { bg: colors.badgeErrorBg, color: colors.badgeErrorText, icon: 'cancel', label: 'Refusé' },
+});
 
 function formatDate(dateStr: string) {
   return new Date(dateStr).toLocaleDateString('fr-FR', {
@@ -26,6 +33,9 @@ function formatDate(dateStr: string) {
 }
 
 export default function HistoriquePaiementsScreen() {
+  const { colors } = useAppTheme();
+  const styles = makeStyles(colors);
+  const statutConfig = makeStatutConfig(colors);
   const [paiements, setPaiements] = useState<Paiement[]>([]);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);

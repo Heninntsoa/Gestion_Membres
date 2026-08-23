@@ -1,9 +1,9 @@
 import React from 'react';
 import { ActivityIndicator, Text, TouchableOpacity, TouchableOpacityProps,  } from 'react-native';
 
-import { colors } from '@/constants/design';
+import { useAppTheme } from '@/hooks/use-app-theme';
 
-import { styles } from '@/styles/components/ui/app-button.styles';
+import { makeStyles } from '@/styles/components/ui/app-button.styles';
 interface AppButtonProps extends TouchableOpacityProps {
   title: string;
   loading?: boolean;
@@ -18,6 +18,8 @@ export function AppButton({
   style,
   ...rest
 }: AppButtonProps) {
+  const { colors } = useAppTheme();
+  const styles = makeStyles(colors);
   const isOutline = variant === 'outline';
   return (
     <TouchableOpacity

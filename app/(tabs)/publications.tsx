@@ -6,15 +6,18 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { PublicationCard } from '@/components/publication-card';
 import { ErrorCard } from '@/components/ui/error-card';
 import { spacing } from '@/constants/design';
+import { useAppTheme } from '@/hooks/use-app-theme';
 import { getApiErrorMessage } from '@/lib/api';
 import { publicationsService } from '@/lib/services/publications';
 import { useAuthStore } from '@/store/auth-store';
 import type { Publication } from '@/types/publication';
 
-import { styles } from '@/styles/app/(tabs)/publications.styles';
+import { makeStyles } from '@/styles/app/(tabs)/publications.styles';
 
 export default function PublicationsScreen() {
   const { user } = useAuthStore();
+  const { colors } = useAppTheme();
+  const styles = makeStyles(colors);
   const [publications, setPublications] = useState<Publication[]>([]);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);

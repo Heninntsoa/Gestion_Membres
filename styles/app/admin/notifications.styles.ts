@@ -1,7 +1,9 @@
 import { StyleSheet } from 'react-native';
-import { colors, radius, spacing, typography } from '@/constants/design';
+import type { Palette } from '@/constants/design';
+import { radius, spacing, typography } from '@/constants/design';
 
-export const styles = StyleSheet.create({
+export const makeStyles = (colors: Palette) =>
+  StyleSheet.create({
   screen: {
     flex: 1,
     backgroundColor: colors.background,
@@ -49,8 +51,8 @@ export const styles = StyleSheet.create({
     gap: spacing.sm,
   },
   cardUnread: {
-    backgroundColor: '#F0FDF4',
-    borderColor: '#BBF7D0',
+    backgroundColor: colors.badgeSuccessBg,
+    borderColor: colors.primaryContainer,
   },
   iconWrapper: {
     width: 36,

@@ -12,12 +12,13 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import { colors, radius, spacing, typography } from '@/constants/design';
+import { spacing, typography } from '@/constants/design';
+import { useAppTheme } from '@/hooks/use-app-theme';
 import { getApiErrorMessage } from '@/lib/api';
 import { adminService } from '@/lib/services/admin';
 import type { Publication } from '@/types/publication';
 
-import { styles } from '@/styles/app/admin/publications.styles';
+import { makeStyles } from '@/styles/app/admin/publications.styles';
 
 function formatDate(dateStr: string) {
   return new Date(dateStr).toLocaleDateString('fr-FR', {
@@ -28,6 +29,8 @@ function formatDate(dateStr: string) {
 }
 
 export default function AdminPublicationsScreen() {
+  const { colors } = useAppTheme();
+  const styles = makeStyles(colors);
   const [publications, setPublications] = useState<Publication[]>([]);
   const [pagination, setPagination] = useState({ page: 1, limit: 10, total: 0, pages: 0 });
   const [loading, setLoading] = useState(true);

@@ -11,12 +11,13 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import { colors, spacing, typography } from '@/constants/design';
+import { spacing, typography } from '@/constants/design';
+import { useAppTheme } from '@/hooks/use-app-theme';
 import { getApiErrorMessage } from '@/lib/api';
 import { adminService } from '@/lib/services/admin';
 import type { Commentaire } from '@/types/commentaire';
 
-import { styles } from '@/styles/app/admin/commentaires.styles';
+import { makeStyles } from '@/styles/app/admin/commentaires.styles';
 
 function formatDate(dateStr: string) {
   return new Date(dateStr).toLocaleDateString('fr-FR', {
@@ -29,6 +30,8 @@ function formatDate(dateStr: string) {
 }
 
 export default function AdminCommentairesScreen() {
+  const { colors } = useAppTheme();
+  const styles = makeStyles(colors);
   const { publicationId, publicationTitle } = useLocalSearchParams<{
     publicationId: string;
     publicationTitle?: string;

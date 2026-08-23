@@ -1,7 +1,10 @@
 import { StyleSheet } from 'react-native';
-import { colors, spacing, typography } from '@/constants/design';
 
-export const styles = StyleSheet.create({
+import type { Palette } from '@/constants/design';
+import { spacing, typography } from '@/constants/design';
+
+export const makeStyles = (colors: Palette) =>
+  StyleSheet.create({
   screen: {
     flex: 1,
     backgroundColor: colors.background,

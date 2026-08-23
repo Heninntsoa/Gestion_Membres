@@ -11,12 +11,13 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import { colors, radius, spacing, typography } from '@/constants/design';
+import { spacing, typography } from '@/constants/design';
+import { useAppTheme } from '@/hooks/use-app-theme';
 import { getApiErrorMessage } from '@/lib/api';
 import { adminService } from '@/lib/services/admin';
 import type { Cotisation } from '@/types/cotisation';
 
-import { styles } from '@/styles/app/admin/cotisations.styles';
+import { makeStyles } from '@/styles/app/admin/cotisations.styles';
 
 function formatDate(dateStr: string | null) {
   if (!dateStr) return '—';
@@ -27,13 +28,16 @@ function formatDate(dateStr: string | null) {
   });
 }
 
-const STATUT_STYLE: Record<string, { bg: string; label: string; color: string }> = {
-  ouverte: { bg: '#DFF5E1', label: 'Ouverte', color: '#065F46' },
-  cloturee: { bg: '#FEF3C7', label: 'Clôturée', color: '#92400E' },
-  archivee: { bg: '#F3F4F6', label: 'Archivée', color: '#6B7280' },
-};
+const makeStatutStyle = (colors: ReturnType<typeof useAppTheme>['colors']): Record<string, { bg: string; label: string; color: string }> => ({
+  ouverte: { bg: colors.badgeSuccessBg, label: 'Ouverte', color: colors.badgeSuccessText },
+  cloturee: { bg: colors.badgeWarningBg, label: 'Clôturée', color: colors.badgeWarningText },
+  archivee: { bg: colors.badgeNeutralBg, label: 'Archivée', color: colors.badgeNeutralText },
+});
 
 export default function AdminCotisationsScreen() {
+  const { colors } = useAppTheme();
+  const styles = makeStyles(colors);
+  const statutStyle = makeStatutStyle(colors);
   const [cotisations, setCotisations] = useState<Cotisation[]>([]);
   const [loading, setLoading] = useState(true);
   const [loadingDelete, setLoadingDelete] = useState<number | null>(null);
@@ -78,7 +82,7 @@ export default function AdminCotisationsScreen() {
   };
 
   const renderItem = ({ item }: { item: Cotisation }) => {
-    const badge = STATUT_STYLE[item.statut] ?? STATUT_STYLE.archivee;
+    const badge = statutStyle[item.statut] ?? statutStyle.archivee;
 
     return (
       <View style={styles.card}>

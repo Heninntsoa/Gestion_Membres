@@ -2,10 +2,10 @@ import { MaterialIcons } from '@expo/vector-icons';
 import React from 'react';
 import { Image, Text, TouchableOpacity, View } from 'react-native';
 
-import { colors } from '@/constants/design';
+import { useAppTheme } from '@/hooks/use-app-theme';
 import type { Activite } from '@/types/activite';
 
-import { styles } from '@/styles/components/activity-card.styles';
+import { makeStyles } from '@/styles/components/activity-card.styles';
 interface ActivityCardProps {
   activite: Activite;
   isRegistered: boolean;
@@ -32,6 +32,8 @@ export function ActivityCard({
   onParticipatePress,
   loading,
 }: ActivityCardProps) {
+  const { colors } = useAppTheme();
+  const styles = makeStyles(colors);
   const isAnnulee = activite.statut === 'annulee';
   const isTerminee = activite.statut === 'terminee';
 
@@ -55,13 +57,13 @@ export function ActivityCard({
           <Text style={styles.dateBadgeText}>{formatDateBadge(activite.date_debut)}</Text>
         </View>
         {isAnnulee && (
-          <View style={[styles.statusBadge, { backgroundColor: colors.error }]}>
-            <Text style={styles.statusBadgeText}>Annulée</Text>
+          <View style={[styles.statusBadge, { backgroundColor: colors.badgeErrorBg }]}>
+            <Text style={[styles.statusBadgeText, { color: colors.badgeErrorText }]}>Annulée</Text>
           </View>
         )}
         {isTerminee && (
-          <View style={[styles.statusBadge, { backgroundColor: colors.outline }]}>
-            <Text style={styles.statusBadgeText}>Terminée</Text>
+          <View style={[styles.statusBadge, { backgroundColor: colors.badgeNeutralBg }]}>
+            <Text style={[styles.statusBadgeText, { color: colors.badgeNeutralText }]}>Terminée</Text>
           </View>
         )}
       </View>

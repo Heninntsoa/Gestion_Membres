@@ -13,14 +13,16 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import { colors, spacing, typography } from '@/constants/design';
 import { ErrorCard } from '@/components/ui/error-card';
+import { useAppTheme } from '@/hooks/use-app-theme';
 import { getApiErrorMessage } from '@/lib/api';
 import { adminService } from '@/lib/services/admin';
 
-import { styles } from '@/styles/app/admin/publication-form.styles';
+import { makeStyles } from '@/styles/app/admin/publication-form.styles';
 
 export default function AdminPublicationFormScreen() {
+  const { colors } = useAppTheme();
+  const styles = makeStyles(colors);
   const { id } = useLocalSearchParams<{ id?: string }>();
   const isEdit = !!id;
 

@@ -2,45 +2,45 @@ import { MaterialIcons } from '@expo/vector-icons';
 import React from 'react';
 import { Text, View, type ViewStyle } from 'react-native';
 
-import { radius, spacing, typography } from '@/constants/design';
+import { radius, spacing, type Palette } from '@/constants/design';
+import { useAppTheme } from '@/hooks/use-app-theme';
 import type { Role } from '@/types/membre';
 
-/** Configuration visuelle par rôle */
-const ROLE_CONFIG: Record<
-  Role,
-  { label: string; icon: keyof typeof MaterialIcons.glyphMap; bg: string; fg: string }
-> = {
+type RoleVisual = { label: string; icon: keyof typeof MaterialIcons.glyphMap; bg: string; fg: string };
+
+/** Configuration visuelle par rôle (couleurs dépendantes du thème) */
+const makeRoleConfig = (colors: Palette): Record<Role, RoleVisual> => ({
   membre: {
     label: 'Membre',
     icon: 'person',
-    bg: '#E5E7EB',
-    fg: '#374151',
+    bg: colors.badgeNeutralBg,
+    fg: colors.badgeNeutralText,
   },
   admin: {
     label: 'Admin',
     icon: 'admin-panel-settings',
-    bg: '#FEE2E2',
-    fg: '#991B1B',
+    bg: colors.badgeErrorBg,
+    fg: colors.badgeErrorText,
   },
   communication: {
     label: 'Communication',
     icon: 'campaign',
-    bg: '#DBEAFE',
-    fg: '#1E40AF',
+    bg: colors.badgeInfoBg,
+    fg: colors.badgeInfoText,
   },
   tresor: {
     label: 'Trésor',
     icon: 'account-balance-wallet',
-    bg: '#FEF3C7',
-    fg: '#92400E',
+    bg: colors.badgeWarningBg,
+    fg: colors.badgeWarningText,
   },
   president: {
     label: 'Président',
     icon: 'emoji-events',
-    bg: '#D1FAE5',
-    fg: '#065F46',
+    bg: colors.badgeSuccessBg,
+    fg: colors.badgeSuccessText,
   },
-};
+});
 
 interface RoleBadgeProps {
   role: Role;
@@ -51,7 +51,8 @@ interface RoleBadgeProps {
 }
 
 export function RoleBadge({ role, size = 'md', style }: RoleBadgeProps) {
-  const config = ROLE_CONFIG[role] ?? ROLE_CONFIG.membre;
+  const { colors } = useAppTheme();
+  const config = makeRoleConfig(colors)[role] ?? makeRoleConfig(colors).membre;
   const isSmall = size === 'sm';
 
   return (
@@ -91,6 +92,14 @@ export function hasAdminAccess(role: Role): boolean {
 }
 
 /** Human-readable label for a role */
+const ROLE_LABELS: Record<Role, string> = {
+  membre: 'Membre',
+  admin: 'Admin',
+  communication: 'Communication',
+  tresor: 'Trésor',
+  president: 'Président',
+};
+
 export function getRoleLabel(role: Role): string {
-  return ROLE_CONFIG[role]?.label ?? role;
+  return ROLE_LABELS[role] ?? role;
 }

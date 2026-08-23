@@ -1,7 +1,8 @@
 import { StyleSheet } from 'react-native';
-import { colors, radius, spacing, typography } from '@/constants/design';
+import type { Palette } from '@/constants/design';
+import { radius, spacing, typography } from '@/constants/design';
 
-export const styles = StyleSheet.create({
+export const makeStyles = (colors: Palette) => StyleSheet.create({
   screen: {
     flex: 1,
     backgroundColor: colors.background,
@@ -49,7 +50,7 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 3,
   },
   notifBadgeText: {
-    color: colors.white,
+    color: colors.onError,
     fontSize: 9,
     fontWeight: '700',
   },
@@ -68,7 +69,7 @@ export const styles = StyleSheet.create({
     width: 36,
     height: 36,
     borderRadius: radius.full,
-    backgroundColor: '#DFF5E1',
+    backgroundColor: colors.badgeSuccessBg,
     alignItems: 'center',
     justifyContent: 'center',
   },

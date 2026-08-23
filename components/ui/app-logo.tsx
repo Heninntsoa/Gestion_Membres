@@ -2,7 +2,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 import React from 'react';
 import { Text, View, type ViewStyle } from 'react-native';
 
-import { colors, typography } from '@/constants/design';
+import { useAppTheme } from '@/hooks/use-app-theme';
 
 interface AppLogoProps {
   /** Size variant */
@@ -18,6 +18,7 @@ interface AppLogoProps {
  * Style moderne avec icône verte et dégradé subtil.
  */
 export function AppLogo({ size = 'md', style, showSubtitle = false }: AppLogoProps) {
+  const { colors } = useAppTheme();
   const config = {
     sm: { iconSize: 24, titleSize: 18, subtitleSize: 10, gap: 6 },
     md: { iconSize: 32, titleSize: 24, subtitleSize: 12, gap: 8 },
@@ -50,7 +51,7 @@ export function AppLogo({ size = 'md', style, showSubtitle = false }: AppLogoPro
           elevation: 8,
         }}
       >
-        <MaterialIcons name="eco" size={config.iconSize * 1.5} color={colors.white} />
+        <MaterialIcons name="eco" size={config.iconSize * 1.5} color={colors.onPrimary} />
       </View>
 
       {/* Titre */}
@@ -69,7 +70,7 @@ export function AppLogo({ size = 'md', style, showSubtitle = false }: AppLogoPro
           style={{
             fontSize: config.titleSize * 0.6,
             fontWeight: '600',
-            color: colors.primaryContainer,
+            color: colors.textSecondary,
             letterSpacing: 2,
             marginTop: -2,
           }}
@@ -99,6 +100,7 @@ export function AppLogo({ size = 'md', style, showSubtitle = false }: AppLogoPro
  * Version compacte du logo pour les en-têtes et la barre de navigation.
  */
 export function AppLogoCompact({ style }: { style?: ViewStyle }) {
+  const { colors } = useAppTheme();
   return (
     <View
       style={[
@@ -120,7 +122,7 @@ export function AppLogoCompact({ style }: { style?: ViewStyle }) {
           justifyContent: 'center',
         }}
       >
-        <MaterialIcons name="eco" size={20} color={colors.white} />
+        <MaterialIcons name="eco" size={20} color={colors.onPrimary} />
       </View>
       <View>
         <Text
@@ -137,7 +139,7 @@ export function AppLogoCompact({ style }: { style?: ViewStyle }) {
           style={{
             fontSize: 9,
             fontWeight: '600',
-            color: colors.primaryContainer,
+            color: colors.textSecondary,
             letterSpacing: 1.5,
             lineHeight: 11,
           }}

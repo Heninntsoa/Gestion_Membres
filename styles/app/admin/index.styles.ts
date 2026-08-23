@@ -1,7 +1,9 @@
 import { StyleSheet } from 'react-native';
-import { colors, radius, spacing, typography } from '@/constants/design';
+import type { Palette } from '@/constants/design';
+import { radius, spacing, typography } from '@/constants/design';
 
-export const styles = StyleSheet.create({
+export const makeStyles = (colors: Palette) =>
+  StyleSheet.create({
   screen: {
     flex: 1,
     backgroundColor: colors.background,
@@ -115,13 +117,13 @@ export const styles = StyleSheet.create({
     color: colors.primary,
   },
   filterButtonTextActive: {
-    color: colors.white,
+    color: colors.onPrimary,
   },
   filterBadge: {
     minWidth: 18,
     height: 18,
     borderRadius: radius.full,
-    backgroundColor: colors.white,
+    backgroundColor: colors.onPrimary,
     alignItems: 'center',
     justifyContent: 'center',
     paddingHorizontal: 4,
@@ -211,7 +213,7 @@ export const styles = StyleSheet.create({
     fontSize: 11,
   },
   filterChipTextActive: {
-    color: colors.white,
+    color: colors.onPrimary,
   },
 
   // List
@@ -282,16 +284,16 @@ export const styles = StyleSheet.create({
     borderRadius: radius.full,
   },
   statusPending: {
-    backgroundColor: '#FEF3C7',
+    backgroundColor: colors.badgeWarningBg,
   },
   statusActive: {
-    backgroundColor: '#DFF5E1',
+    backgroundColor: colors.badgeSuccessBg,
   },
   statusDisabled: {
-    backgroundColor: '#FEE2E2',
+    backgroundColor: colors.badgeErrorBg,
   },
   statusRefused: {
-    backgroundColor: '#F3E8FF',
+    backgroundColor: colors.badgePurpleBg,
   },
   statusText: {
     ...typography.labelSm,
@@ -299,16 +301,16 @@ export const styles = StyleSheet.create({
     fontWeight: '600',
   },
   statusTextPending: {
-    color: '#92400E',
+    color: colors.badgeWarningText,
   },
   statusTextActive: {
-    color: '#065F46',
+    color: colors.badgeSuccessText,
   },
   statusTextDisabled: {
-    color: '#991B1B',
+    color: colors.badgeErrorText,
   },
   statusTextRefused: {
-    color: '#6B21A8',
+    color: colors.badgePurpleText,
   },
 
   // Action buttons
@@ -323,26 +325,26 @@ export const styles = StyleSheet.create({
     borderRadius: radius.sm,
   },
   actionBtnActivate: {
-    backgroundColor: '#DFF5E1',
+    backgroundColor: colors.badgeSuccessBg,
   },
   actionBtnDeactivate: {
-    backgroundColor: '#FEE2E2',
+    backgroundColor: colors.badgeErrorBg,
   },
   actionBtnRefuse: {
-    backgroundColor: '#F3E8FF',
+    backgroundColor: colors.badgePurpleBg,
   },
   actionBtnText: {
     ...typography.labelSm,
     fontSize: 10,
   },
   actionBtnTextActivate: {
-    color: '#065F46',
+    color: colors.badgeSuccessText,
   },
   actionBtnTextDeactivate: {
-    color: '#991B1B',
+    color: colors.badgeErrorText,
   },
   actionBtnTextRefuse: {
-    color: '#6B21A8',
+    color: colors.badgePurpleText,
   },
 
   // Pagination

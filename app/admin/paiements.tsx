@@ -14,11 +14,12 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import { colors, radius, spacing, typography } from '@/constants/design';
+import { spacing, typography } from '@/constants/design';
+import { useAppTheme } from '@/hooks/use-app-theme';
 import { getApiErrorMessage } from '@/lib/api';
 import { adminService, type AdminPaiementListItem, type FilterStatus } from '@/lib/services/admin';
 
-import { styles } from '@/styles/app/admin/paiements.styles';
+import { makeStyles } from '@/styles/app/admin/paiements.styles';
 
 const STATUS_OPTIONS: { label: string; value: string }[] = [
   { label: 'Tous', value: '' },
@@ -35,20 +36,22 @@ function formatDate(dateStr: string) {
   });
 }
 
-function getStatusBadge(statut: string) {
+function getStatusBadge(statut: string, colors: ReturnType<typeof useAppTheme>['colors']) {
   switch (statut) {
     case 'en_attente':
-      return { bg: '#FEF3C7', color: '#92400E', label: 'En attente' };
+      return { bg: colors.badgeWarningBg, color: colors.badgeWarningText, label: 'En attente' };
     case 'valide':
-      return { bg: '#DFF5E1', color: '#065F46', label: 'Validé' };
+      return { bg: colors.badgeSuccessBg, color: colors.badgeSuccessText, label: 'Validé' };
     case 'refuse':
-      return { bg: '#FEE2E2', color: '#991B1B', label: 'Refusé' };
+      return { bg: colors.badgeErrorBg, color: colors.badgeErrorText, label: 'Refusé' };
     default:
-      return { bg: '#F3F4F6', color: '#6B7280', label: statut };
+      return { bg: colors.badgeNeutralBg, color: colors.badgeNeutralText, label: statut };
   }
 }
 
 export default function AdminPaiementsScreen() {
+  const { colors } = useAppTheme();
+  const styles = makeStyles(colors);
   const [paiements, setPaiements] = useState<AdminPaiementListItem[]>([]);
   const [pagination, setPagination] = useState({ page: 1, limit: 10, total: 0, pages: 0 });
   const [loading, setLoading] = useState(true);
@@ -133,7 +136,7 @@ export default function AdminPaiementsScreen() {
   };
 
   const renderItem = ({ item }: { item: AdminPaiementListItem }) => {
-    const badge = getStatusBadge(item.statut);
+    const badge = getStatusBadge(item.statut, colors);
     const isLoading = loadingAction === item.id;
 
     return (

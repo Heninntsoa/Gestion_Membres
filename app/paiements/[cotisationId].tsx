@@ -8,7 +8,8 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { AppButton } from '@/components/ui/app-button';
 import { ErrorCard } from '@/components/ui/error-card';
 import { TextField } from '@/components/ui/text-field';
-import { colors, spacing } from '@/constants/design';
+import { spacing } from '@/constants/design';
+import { useAppTheme } from '@/hooks/use-app-theme';
 import { getApiErrorMessage } from '@/lib/api';
 import { filterDigitsOnly } from '@/lib/validators';
 import { cotisationsService } from '@/lib/services/cotisations';
@@ -16,9 +17,11 @@ import { modesPaiementsService, paiementsService } from '@/lib/services/paiement
 import type { Cotisation } from '@/types/cotisation';
 import type { ModePaiement } from '@/types/paiement';
 
-import { styles } from '@/styles/app/paiements/[cotisationId].styles';
+import { makeStyles } from '@/styles/app/paiements/[cotisationId].styles';
 
 export default function DeclarerPaiementScreen() {
+  const { colors } = useAppTheme();
+  const styles = makeStyles(colors);
   const { cotisationId } = useLocalSearchParams<{ cotisationId: string }>();
   const id = Number(cotisationId);
 

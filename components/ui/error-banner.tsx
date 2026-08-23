@@ -2,8 +2,9 @@ import { MaterialIcons } from '@expo/vector-icons';
 import React from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
 
-import { colors } from '@/constants/design';
-import { styles, type BannerType } from '@/styles/components/ui/error-banner.styles';
+import type { Palette } from '@/constants/design';
+import { useAppTheme } from '@/hooks/use-app-theme';
+import { makeStyles, type BannerType } from '@/styles/components/ui/error-banner.styles';
 
 interface MessageBannerProps {
   /** Message displayed to the user. */
@@ -18,7 +19,9 @@ interface MessageBannerProps {
   onDismiss?: () => void;
 }
 
-const TYPE_CONFIG: Record<BannerType, { icon: string; iconBg: string; iconColor: string; closeColor: string }> = {
+type BannerConfig = { icon: string; iconBg: string; iconColor: string; closeColor: string };
+
+const getTypeConfig = (colors: Palette): Record<BannerType, BannerConfig> => ({
   error: {
     icon: 'error-outline',
     iconBg: colors.error,
@@ -28,7 +31,7 @@ const TYPE_CONFIG: Record<BannerType, { icon: string; iconBg: string; iconColor:
   success: {
     icon: 'check-circle',
     iconBg: colors.statusValidated,
-    iconColor: colors.white,
+    iconColor: colors.onPrimary,
     closeColor: colors.statusValidated,
   },
   info: {
@@ -43,7 +46,7 @@ const TYPE_CONFIG: Record<BannerType, { icon: string; iconBg: string; iconColor:
     iconColor: colors.white,
     closeColor: colors.statusPending,
   },
-};
+});
 
 /**
  * Generic message banner with an icon, message, optional action button and
@@ -56,7 +59,9 @@ export function MessageBanner({
   onAction,
   onDismiss,
 }: MessageBannerProps) {
-  const cfg = TYPE_CONFIG[type];
+  const { colors } = useAppTheme();
+  const styles = makeStyles(colors);
+  const cfg = getTypeConfig(colors)[type];
 
   return (
     <View style={[styles.banner, styles[type]]}>

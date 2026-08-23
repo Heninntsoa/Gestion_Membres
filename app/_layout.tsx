@@ -1,15 +1,16 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
+import { DarkTheme, DefaultTheme, ThemeProvider, type Theme } from '@react-navigation/native';
 import { Stack, useRouter, useSegments } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
-import { useEffect, useRef } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 import { ActivityIndicator, View } from 'react-native';
 import 'react-native-reanimated';
 
-import { colors } from '@/constants/design';
-import { useColorScheme } from '@/hooks/use-color-scheme';
+import { darkColors, lightColors } from '@/constants/design';
+import { useAppTheme } from '@/hooks/use-app-theme';
 import { resolveNotificationRoute } from '@/lib/notification-routes';
 import { registerForPushNotifications, setupNotificationHandlers } from '@/lib/services/push-notifications';
 import { useAuthStore } from '@/store/auth-store';
+import { useThemeStore } from '@/store/theme-store';
 
 export const unstable_settings = {
   anchor: '(tabs)',
@@ -22,13 +23,15 @@ export const unstable_settings = {
  */
 function useAuthGate() {
   const { token, isHydrating, hydrate } = useAuthStore();
+  const hydrateTheme = useThemeStore((s) => s.hydrate);
   const segments = useSegments();
   const router = useRouter();
   const notificationSetupDone = useRef(false);
 
   useEffect(() => {
     hydrate();
-  }, [hydrate]);
+    hydrateTheme();
+  }, [hydrate, hydrateTheme]);
 
   // Enregistrer le push token et configurer les notifications une fois connecté
   useEffect(() => {
@@ -85,9 +88,29 @@ function useAuthGate() {
   return isHydrating;
 }
 
+function buildNavTheme(base: typeof DefaultTheme, palette: typeof lightColors): Theme {
+  return {
+    ...base,
+    colors: {
+      ...base.colors,
+      primary: palette.primary,
+      background: palette.background,
+      card: palette.surface,
+      text: palette.textPrimary,
+      border: palette.outlineVariant,
+      notification: palette.secondary,
+    },
+  };
+}
+
+const LightNavTheme = buildNavTheme(DefaultTheme, lightColors);
+const DarkNavTheme = buildNavTheme(DarkTheme, darkColors);
+
 export default function RootLayout() {
-  const colorScheme = useColorScheme();
+  const { isDark, colors } = useAppTheme();
   const isHydrating = useAuthGate();
+
+  const navTheme = useMemo(() => (isDark ? DarkNavTheme : LightNavTheme), [isDark]);
 
   if (isHydrating) {
     return (
@@ -98,14 +121,14 @@ export default function RootLayout() {
   }
 
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+    <ThemeProvider value={navTheme}>
       <Stack screenOptions={{ headerShown: false }}>
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen name="(auth)" options={{ headerShown: false }} />
         <Stack.Screen name="admin" options={{ headerShown: false }} />
         <Stack.Screen name="modal" options={{ headerShown: true, presentation: 'modal', title: 'Modal' }} />
       </Stack>
-      <StatusBar style="auto" />
+      <StatusBar style={isDark ? 'light' : 'dark'} />
     </ThemeProvider>
   );
 }

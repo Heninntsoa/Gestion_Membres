@@ -4,18 +4,21 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { FlatList, RefreshControl, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import { colors, spacing } from '@/constants/design';
+import { spacing, type Palette } from '@/constants/design';
 import { ErrorCard } from '@/components/ui/error-card';
+import { useAppTheme } from '@/hooks/use-app-theme';
 import { getApiErrorMessage } from '@/lib/api';
 import { cotisationsService } from '@/lib/services/cotisations';
 import type { Cotisation } from '@/types/cotisation';
 
-import { styles } from '@/styles/app/(tabs)/cotisations.styles';
-const statutStyle: Record<Cotisation['statut'], { bg: string; label: string }> = {
-  ouverte: { bg: '#DFF5E1', label: 'Ouverte' },
-  cloturee: { bg: '#FEF3C7', label: 'Clôturée' },
-  archivee: { bg: '#F3F4F6', label: 'Archivée' },
-};
+import { makeStyles } from '@/styles/app/(tabs)/cotisations.styles';
+const makeStatutStyle = (
+  colors: Palette
+): Record<Cotisation['statut'], { bg: string; label: string }> => ({
+  ouverte: { bg: colors.badgeSuccessBg, label: 'Ouverte' },
+  cloturee: { bg: colors.badgeWarningBg, label: 'Clôturée' },
+  archivee: { bg: colors.badgeNeutralBg, label: 'Archivée' },
+});
 
 function formatDate(dateStr: string | null) {
   if (!dateStr) return '—';
@@ -23,6 +26,9 @@ function formatDate(dateStr: string | null) {
 }
 
 export default function CotisationsScreen() {
+  const { colors } = useAppTheme();
+  const styles = makeStyles(colors);
+  const statutStyle = makeStatutStyle(colors);
   const [cotisations, setCotisations] = useState<Cotisation[]>([]);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);

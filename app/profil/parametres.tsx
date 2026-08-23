@@ -4,13 +4,13 @@ import React, { useEffect, useState } from 'react';
 import { ActivityIndicator, ScrollView, Switch, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import { colors } from '@/constants/design';
+import { useAppTheme, type ThemeMode } from '@/hooks/use-app-theme';
 import {
   getNotificationsEnabled,
   setPushNotificationsEnabled,
 } from '@/lib/services/push-notifications';
 
-import { styles } from '@/styles/app/profil/parametres.styles';
+import { makeStyles } from '@/styles/app/profil/parametres.styles';
 
 const APP_VERSION = '1.0.0';
 
@@ -18,6 +18,12 @@ type NavRow = {
   icon: keyof typeof MaterialIcons.glyphMap;
   label: string;
   route: string;
+};
+
+type ThemeOption = {
+  mode: ThemeMode;
+  icon: keyof typeof MaterialIcons.glyphMap;
+  label: string;
 };
 
 const HISTORY_ROWS: NavRow[] = [
@@ -30,7 +36,16 @@ const ACCOUNT_ROWS: NavRow[] = [
   { icon: 'lock-outline', label: 'Changer le mot de passe', route: '/profil/change-password' },
 ];
 
+const THEME_OPTIONS: ThemeOption[] = [
+  { mode: 'light', icon: 'light-mode', label: 'Clair' },
+  { mode: 'dark', icon: 'dark-mode', label: 'Sombre' },
+  { mode: 'system', icon: 'brightness-auto', label: 'Système' },
+];
+
 export default function ParametresScreen() {
+  const { colors, mode, setMode } = useAppTheme();
+  const styles = makeStyles(colors);
+
   const [notifActive, setNotifActive] = useState(true);
   const [savingNotif, setSavingNotif] = useState(false);
 
@@ -51,8 +66,11 @@ export default function ParametresScreen() {
     }
   };
 
-  const renderNavRow = (row: NavRow) => (
-    <TouchableOpacity key={row.route} style={styles.row} activeOpacity={0.6}
+  const renderNavRow = (row: NavRow, isLast?: boolean) => (
+    <TouchableOpacity
+      key={row.route}
+      style={[styles.row, isLast && styles.rowLast]}
+      activeOpacity={0.6}
       onPress={() => router.push(row.route as never)}>
       <View style={styles.rowIcon}>
         <MaterialIcons name={row.icon} size={18} color={colors.primary} />
@@ -73,6 +91,36 @@ export default function ParametresScreen() {
       </View>
 
       <ScrollView contentContainerStyle={styles.content}>
+        {/* Apparence */}
+        <Text style={styles.sectionTitle}>Apparence</Text>
+        <View style={styles.card}>
+          {THEME_OPTIONS.map((option, index) => {
+            const selected = mode === option.mode;
+            return (
+              <TouchableOpacity
+                key={option.mode}
+                style={[styles.row, index === THEME_OPTIONS.length - 1 && styles.rowLast]}
+                activeOpacity={0.6}
+                onPress={() => void setMode(option.mode)}>
+                <View style={styles.rowIcon}>
+                  <MaterialIcons name={option.icon} size={18} color={colors.primary} />
+                </View>
+                <View style={{ flex: 1 }}>
+                  <Text style={styles.rowLabel}>{option.label}</Text>
+                  {option.mode === 'system' && (
+                    <Text style={styles.rowSubtitle}>Suit le thème de votre appareil</Text>
+                  )}
+                </View>
+                <MaterialIcons
+                  name={selected ? 'radio-button-checked' : 'radio-button-unchecked'}
+                  size={20}
+                  color={selected ? colors.primary : colors.outline}
+                />
+              </TouchableOpacity>
+            );
+          })}
+        </View>
+
         {/* Notifications */}
         <Text style={styles.sectionTitle}>Notifications</Text>
         <View style={styles.card}>
@@ -94,6 +142,7 @@ export default function ParametresScreen() {
                 onValueChange={handleToggleNotifications}
                 trackColor={{ false: colors.outlineVariant, true: colors.primary }}
                 thumbColor="#FFFFFF"
+                ios_backgroundColor={colors.outlineVariant}
               />
             )}
           </View>
@@ -101,11 +150,11 @@ export default function ParametresScreen() {
 
         {/* Historiques */}
         <Text style={styles.sectionTitle}>Historiques</Text>
-        <View style={styles.card}>{HISTORY_ROWS.map(renderNavRow)}</View>
+        <View style={styles.card}>{HISTORY_ROWS.map((row) => renderNavRow(row))}</View>
 
         {/* Compte */}
         <Text style={styles.sectionTitle}>Compte</Text>
-        <View style={styles.card}>{ACCOUNT_ROWS.map(renderNavRow)}</View>
+        <View style={styles.card}>{ACCOUNT_ROWS.map((row) => renderNavRow(row))}</View>
 
         {/* À propos */}
         <Text style={styles.sectionTitle}>À propos</Text>

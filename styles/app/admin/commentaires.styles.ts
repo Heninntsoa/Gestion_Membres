@@ -1,7 +1,9 @@
 import { StyleSheet } from 'react-native';
-import { colors, radius, spacing, typography } from '@/constants/design';
+import type { Palette } from '@/constants/design';
+import { radius, spacing, typography } from '@/constants/design';
 
-export const styles = StyleSheet.create({
+export const makeStyles = (colors: Palette) =>
+  StyleSheet.create({
   screen: {
     flex: 1,
     backgroundColor: colors.background,
@@ -114,11 +116,11 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingVertical: 5,
     borderRadius: radius.sm,
-    backgroundColor: '#FEE2E2',
+    backgroundColor: colors.badgeErrorBg,
   },
   deleteBtnText: {
     ...typography.labelSm,
-    color: colors.error,
+    color: colors.badgeErrorText,
     fontSize: 11,
   },
 

@@ -9,12 +9,13 @@ import { AppButton } from '@/components/ui/app-button';
 import { Logo } from '@/components/ui/logo';
 import { DateField } from '@/components/ui/date-field';
 import { TextField } from '@/components/ui/text-field';
-import { colors, spacing } from '@/constants/design';
+import { spacing } from '@/constants/design';
+import { useAppTheme } from '@/hooks/use-app-theme';
 import { filterDigitsOnly, filterLettersOnly, filterPhone, validators } from '@/lib/validators';
 import { useAuthStore } from '@/store/auth-store';
 import type { RegisterPayload, Sexe, TypeMembre } from '@/types/membre';
 
-import { styles } from '@/styles/app/(auth)/login.styles';
+import { makeStyles } from '@/styles/app/(auth)/login.styles';
 type LoginForm = {
   email: string;
   password: string;
@@ -32,6 +33,8 @@ type SignupForm = {
 };
 
 export default function LoginScreen() {
+  const { colors } = useAppTheme();
+  const styles = makeStyles(colors);
   const [mode, setMode] = useState<'login' | 'signup'>('login');
   const [sexe, setSexe] = useState<Sexe>('Masculin');
   const [typeMembre, setTypeMembre] = useState<TypeMembre>('nouveau');

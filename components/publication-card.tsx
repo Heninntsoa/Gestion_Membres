@@ -2,10 +2,10 @@ import { MaterialIcons } from '@expo/vector-icons';
 import React from 'react';
 import { Image, Text, TouchableOpacity, View } from 'react-native';
 
-import { colors } from '@/constants/design';
+import { useAppTheme } from '@/hooks/use-app-theme';
 import type { Publication } from '@/types/publication';
 
-import { styles } from '@/styles/components/publication-card.styles';
+import { makeStyles } from '@/styles/components/publication-card.styles';
 interface PublicationCardProps {
   publication: Publication;
   onToggleLike?: () => void;
@@ -14,6 +14,8 @@ interface PublicationCardProps {
 }
 
 export function PublicationCard({ publication, onToggleLike, onCommentPress, compact }: PublicationCardProps) {
+  const { colors } = useAppTheme();
+  const styles = makeStyles(colors);
   const date = new Date(publication.createdAt).toLocaleDateString('fr-FR', {
     day: '2-digit',
     month: 'short',

@@ -1,7 +1,8 @@
 import { StyleSheet } from 'react-native';
-import { colors, radius, spacing, typography } from '@/constants/design';
+import type { Palette } from '@/constants/design';
+import { radius, spacing, typography } from '@/constants/design';
 
-export const styles = StyleSheet.create({
+export const makeStyles = (colors: Palette) => StyleSheet.create({
   screen: {
     flex: 1,
     backgroundColor: colors.background,
@@ -81,7 +82,7 @@ export const styles = StyleSheet.create({
   },
   payBtnText: {
     ...typography.labelMd,
-    color: colors.white,
+    color: colors.onPrimary,
   },
   emptyText: {
     ...typography.bodyMd,

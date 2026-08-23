@@ -13,11 +13,12 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import { colors, radius, spacing, typography } from '@/constants/design';
+import { spacing, typography } from '@/constants/design';
+import { useAppTheme } from '@/hooks/use-app-theme';
 import { getApiErrorMessage } from '@/lib/api';
 import { adminService, type AdminActiviteListItem } from '@/lib/services/admin';
 
-import { styles } from '@/styles/app/admin/activites.styles';
+import { makeStyles } from '@/styles/app/admin/activites.styles';
 
 function formatDate(dateStr: string) {
   return new Date(dateStr).toLocaleDateString('fr-FR', {
@@ -34,6 +35,8 @@ const TYPE_LABELS: Record<string, { label: string; color: string }> = {
 };
 
 export default function AdminActivitesScreen() {
+  const { colors } = useAppTheme();
+  const styles = makeStyles(colors);
   const [activites, setActivites] = useState<AdminActiviteListItem[]>([]);
   const [pagination, setPagination] = useState({ page: 1, limit: 10, total: 0, pages: 0 });
   const [loading, setLoading] = useState(true);

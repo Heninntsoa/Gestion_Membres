@@ -6,14 +6,16 @@ import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
 
 import { PublicationCard } from '@/components/publication-card';
 import { ErrorCard } from '@/components/ui/error-card';
-import { colors, spacing } from '@/constants/design';
+import { spacing } from '@/constants/design';
+import { useAppTheme } from '@/hooks/use-app-theme';
 import { getApiErrorMessage } from '@/lib/api';
 import { publicationsService } from '@/lib/services/publications';
 import { useAuthStore } from '@/store/auth-store';
 import type { Commentaire } from '@/types/commentaire';
 import type { Publication } from '@/types/publication';
 
-import { styles } from '@/styles/app/publication/[id].styles';
+import { makeStyles } from '@/styles/app/publication/[id].styles';
+
 function timeAgo(dateStr: string) {
   const diffMs = Date.now() - new Date(dateStr).getTime();
   const minutes = Math.floor(diffMs / 60000);
@@ -26,6 +28,8 @@ function timeAgo(dateStr: string) {
 }
 
 export default function PublicationDetailScreen() {
+  const { colors } = useAppTheme();
+  const styles = makeStyles(colors);
   const { id } = useLocalSearchParams<{ id: string }>();
   const publicationId = Number(id);
   const { user } = useAuthStore();
