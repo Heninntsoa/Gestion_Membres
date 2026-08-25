@@ -15,6 +15,7 @@ export default function AdminLayout() {
       <Stack.Screen name="paiements" />
       <Stack.Screen name="notifications" />
       <Stack.Screen name="commentaires" />
+      <Stack.Screen name="scan-qr" />
     </Stack>
   );
 }

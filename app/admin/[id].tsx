@@ -231,14 +231,23 @@ export default function AdminMemberDetailScreen() {
             <ActivityIndicator size="large" color={colors.primary} style={{ paddingVertical: spacing.md }} />
           ) : (
             <>
-              {member.is_active !== 1 && (
-                <TouchableOpacity
-                  style={[styles.actionBtn, styles.actionBtnActivate]}
-                  onPress={() => handleAction('activate')}>
-                  <Text style={styles.actionBtnText}>✓ Activer le membre</Text>
-                </TouchableOpacity>
+              {/* En attente (0) : Activer ou Refuser */}
+              {member.is_active === 0 && (
+                <>
+                  <TouchableOpacity
+                    style={[styles.actionBtn, styles.actionBtnActivate]}
+                    onPress={() => handleAction('activate')}>
+                    <Text style={styles.actionBtnText}>✓ Activer le membre</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    style={[styles.actionBtn, styles.actionBtnRefuse]}
+                    onPress={() => handleAction('refuse')}>
+                    <Text style={styles.actionBtnText}>✗ Refuser la demande</Text>
+                  </TouchableOpacity>
+                </>
               )}
 
+              {/* Actif (1) : Désactiver */}
               {member.is_active === 1 && (
                 <TouchableOpacity
                   style={[styles.actionBtn, styles.actionBtnDeactivate]}
@@ -247,11 +256,21 @@ export default function AdminMemberDetailScreen() {
                 </TouchableOpacity>
               )}
 
-              {member.is_active !== 3 && (
+              {/* Désactivé (2) : Réactiver */}
+              {member.is_active === 2 && (
                 <TouchableOpacity
-                  style={[styles.actionBtn, styles.actionBtnRefuse]}
-                  onPress={() => handleAction('refuse')}>
-                  <Text style={styles.actionBtnText}>Refuser la demande</Text>
+                  style={[styles.actionBtn, styles.actionBtnActivate]}
+                  onPress={() => handleAction('activate')}>
+                  <Text style={styles.actionBtnText}>✓ Réactiver le membre</Text>
+                </TouchableOpacity>
+              )}
+
+              {/* Refusé (3) : Réexaminer (réactiver = reconsiderer la demande) */}
+              {member.is_active === 3 && (
+                <TouchableOpacity
+                  style={[styles.actionBtn, styles.actionBtnActivate]}
+                  onPress={() => handleAction('activate')}>
+                  <Text style={styles.actionBtnText}>↻ Réexaminer la demande</Text>
                 </TouchableOpacity>
               )}
             </>

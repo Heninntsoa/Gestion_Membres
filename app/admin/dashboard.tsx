@@ -53,6 +53,14 @@ const MENU_ITEMS = [
     color: '#DC2626',
   },
   {
+    key: 'scan-qr',
+    title: 'Scanner QR Code',
+    description: 'Pointer la présence des participants',
+    icon: 'qr-code-scanner' as const,
+    route: '/admin/scan-qr',
+    color: '#0891B2',
+  },
+  {
     key: 'notifications',
     title: 'Notifications',
     description: 'Consulter les notifications',
