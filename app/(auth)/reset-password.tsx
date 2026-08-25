@@ -31,6 +31,10 @@ export default function ResetPasswordScreen() {
       setErrorMsg('Le code de réinitialisation est requis.');
       return;
     }
+    if (token.trim().length < 6) {
+      setErrorMsg('Le code de réinitialisation doit contenir au moins 6 caractères.');
+      return;
+    }
     if (password.length < 6) {
       setErrorMsg('Le mot de passe doit contenir au moins 6 caractères.');
       return;
@@ -100,6 +104,14 @@ export default function ResetPasswordScreen() {
                 value={token}
                 onChangeText={setToken}
               />
+
+              <TouchableOpacity
+                onPress={() => router.push('/(auth)/forgot-password')}
+                style={{ alignItems: 'center', paddingVertical: 4 }}>
+                <Text style={{ color: colors.primary, fontSize: 12, fontWeight: '500' }}>
+                  Pas reçu le code ? Demander un nouveau code
+                </Text>
+              </TouchableOpacity>
 
               <TextField
                 label="Nouveau mot de passe"

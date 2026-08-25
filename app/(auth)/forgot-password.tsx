@@ -1,6 +1,6 @@
 import { MaterialIcons } from '@expo/vector-icons';
 import { router } from 'expo-router';
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { KeyboardAvoidingView, Platform, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -20,6 +20,30 @@ export default function ForgotPasswordScreen() {
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
+  const [cooldown, setCooldown] = useState(0);
+  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+
+  useEffect(() => {
+    if (cooldown <= 0) {
+      if (timerRef.current) clearInterval(timerRef.current);
+      return;
+    }
+    timerRef.current = setInterval(() => setCooldown((c) => c - 1), 1000);
+    return () => { if (timerRef.current) clearInterval(timerRef.current); };
+  }, [cooldown]);
+
+  const handleResend = async () => {
+    if (cooldown > 0 || !email.trim()) return;
+    setLoading(true);
+    try {
+      await api.post('/auth/forgot-password', { email: email.trim() });
+      setCooldown(60);
+    } catch (error) {
+      setErrorMsg(getApiErrorMessage(error, 'Impossible de renvoyer le code.'));
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleSubmit = async () => {
     setErrorMsg(null);
@@ -46,14 +70,28 @@ export default function ForgotPasswordScreen() {
         <MaterialIcons name="mark-email-read" size={64} color={colors.statusValidated} />
         <Text style={[styles.title, { marginTop: spacing.lg, textAlign: 'center' }]}>Email envoyé !</Text>
         <Text style={[styles.subtitle, { textAlign: 'center', marginTop: spacing.sm }]}>
-          Si un compte existe avec cette adresse email, vous recevrez un lien de réinitialisation.
+          Si un compte existe avec cette adresse email, vous recevrez un code de réinitialisation.
           Vérifiez votre boîte de réception et vos spams.
         </Text>
-        <AppButton
-          title="Retour à la connexion"
-          onPress={() => router.replace('/(auth)/login')}
-          style={{ marginTop: spacing.lg }}
-        />
+
+        <View style={{ gap: spacing.md, marginTop: spacing.lg, width: '100%' }}>
+          <AppButton
+            title="Saisir le code"
+            onPress={() => router.push({ pathname: '/(auth)/reset-password', params: { fromForgot: '1' } })}
+          />
+          <TouchableOpacity
+            onPress={handleResend}
+            disabled={cooldown > 0}
+            style={{ alignItems: 'center', paddingVertical: spacing.sm }}>
+            <Text style={{ color: cooldown > 0 ? colors.textSecondary : colors.primary, fontSize: 13, fontWeight: '500' }}>
+              {cooldown > 0 ? `Renvoyer le code dans ${cooldown}s` : 'Renvoyer le code'}
+            </Text>
+          </TouchableOpacity>
+        </View>
+
+        <TouchableOpacity onPress={() => router.replace('/(auth)/login')} style={{ marginTop: spacing.md }}>
+          <Text style={{ color: colors.textSecondary, fontSize: 13 }}>Retour à la connexion</Text>
+        </TouchableOpacity>
       </SafeAreaView>
     );
   }
