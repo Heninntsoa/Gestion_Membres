@@ -11,17 +11,22 @@ export function resolveNotificationRoute(
 ): Href | null {
   if (!lien) return null;
 
-  // Notifications destinées aux admins → gestion des membres (écran admin mobile)
+  // Routes admin
   if (lien.includes('/admin/membres')) return '/admin';
+  if (lien.includes('/admin/paiements')) return '/admin/paiements';
+  if (lien.includes('/admin/cotisations')) return '/admin/cotisations';
+  if (lien.includes('/admin/publications')) return '/admin/publications';
+  if (lien.includes('/admin/activites')) return '/admin/activites';
+  if (lien.includes('/admin/notifications')) return '/admin/notifications';
 
-  // Activités : ouvrir le détail si on a une référence, sinon la liste
+  // Routes membres (tabs)
   if (lien.includes('/activites')) {
     return referenceId ? `/activite/${referenceId}` : '/(tabs)/activites';
   }
 
   if (lien.includes('/publications')) return '/(tabs)/publications';
-
-  if (lien.includes('/paiements')) return '/(tabs)/cotisations';
+  if (lien.includes('/cotisations')) return '/(tabs)/cotisations';
+  if (lien.includes('/paiements')) return '/paiements/historique';
 
   // Liens génériques vers l'espace membre → accueil
   if (lien.startsWith('/espace-membre')) return '/(tabs)';

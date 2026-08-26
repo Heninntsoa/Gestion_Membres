@@ -7,7 +7,9 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { spacing, typography } from '@/constants/design';
 import { useAppTheme } from '@/hooks/use-app-theme';
 import { getApiErrorMessage } from '@/lib/api';
+import { resolveNotificationRoute } from '@/lib/notification-routes';
 import { adminService } from '@/lib/services/admin';
+import { notificationsService } from '@/lib/services/notifications';
 import type { AppNotification } from '@/types/notification';
 
 import { makeStyles } from '@/styles/app/admin/notifications.styles';
@@ -68,12 +70,34 @@ export default function AdminNotificationsScreen() {
     load();
   }, [load]);
 
+  const handlePress = async (item: AppNotification) => {
+    // Marquer comme lue
+    if (item.is_read === 0) {
+      try {
+        await notificationsService.markAsRead(item.id);
+        setNotifications((prev) =>
+          prev.map((n) => (n.id === item.id ? { ...n, is_read: 1 } : n))
+        );
+      } catch {
+        // silencieux
+      }
+    }
+    // Naviguer vers la page cible
+    const route = resolveNotificationRoute(item.lien, item.reference_id);
+    if (route) {
+      router.push(route);
+    }
+  };
+
   const renderItem = ({ item }: { item: AppNotification }) => {
     const notifIcon = getNotifIcon(item.type);
     const isUnread = item.is_read === 0;
 
     return (
-      <View style={[styles.card, isUnread && styles.cardUnread]}>
+      <TouchableOpacity
+        style={[styles.card, isUnread && styles.cardUnread]}
+        activeOpacity={0.6}
+        onPress={() => handlePress(item)}>
         <View style={[styles.iconWrapper, { backgroundColor: notifIcon.color + '15' }]}>
           <MaterialIcons name={notifIcon.icon} size={20} color={notifIcon.color} />
         </View>
@@ -87,7 +111,7 @@ export default function AdminNotificationsScreen() {
           <Text style={styles.cardDate}>{formatDate(item.created_at)}</Text>
         </View>
         {isUnread && <View style={styles.unreadDot} />}
-      </View>
+      </TouchableOpacity>
     );
   };
 
