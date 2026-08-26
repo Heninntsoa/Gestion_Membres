@@ -13,3 +13,12 @@ export interface Cotisation {
   type_nom: string;
   periodicite: Periodicite;
 }
+
+export interface CotisationType {
+  id: number;
+  nom: string;
+  description: string | null;
+  periodicite: Periodicite;
+  obligatoire: boolean;
+  actif: boolean;
+}

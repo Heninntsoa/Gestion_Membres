@@ -7,6 +7,11 @@ export const cotisationsService = {
     return data.data;
   },
 
+  getToutes: async (): Promise<Cotisation[]> => {
+    const { data } = await api.get<{ success: boolean; data: Cotisation[] }>('/cotisations/toutes');
+    return data.data;
+  },
+
   getById: async (id: number): Promise<Cotisation> => {
     const { data } = await api.get<{ success: boolean; data: Cotisation }>(`/cotisations/disponibles/${id}`);
     return data.data;

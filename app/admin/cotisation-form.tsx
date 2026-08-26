@@ -1,8 +1,10 @@
 import { MaterialIcons } from '@expo/vector-icons';
+import DateTimePicker from '@react-native-community/datetimepicker';
 import { router, useLocalSearchParams } from 'expo-router';
 import React, { useEffect, useState } from 'react';
 import {
   ActivityIndicator,
+  Platform,
   ScrollView,
   Text,
   TextInput,
@@ -13,9 +15,9 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { ErrorCard } from '@/components/ui/error-card';
 import { useAppTheme } from '@/hooks/use-app-theme';
-import { getApiErrorMessage } from '@/lib/api';
+import { getApiErrorMessage, api } from '@/lib/api';
 import { adminService } from '@/lib/services/admin';
-import type { Cotisation } from '@/types/cotisation';
+import type { Cotisation, CotisationType } from '@/types/cotisation';
 
 import { makeStyles } from '@/styles/app/admin/cotisation-form.styles';
 
@@ -52,9 +54,11 @@ export default function AdminCotisationFormScreen() {
   const [dateDebut, setDateDebut] = useState('');
   const [dateFin, setDateFin] = useState('');
   const [dateLimite, setDateLimite] = useState('');
+  const [showPicker, setShowPicker] = useState<'debut' | 'fin' | 'limite' | null>(null);
   const [statut, setStatut] = useState('ouverte');
   const [periodicite, setPeriodicite] = useState('mensuelle');
   const [typeNom, setTypeNom] = useState('');
+  const [types, setTypes] = useState<CotisationType[]>([]);
 
   const [loading, setLoading] = useState(isEdit);
   const [submitting, setSubmitting] = useState(false);
@@ -64,7 +68,17 @@ export default function AdminCotisationFormScreen() {
     if (isEdit) {
       loadCotisation();
     }
+    loadTypes();
   }, [id]);
+
+  const loadTypes = async () => {
+    try {
+      const { data } = await api.get<{ success: boolean; data: CotisationType[] }>('/types-cotisations');
+      setTypes(data.data);
+    } catch {
+      // silencieux
+    }
+  };
 
   const loadCotisation = async () => {
     try {
@@ -194,36 +208,53 @@ export default function AdminCotisationFormScreen() {
 
         {/* Date début */}
         <Text style={styles.label}>Date de début</Text>
-        <TextInput
-          style={styles.input}
-          value={dateDebut}
-          onChangeText={setDateDebut}
-          placeholder="YYYY-MM-DD"
-          placeholderTextColor={colors.outline}
-          keyboardType="numbers-and-punctuation"
-        />
+        <TouchableOpacity style={styles.dateInput} onPress={() => setShowPicker('debut')}>
+          <MaterialIcons name="event" size={18} color={colors.outline} />
+          <Text style={{ color: dateDebut ? colors.textPrimary : colors.outline, marginLeft: 8 }}>
+            {dateDebut || 'Sélectionner une date'}
+          </Text>
+        </TouchableOpacity>
 
         {/* Date fin */}
         <Text style={styles.label}>Date de fin</Text>
-        <TextInput
-          style={styles.input}
-          value={dateFin}
-          onChangeText={setDateFin}
-          placeholder="YYYY-MM-DD"
-          placeholderTextColor={colors.outline}
-          keyboardType="numbers-and-punctuation"
-        />
+        <TouchableOpacity style={styles.dateInput} onPress={() => setShowPicker('fin')}>
+          <MaterialIcons name="event" size={18} color={colors.outline} />
+          <Text style={{ color: dateFin ? colors.textPrimary : colors.outline, marginLeft: 8 }}>
+            {dateFin || 'Sélectionner une date'}
+          </Text>
+        </TouchableOpacity>
 
         {/* Date limite */}
         <Text style={styles.label}>Date limite</Text>
-        <TextInput
-          style={styles.input}
-          value={dateLimite}
-          onChangeText={setDateLimite}
-          placeholder="YYYY-MM-DD"
-          placeholderTextColor={colors.outline}
-          keyboardType="numbers-and-punctuation"
-        />
+        <TouchableOpacity style={styles.dateInput} onPress={() => setShowPicker('limite')}>
+          <MaterialIcons name="event" size={18} color={colors.outline} />
+          <Text style={{ color: dateLimite ? colors.textPrimary : colors.outline, marginLeft: 8 }}>
+            {dateLimite || 'Sélectionner une date'}
+          </Text>
+        </TouchableOpacity>
+
+        {/* Date Pickers */}
+        {showPicker && (
+          <DateTimePicker
+            value={showPicker === 'debut' ? (dateDebut ? new Date(dateDebut) : new Date())
+              : showPicker === 'fin' ? (dateFin ? new Date(dateFin) : new Date())
+              : (dateLimite ? new Date(dateLimite) : new Date())}
+            mode="date"
+            display={Platform.OS === 'ios' ? 'spinner' : 'default'}
+            onChange={(_, selectedDate) => {
+              setShowPicker(null);
+              if (selectedDate) {
+                const y = selectedDate.getFullYear();
+                const m = String(selectedDate.getMonth() + 1).padStart(2, '0');
+                const d = String(selectedDate.getDate()).padStart(2, '0');
+                const formatted = `${y}-${m}-${d}`;
+                if (showPicker === 'debut') setDateDebut(formatted);
+                else if (showPicker === 'fin') setDateFin(formatted);
+                else setDateLimite(formatted);
+              }
+            }}
+          />
+        )}
 
         {/* Périodicité */}
         <Text style={styles.label}>Périodicité</Text>
@@ -256,14 +287,24 @@ export default function AdminCotisationFormScreen() {
         </View>
 
         {/* Type nom */}
-        <Text style={styles.label}>Type (ex: Cotisation annuelle)</Text>
-        <TextInput
-          style={styles.input}
-          value={typeNom}
-          onChangeText={setTypeNom}
-          placeholder="Type de cotisation"
-          placeholderTextColor={colors.outline}
-        />
+        <Text style={styles.label}>Type de cotisation</Text>
+        <View style={styles.chipRow}>
+          {types.map((t) => (
+            <TouchableOpacity
+              key={t.id}
+              style={[styles.chip, typeNom === t.nom && styles.chipActive]}
+              onPress={() => setTypeNom(t.nom)}>
+              <Text style={[styles.chipText, typeNom === t.nom && styles.chipTextActive]}>
+                {t.nom}
+              </Text>
+            </TouchableOpacity>
+          ))}
+        </View>
+        {types.length === 0 && (
+          <Text style={{ color: colors.textSecondary, marginTop: 4, fontSize: 12 }}>
+            Aucun type disponible
+          </Text>
+        )}
 
         {/* Error */}
         {!!errorMsg && <ErrorCard message={errorMsg} />}

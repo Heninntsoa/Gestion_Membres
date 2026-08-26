@@ -22,7 +22,7 @@ const makeStatutStyle = (
 
 function formatDate(dateStr: string | null) {
   if (!dateStr) return '—';
-  return new Date(dateStr).toLocaleDateString('fr-FR', { day: '2-digit', month: 'short', year: 'numeric' });
+  return new Date(dateStr).toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit', year: 'numeric' });
 }
 
 export default function CotisationsScreen() {
@@ -37,7 +37,7 @@ export default function CotisationsScreen() {
   const load = useCallback(async () => {
     setErrorMsg(null);
     try {
-      const data = await cotisationsService.getDisponibles();
+      const data = await cotisationsService.getToutes();
       setCotisations(data);
     } catch (error) {
       setErrorMsg(getApiErrorMessage(error, 'Impossible de charger les cotisations.'));
@@ -77,7 +77,7 @@ export default function CotisationsScreen() {
           />
         }
         ListEmptyComponent={
-          !loading ? <Text style={styles.emptyText}>Aucune cotisation disponible.</Text> : null
+          !loading ? <Text style={styles.emptyText}>Aucune cotisation.</Text> : null
         }
         renderItem={({ item }) => {
           const badge = statutStyle[item.statut];

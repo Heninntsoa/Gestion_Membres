@@ -44,6 +44,16 @@ export const makeStyles = (colors: Palette) =>
     ...typography.bodyMd,
     color: colors.textPrimary,
   },
+  dateInput: {
+    backgroundColor: colors.surface,
+    borderRadius: radius.md,
+    borderWidth: 1,
+    borderColor: colors.outlineVariant,
+    paddingHorizontal: spacing.md,
+    paddingVertical: spacing.sm + 2,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
   textArea: {
     minHeight: 80,
   },
