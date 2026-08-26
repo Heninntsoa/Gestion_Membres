@@ -73,7 +73,7 @@ export default function ParametresScreen() {
       activeOpacity={0.6}
       onPress={() => router.push(row.route as never)}>
       <View style={styles.rowIcon}>
-        <MaterialIcons name={row.icon} size={18} color={colors.primary} />
+        <MaterialIcons name={row.icon} size={18} color="#FFFFFF" />
       </View>
       <Text style={styles.rowLabel}>{row.label}</Text>
       <MaterialIcons name="chevron-right" size={20} color={colors.outline} />
@@ -103,7 +103,7 @@ export default function ParametresScreen() {
                 activeOpacity={0.6}
                 onPress={() => void setMode(option.mode)}>
                 <View style={styles.rowIcon}>
-                  <MaterialIcons name={option.icon} size={18} color={colors.primary} />
+                  <MaterialIcons name={option.icon} size={18} color="#FFFFFF" />
                 </View>
                 <View style={{ flex: 1 }}>
                   <Text style={styles.rowLabel}>{option.label}</Text>
@@ -126,7 +126,7 @@ export default function ParametresScreen() {
         <View style={styles.card}>
           <View style={[styles.row, styles.rowNoChevron]}>
             <View style={styles.rowIcon}>
-              <MaterialIcons name="notifications-active" size={18} color={colors.primary} />
+              <MaterialIcons name="notifications-active" size={18} color="#FFFFFF" />
             </View>
             <View style={{ flex: 1 }}>
               <Text style={styles.rowLabel}>Notifications push</Text>
@@ -161,7 +161,7 @@ export default function ParametresScreen() {
         <View style={styles.card}>
           <View style={[styles.row, styles.rowNoChevron]}>
             <View style={styles.rowIcon}>
-              <MaterialIcons name="info-outline" size={18} color={colors.primary} />
+              <MaterialIcons name="info-outline" size={18} color="#FFFFFF" />
             </View>
             <Text style={styles.rowLabel}>Version de l&apos;application</Text>
             <Text style={styles.versionText}>{APP_VERSION}</Text>
