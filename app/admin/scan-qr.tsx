@@ -2,7 +2,7 @@ import { CameraView, useCameraPermissions } from 'expo-camera';
 import { MaterialIcons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import React, { useCallback, useRef, useState } from 'react';
-import { ActivityIndicator, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { ActivityIndicator, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { AppButton } from '@/components/ui/app-button';
@@ -13,57 +13,74 @@ import { api, getApiErrorMessage } from '@/lib/api';
 import type { Palette } from '@/constants/design';
 import { radius, typography } from '@/constants/design';
 
-interface ScanResult {
-  type: 'success' | 'error' | 'already_scanned';
-  message: string;
-  memberName?: string;
+interface PreviewData {
+  membre: {
+    id: number;
+    nom_complet: string;
+    photo: string | null;
+    matricule: string | null;
+  };
+  activite: {
+    titre: string;
+    date_debut: string;
+    statut: string;
+    qr_used: number;
+  };
 }
+
+type ScreenState =
+  | { step: 'camera' }
+  | { step: 'loading'; message?: string }
+  | { step: 'preview'; preview: PreviewData; qrToken: string }
+  | { step: 'success'; message: string; memberName?: string }
+  | { step: 'error'; message: string };
 
 export default function ScanQrScreen() {
   const { colors } = useAppTheme();
   const styles = makeStyles(colors);
   const [permission, requestPermission] = useCameraPermissions();
-  const [scanning, setScanning] = useState(true);
-  const [loading, setLoading] = useState(false);
-  const [result, setResult] = useState<ScanResult | null>(null);
+  const [state, setState] = useState<ScreenState>({ step: 'camera' });
   const lastScannedRef = useRef<string | null>(null);
 
   const handleBarCodeScanned = useCallback(async ({ data }: { data: string }) => {
-    if (loading || !scanning) return;
+    if (state.step !== 'camera' || lastScannedRef.current === data) return;
 
-    // Prevent duplicate scans of the same QR code
-    if (lastScannedRef.current === data) return;
     lastScannedRef.current = data;
-
-    setLoading(true);
-    setScanning(false);
+    setState({ step: 'loading', message: 'Vérification du QR code...' });
 
     try {
-      const response = await api.post('/participations/scan', { qr_token: data });
-      const resData = response.data as any;
+      // Step 1: Preview — get member info
+      const previewRes = await api.post('/participations/scan-preview', { qr_token: data });
+      const previewData = (previewRes.data as any).data ?? previewRes.data;
 
-      setResult({
-        type: 'success',
+      setState({ step: 'preview', preview: previewData, qrToken: data });
+    } catch (error: any) {
+      const message = getApiErrorMessage(error, 'QR code invalide.');
+      setState({ step: 'error', message });
+    }
+  }, [state.step]);
+
+  const handleConfirmCheckin = useCallback(async (qrToken: string) => {
+    setState({ step: 'loading', message: 'Confirmation du pointage...' });
+
+    try {
+      // Step 2: Confirm checkin
+      const checkinRes = await api.post('/participations/checkin', { qr_token: qrToken });
+      const resData = (checkinRes.data as any);
+
+      setState({
+        step: 'success',
         message: resData.message ?? 'Présence enregistrée avec succès.',
-        memberName: resData.data?.nom_complet,
+        memberName: resData.membre?.nom,
       });
     } catch (error: any) {
-      const status = error.response?.status;
-      const message = getApiErrorMessage(error, 'Erreur lors du scan.');
-
-      if (status === 409) {
-        setResult({ type: 'already_scanned', message });
-      } else {
-        setResult({ type: 'error', message });
-      }
-    } finally {
-      setLoading(false);
+      const message = getApiErrorMessage(error, 'Erreur lors de la confirmation.');
+      setState({ step: 'error', message });
     }
-  }, [loading, scanning]);
+  }, []);
 
   const handleScanAgain = () => {
-    setResult(null);
-    setScanning(true);
+    setState({ step: 'camera' });
     lastScannedRef.current = null;
   };
 
@@ -100,47 +117,68 @@ export default function ScanQrScreen() {
     );
   }
 
-  // Show scan result
-  if (result) {
-    const isSuccess = result.type === 'success';
-    const isAlreadyScanned = result.type === 'already_scanned';
-    const iconColor = isSuccess
-      ? colors.badgeSuccessText
-      : isAlreadyScanned
-        ? colors.badgeWarningText
-        : colors.badgeErrorText;
-    const iconName = isSuccess
-      ? 'check-circle'
-      : isAlreadyScanned
-        ? 'info'
-        : 'error';
-    const bgColor = isSuccess
-      ? colors.badgeSuccessBg
-      : isAlreadyScanned
-        ? colors.badgeWarningBg
-        : colors.badgeErrorBg;
-    const textColor = isSuccess
-      ? colors.badgeSuccessText
-      : isAlreadyScanned
-        ? colors.badgeWarningText
-        : colors.badgeErrorText;
+  // Loading state
+  if (state.step === 'loading') {
+    return (
+      <View style={styles.screen}>
+        <View style={[styles.center, { flex: 1 }]}>
+          <ActivityIndicator size="large" color={colors.primary} />
+          <Text style={[styles.permissionSubtitle, { marginTop: spacing.md }]}>
+            {state.message}
+          </Text>
+        </View>
+      </View>
+    );
+  }
+
+  // Preview — show member info before confirming
+  if (state.step === 'preview') {
+    const { preview, qrToken } = state;
+    const isAlreadyScanned = preview.activite.qr_used === 1;
 
     return (
-      <SafeAreaView style={[styles.screen, styles.center]}>
-        <View style={[styles.resultCard, { backgroundColor: bgColor }]}>
-          <MaterialIcons name={iconName as any} size={72} color={iconColor} />
-          <Text style={[styles.resultTitle, { color: textColor }]}>
-            {isSuccess ? 'Présence enregistrée' : isAlreadyScanned ? 'Déjà scanné' : 'Erreur'}
-          </Text>
-          {result.memberName && (
-            <Text style={[styles.resultMember, { color: textColor }]}>{result.memberName}</Text>
+      <SafeAreaView style={[styles.screen, { padding: spacing.lg }]} edges={['top']}>
+        <View style={styles.previewCard}>
+          {preview.membre.photo ? (
+            <Image source={{ uri: preview.membre.photo }} style={styles.previewAvatar} />
+          ) : (
+            <View style={[styles.previewAvatar, styles.previewAvatarPlaceholder]}>
+              <MaterialIcons name="person" size={40} color={colors.outline} />
+            </View>
           )}
-          <Text style={[styles.resultMessage, { color: textColor }]}>{result.message}</Text>
+
+          <Text style={styles.previewName}>{preview.membre.nom_complet}</Text>
+          {preview.membre.matricule && (
+            <Text style={styles.previewMeta}>Matricule : {preview.membre.matricule}</Text>
+          )}
+
+          <View style={[styles.previewBadge, { backgroundColor: colors.badgeInfoBg }]}>
+            <MaterialIcons name="event" size={16} color={colors.badgeInfoText} />
+            <Text style={[styles.previewBadgeText, { color: colors.badgeInfoText }]}>
+              {preview.activite.titre}
+            </Text>
+          </View>
+
+          {isAlreadyScanned && (
+            <View style={[styles.previewBadge, { backgroundColor: colors.badgeWarningBg, marginTop: spacing.xs }]}>
+              <MaterialIcons name="info" size={16} color={colors.badgeWarningText} />
+              <Text style={[styles.previewBadgeText, { color: colors.badgeWarningText }]}>
+                Déjà scanné
+              </Text>
+            </View>
+          )}
         </View>
 
-        <View style={{ gap: spacing.sm, width: '100%', paddingHorizontal: spacing.xl }}>
+        <View style={{ gap: spacing.sm, marginTop: spacing.lg }}>
+          {!isAlreadyScanned && (
+            <AppButton
+              title="✓ Confirmer le pointage"
+              onPress={() => handleConfirmCheckin(qrToken)}
+            />
+          )}
           <AppButton
             title="Scanner un autre code"
+            variant="outline"
             onPress={handleScanAgain}
           />
           <AppButton
@@ -153,13 +191,60 @@ export default function ScanQrScreen() {
     );
   }
 
+  // Success
+  if (state.step === 'success') {
+    return (
+      <SafeAreaView style={[styles.screen, styles.center]}>
+        <View style={[styles.resultCard, { backgroundColor: colors.badgeSuccessBg }]}>
+          <MaterialIcons name="check-circle" size={72} color={colors.badgeSuccessText} />
+          <Text style={[styles.resultTitle, { color: colors.badgeSuccessText }]}>
+            Présence enregistrée
+          </Text>
+          {state.memberName && (
+            <Text style={[styles.resultMember, { color: colors.badgeSuccessText }]}>
+              {state.memberName}
+            </Text>
+          )}
+          <Text style={[styles.resultMessage, { color: colors.badgeSuccessText }]}>
+            {state.message}
+          </Text>
+        </View>
+
+        <View style={{ gap: spacing.sm, width: '100%', paddingHorizontal: spacing.xl }}>
+          <AppButton title="Scanner un autre code" onPress={handleScanAgain} />
+          <AppButton title="Retour" variant="outline" onPress={() => router.back()} />
+        </View>
+      </SafeAreaView>
+    );
+  }
+
+  // Error
+  if (state.step === 'error') {
+    return (
+      <SafeAreaView style={[styles.screen, styles.center]}>
+        <View style={[styles.resultCard, { backgroundColor: colors.badgeErrorBg }]}>
+          <MaterialIcons name="error" size={72} color={colors.badgeErrorText} />
+          <Text style={[styles.resultTitle, { color: colors.badgeErrorText }]}>Erreur</Text>
+          <Text style={[styles.resultMessage, { color: colors.badgeErrorText }]}>
+            {state.message}
+          </Text>
+        </View>
+
+        <View style={{ gap: spacing.sm, width: '100%', paddingHorizontal: spacing.xl }}>
+          <AppButton title="Réessayer" onPress={handleScanAgain} />
+          <AppButton title="Retour" variant="outline" onPress={() => router.back()} />
+        </View>
+      </SafeAreaView>
+    );
+  }
+
   // Camera scanner
   return (
     <View style={styles.screen}>
       <CameraView
         style={StyleSheet.absoluteFill}
         barcodeScannerSettings={{ barcodeTypes: ['qr'] }}
-        onBarcodeScanned={scanning ? handleBarCodeScanned : undefined}
+        onBarcodeScanned={state.step === 'camera' ? handleBarCodeScanned : undefined}
       />
 
       {/* Top overlay */}
@@ -182,12 +267,6 @@ export default function ScanQrScreen() {
           <View style={[styles.corner, styles.cornerBottomLeft]} />
           <View style={[styles.corner, styles.cornerBottomRight]} />
         </View>
-        {loading && (
-          <View style={styles.loadingOverlay}>
-            <ActivityIndicator size="large" color="#fff" />
-            <Text style={styles.loadingText}>Vérification en cours...</Text>
-          </View>
-        )}
       </View>
 
       {/* Bottom instruction */}
@@ -225,6 +304,48 @@ const makeStyles = (colors: Palette) =>
       color: colors.textSecondary,
       textAlign: 'center',
       marginTop: spacing.xs,
+    },
+
+    // Preview
+    previewCard: {
+      alignItems: 'center',
+      backgroundColor: colors.surface,
+      borderRadius: radius.xl,
+      borderWidth: 1,
+      borderColor: colors.outlineVariant,
+      padding: spacing.xl,
+      gap: spacing.sm,
+    },
+    previewAvatar: {
+      width: 80,
+      height: 80,
+      borderRadius: radius.full,
+    },
+    previewAvatarPlaceholder: {
+      backgroundColor: colors.surfaceContainer,
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    previewName: {
+      ...typography.headlineMd,
+      color: colors.textPrimary,
+      textAlign: 'center',
+    },
+    previewMeta: {
+      ...typography.bodySm,
+      color: colors.textSecondary,
+    },
+    previewBadge: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: spacing.xs,
+      paddingHorizontal: spacing.md,
+      paddingVertical: spacing.xs,
+      borderRadius: radius.full,
+      marginTop: spacing.xs,
+    },
+    previewBadgeText: {
+      ...typography.labelMd,
     },
 
     // Result
@@ -320,18 +441,6 @@ const makeStyles = (colors: Palette) =>
       borderBottomWidth: 4,
       borderRightWidth: 4,
       borderBottomRightRadius: radius.md,
-    },
-    loadingOverlay: {
-      ...StyleSheet.absoluteFillObject,
-      backgroundColor: 'rgba(0,0,0,0.6)',
-      alignItems: 'center',
-      justifyContent: 'center',
-      borderRadius: radius.md,
-    },
-    loadingText: {
-      ...typography.bodyMd,
-      color: '#fff',
-      marginTop: spacing.sm,
     },
     overlayBottom: {
       position: 'absolute',
