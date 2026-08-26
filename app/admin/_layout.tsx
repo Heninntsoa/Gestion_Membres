@@ -1,6 +1,28 @@
-import { Stack } from 'expo-router';
+import { useEffect } from 'react';
+import { Stack, useRouter } from 'expo-router';
+import { useAuthStore } from '@/store/auth-store';
+
+const ADMIN_ROLES = ['admin', 'special', 'communication', 'tresor', 'president'];
 
 export default function AdminLayout() {
+  const router = useRouter();
+  const user = useAuthStore((s) => s.user);
+  const isHydrating = useAuthStore((s) => s.isHydrating);
+
+  useEffect(() => {
+    // Attendre la fin de l'hydratation avant de rediriger
+    if (isHydrating) return;
+
+    if (!user || !ADMIN_ROLES.includes(user.role)) {
+      router.replace('/');
+    }
+  }, [user, isHydrating, router]);
+
+  // Ne pas afficher le layout tant que l'hydratation n'est pas terminée
+  if (isHydrating || !user || !ADMIN_ROLES.includes(user.role)) {
+    return null;
+  }
+
   return (
     <Stack screenOptions={{ headerShown: false }}>
       <Stack.Screen name="index" />
